@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.Controllers.ContribuinteController">
+   <top>
+      <AnchorPane BorderPane.alignment="BOTTOM_CENTER">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="600.0" text="Insira o seu Número de Contribuinte" textAlignment="CENTER">
+                     <padding>
+                        <Insets top="40.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="29.0" />
+                     </font>
+                  </Label>
+                  <Label text="(Se não desejar contribuinte, clique apenas em Avançar)">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <TextField fx:id="txtContribuinte" alignment="CENTER" prefHeight="30.0" prefWidth="509.0" BorderPane.alignment="CENTER_LEFT">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets left="70.0" right="70.0" />
+         </BorderPane.margin>
+      </TextField>
+   </center>
+   <bottom>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" layoutY="24.0" prefHeight="152.0" prefWidth="600.0" spacing="100.0">
+               <children>
+                  <Button fx:id="BtnVoltar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBotaoVoltarClick" prefHeight="50.0" prefWidth="96.0" text="Voltar">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BtnAvancar1" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="258.0" layoutY="23.0" mnemonicParsing="false" onAction="#onBotaoAvancarClick" prefHeight="50.0" prefWidth="96.0" text="Avançar">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="158.0" layoutY="2.0" prefHeight="22.0" prefWidth="283.0" textAlignment="CENTER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

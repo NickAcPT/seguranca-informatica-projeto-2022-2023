@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.Controllers.ConfirmarController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="14.0" prefHeight="66.0" prefWidth="495.0" text="Tem a certeza que quer confirmar os pedidos?">
+            <font>
+                <Font name="System Bold" size="21.0" />
+            </font>
+        </Label>
+        <Button fx:id="voltarButton" cancelButton="true" layoutX="14.0" layoutY="338.0" mnemonicParsing="false" onAction="#onVoltarButtonClick" prefHeight="49.0" prefWidth="100.0" text="Voltar" />
+        <Button fx:id="confirmarButton" defaultButton="true" layoutX="486.0" layoutY="339.0" mnemonicParsing="false" onAction="#onConfirmarButtonClick" prefHeight="50.0" prefWidth="100.0" text="Confirmar" />
+        <TableView fx:id="lista" layoutX="115.0" layoutY="83.0" prefHeight="234.0" prefWidth="369.0">
+            <columns>
+                <TableColumn fx:id="produtos" editable="false" prefWidth="197.79999542236328" resizable="false" text="Produtos" />
+                <TableColumn fx:id="preco" editable="false" prefWidth="99.79998779296875" resizable="false" text="Preco" />
+                <TableColumn fx:id="quantidade" editable="false" prefWidth="69.60003662109375" resizable="false" text="Qtd" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <Label layoutX="220.0" layoutY="324.0" prefHeight="26.0" prefWidth="79.0" text="Total a pagar:" />
+        <Label fx:id="totalPagarLabel" layoutX="300.0" layoutY="328.0" prefHeight="18.0" prefWidth="100.0" text="0,00€" />
+    </children>
+</AnchorPane>
