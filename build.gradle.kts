@@ -1,3 +1,5 @@
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     id("net.ltgt.errorprone") version "3.0.1" apply false
 }
@@ -25,6 +27,15 @@ allprojects {
         "compileOnly"("org.jetbrains:annotations:$jbAnnotationsVersion")
         "errorprone"("com.uber.nullaway:nullaway:$nullawayVersion")
     }
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.errorprone {
+            option("NullAway:AnnotatedPackages", "pt.ua")
+        }
+
+        options.errorprone.error("NullAway")
+    }
+
 
     extensions.getByType<JavaPluginExtension>().apply {
         toolchain {
