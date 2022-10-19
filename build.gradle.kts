@@ -20,6 +20,9 @@ allprojects {
 
     this.repositories {
         mavenCentral()
+        flatDir {
+            dir(rootDir.resolve("libraries"))
+        }
     }
 
     this.dependencies {
