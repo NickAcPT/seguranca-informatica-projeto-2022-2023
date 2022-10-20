@@ -11,7 +11,7 @@ import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
  * <p>
  * This serves as as wrapper for the PTeID Java library.
  */
-public interface CitizenCardLibrary {
+public interface CitizenCardLibrary extends AutoCloseable{
 
     /**
      * Gets an instance of the Citizen Card Library.
