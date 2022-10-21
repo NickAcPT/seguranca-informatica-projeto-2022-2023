@@ -8,5 +8,6 @@ package pt.ua.segurancainformatica.citizencard.model;
  */
 public interface CitizenCard {
      String getName();
+     String getCivilNumber();
 
 }
