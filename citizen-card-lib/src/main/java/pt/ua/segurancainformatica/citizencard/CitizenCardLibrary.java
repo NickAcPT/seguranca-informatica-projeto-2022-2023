@@ -6,6 +6,8 @@ import pt.ua.segurancainformatica.citizencard.callbacks.CitizenCardListener;
 import pt.ua.segurancainformatica.citizencard.impl.CitizenCardLibraryImpl;
 import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
+import java.util.ArrayList;
+
 /**
  * Library for interacting with the Portuguese Citizen Card.
  * <p>
@@ -27,5 +29,7 @@ public interface CitizenCardLibrary extends AutoCloseable{
     void registerCitizenCardListener(@NotNull CitizenCardListener listener);
 
     void unregisterCitizenCardListener(@NotNull CitizenCardListener listener);
+
+    ArrayList<CitizenCardListener> getListeners();
 
 }
