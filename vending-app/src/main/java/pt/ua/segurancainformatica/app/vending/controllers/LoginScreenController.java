@@ -1,6 +1,5 @@
 package pt.ua.segurancainformatica.app.vending.controllers;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;

@@ -1,6 +1,5 @@
 package pt.ua.segurancainformatica.app.vending.conexao;
 
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;

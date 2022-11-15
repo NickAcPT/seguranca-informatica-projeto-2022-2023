@@ -1,12 +1,10 @@
 package pt.ua.segurancainformatica.app.vending.controllers;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
-import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class ConfirmarController {
 

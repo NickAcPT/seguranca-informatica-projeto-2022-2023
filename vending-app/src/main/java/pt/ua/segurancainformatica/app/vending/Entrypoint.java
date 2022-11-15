@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import jfxtras.styles.jmetro.*;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
-import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class Entrypoint extends Application {
 

@@ -1,6 +1,5 @@
 package pt.ua.segurancainformatica.app.vending.controllers;
 
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
