@@ -49,4 +49,16 @@ public class Pedido {
     public double getPreco() {
         return preco;
     }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "idFatura=" + idFatura +
+                ", produtos=" + produtos +
+                ", menus=" + menus +
+                ", data=" + data +
+                ", contribuinte='" + contribuinte + '\'' +
+                ", preco=" + preco +
+                '}';
+    }
 }

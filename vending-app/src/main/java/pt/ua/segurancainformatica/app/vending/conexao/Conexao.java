@@ -67,28 +67,7 @@ public class Conexao {
     }
 
     public static void inserirPedido(Pedido pedido) {
-
-        System.out.println(pedido.getIdFatura().toString());
-        System.out.println(pedido.getData().toString());
-        System.out.println(pedido.getPreco());
-        System.out.println(pedido.getContribuinte());
-
-        for (ProdutoComQuantidade produto : pedido.getProdutos()) {
-            inserirPedidoProduto(pedido, produto);
-        }
-        for (MenuComQuantidade menu : pedido.getMenus()) {
-            inserirPedidoMenu(pedido, menu);
-        }
-    }
-
-    private static void inserirPedidoMenu(Pedido pedido, MenuComQuantidade menu) {
-        System.out.println("Inserir pedido menu " + pedido + " " + menu);
-    }
-
-    private static void inserirPedidoProduto(Pedido pedido, ProdutoComQuantidade produto) {
-        System.out.println(pedido.getIdFatura());
-        System.out.println(produto.getProduto().getIdProduto());
-        System.out.println(produto.getQuantidade());
+        System.out.println(pedido);
     }
 
     public static void guardaPedido(@Nullable String contribuinte) {
