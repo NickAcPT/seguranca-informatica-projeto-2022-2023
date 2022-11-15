@@ -1,4 +1,4 @@
-package pt.ua.segurancainformatica.app.vending.tables;
+package pt.ua.segurancainformatica.app.vending.model;
 
 import java.util.Objects;
 
@@ -21,6 +21,11 @@ public class MenuComQuantidade extends ElementoComQuantidade {
     @Override
     public double getPreco() {
         return menu.getPreco();
+    }
+
+    @Override
+    public String getNome() {
+        return menu.getNome();
     }
 
     @Override

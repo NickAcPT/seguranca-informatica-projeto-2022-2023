@@ -15,8 +15,8 @@ import javafx.scene.text.TextAlignment;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
-import pt.ua.segurancainformatica.app.vending.tables.Menu;
-import pt.ua.segurancainformatica.app.vending.tables.*;
+import pt.ua.segurancainformatica.app.vending.model.Menu;
+import pt.ua.segurancainformatica.app.vending.model.*;
 
 public class MenuController {
 
@@ -57,7 +57,7 @@ public class MenuController {
             ProdutoComQuantidade pQ = new ProdutoComQuantidade(p, 1);
 
             adicionarNaLista(pQ);
-        } else if (userData instanceof pt.ua.segurancainformatica.app.vending.tables.Menu p) {
+        } else if (userData instanceof pt.ua.segurancainformatica.app.vending.model.Menu p) {
             MenuComQuantidade pQ = new MenuComQuantidade(p, 1);
 
             adicionarNaLista(pQ);

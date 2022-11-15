@@ -1,4 +1,4 @@
-package pt.ua.segurancainformatica.app.vending.tables;
+package pt.ua.segurancainformatica.app.vending.model;
 
 public abstract class ElementoComQuantidade {
     protected int quantidade;
@@ -16,4 +16,6 @@ public abstract class ElementoComQuantidade {
     }
 
     public abstract double getPreco();
+
+    public abstract String getNome();
 }

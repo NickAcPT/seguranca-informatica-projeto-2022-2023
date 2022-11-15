@@ -1,4 +1,4 @@
-package pt.ua.segurancainformatica.app.vending.tables;
+package pt.ua.segurancainformatica.app.vending.model;
 
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.Nullable;

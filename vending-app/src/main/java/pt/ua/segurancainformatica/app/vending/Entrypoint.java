@@ -12,7 +12,7 @@ import jfxtras.styles.jmetro.FlatAlert;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import org.jetbrains.annotations.Nullable;
-import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
+import pt.ua.segurancainformatica.app.vending.model.ElementoComQuantidade;
 
 import java.io.IOException;
 

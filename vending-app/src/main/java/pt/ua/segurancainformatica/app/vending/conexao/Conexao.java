@@ -2,13 +2,15 @@ package pt.ua.segurancainformatica.app.vending.conexao;
 
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import pt.ua.segurancainformatica.app.vending.tables.*;
+import pt.ua.segurancainformatica.app.vending.model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum Conexao {
-    ;
+public class Conexao {
+    private Conexao() {
+        throw new IllegalStateException("Utility class");
+    }
 
     private static final @Nullable Map<Integer, Produto> allProdutos = null;
 

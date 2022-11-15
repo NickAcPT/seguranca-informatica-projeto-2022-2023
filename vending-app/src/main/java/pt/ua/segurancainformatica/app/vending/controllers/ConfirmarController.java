@@ -6,7 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
+import pt.ua.segurancainformatica.app.vending.model.ElementoComQuantidade;
 
 public class ConfirmarController {
 

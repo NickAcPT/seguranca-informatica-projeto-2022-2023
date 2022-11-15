@@ -1,8 +1,8 @@
 package pt.ua.segurancainformatica.app.vending.conexao;
 
 import org.jetbrains.annotations.Nullable;
-import pt.ua.segurancainformatica.app.vending.tables.MenuComQuantidade;
-import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
+import pt.ua.segurancainformatica.app.vending.model.MenuComQuantidade;
+import pt.ua.segurancainformatica.app.vending.model.ProdutoComQuantidade;
 
 import java.time.Instant;
 import java.util.ArrayList;

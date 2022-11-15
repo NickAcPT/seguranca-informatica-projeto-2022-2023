@@ -1,4 +1,4 @@
-package pt.ua.segurancainformatica.app.vending.tables;
+package pt.ua.segurancainformatica.app.vending.model;
 
 import java.util.Objects;
 
@@ -13,6 +13,11 @@ public class ProdutoComQuantidade extends ElementoComQuantidade {
     @Override
     public double getPreco() {
         return Objects.requireNonNull(produto).getPreco();
+    }
+
+    @Override
+    public String getNome() {
+        return produto.getNome();
     }
 
     @Override
