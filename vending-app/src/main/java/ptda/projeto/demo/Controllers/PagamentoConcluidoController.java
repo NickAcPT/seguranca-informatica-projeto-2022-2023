@@ -10,14 +10,7 @@ import java.io.IOException;
 public class PagamentoConcluidoController {
 
     @javafx.fxml.FXML
-    private Label pagamentoLabel1;
-    @javafx.fxml.FXML
-    private Label pagamentoLabel2;
-    @javafx.fxml.FXML
-    private AnchorPane pagamentoPane;
-
-    @javafx.fxml.FXML
-    public void onPagamentoMouseClicked(Event event) throws IOException {
+    public void onPagamentoMouseClicked() throws IOException {
         Entrypoint.loadFile("iniciar_pedido.fxml");
     }
 

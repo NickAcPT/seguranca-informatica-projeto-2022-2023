@@ -24,11 +24,6 @@ public class ConfirmarController {
     @FXML
     private TableColumn produtos;
 
-    @FXML
-    private Button voltarButton;
-    @FXML
-    private Button confirmarButton;
-
     @Deprecated
     public void initialize() {
 
@@ -46,12 +41,12 @@ public class ConfirmarController {
     }
 
     @FXML
-    public void onConfirmarButtonClick(ActionEvent actionEvent) throws IOException {
+    public void onConfirmarButtonClick() throws IOException {
         Entrypoint.loadFile("finalizar.fxml");
     }
 
     @FXML
-    public void onVoltarButtonClick(ActionEvent actionEvent) throws IOException {
+    public void onVoltarButtonClick() throws IOException {
         Entrypoint.loadFile("MenuView.fxml");
     }
 }

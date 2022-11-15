@@ -43,10 +43,6 @@ public class Menu {
         }
     }
 
-    public int getId_menu() {
-        return id_menu;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -55,24 +51,8 @@ public class Menu {
         return preco;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
     public Image getFotoImage() {
         return fotoImage;
-    }
-
-    public String getDetalhes() {
-        return detalhes;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
     }
 
     @Override

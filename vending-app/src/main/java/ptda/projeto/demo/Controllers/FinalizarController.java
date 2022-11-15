@@ -10,15 +10,6 @@ import java.io.IOException;
 public class FinalizarController {
 
     @FXML
-    private Button BtnCancela;
-
-    @FXML
-    private Button BtnPagaAqui;
-
-    @FXML
-    private Button BtnPagaCaixa;
-
-    @FXML
     public void pagaMaquina() throws IOException {
         Entrypoint.loadFile("Contribuinte.fxml");
     }

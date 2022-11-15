@@ -23,8 +23,6 @@ import java.io.IOException;
 
 public class MenuController {
 
-    int i;
-
     @FXML
     private Label title;
     @FXML
@@ -32,35 +30,15 @@ public class MenuController {
     @FXML
     private FlowPane grelha;
     @FXML
-    private Button botaoSobremesas;
-    @FXML
-    private Button botaoAcompanhamentos;
-    @FXML
-    private Button botaoCachorro;
-    @FXML
-    private Button botaoPizza;
-    @FXML
-    private Button botaoBebidas;
-    @FXML
-    private Button botaoHamburger;
-    @FXML
-    private Button botaoSandes;
-    @FXML
     private TableView lista;
     @FXML
     private Button cancelar;
-    @FXML
-    private Button remover;
-    @FXML
-    private Button finalizar;
     @FXML
     private TableColumn preco;
     @FXML
     private TableColumn produtos;
     @FXML
     private TableColumn quantidade;
-    @FXML
-    private Button botaoMenu;
 
     @Deprecated
     public void initialize() {
@@ -114,7 +92,7 @@ public class MenuController {
     }
 
     @FXML
-    public void onBotaoMenuClick(ActionEvent actionEvent) {
+    public void onBotaoMenuClick() {
         grelha.getChildren().clear();
 
         for (Menu menu : Conexao.getMenus()) {

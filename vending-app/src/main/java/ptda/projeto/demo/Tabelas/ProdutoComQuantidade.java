@@ -23,10 +23,6 @@ public class ProdutoComQuantidade {
         this.quantidade = quantidade;
     }
 
-    public String getNome() {
-        return produto.getNome();
-    }
-
     public double getPreco() {
         return produto.getPreco();
     }
@@ -34,7 +30,7 @@ public class ProdutoComQuantidade {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ProdutoComQuantidade)) return false;
         ProdutoComQuantidade that = (ProdutoComQuantidade) o;
         return produto.equals(that.produto);
     }

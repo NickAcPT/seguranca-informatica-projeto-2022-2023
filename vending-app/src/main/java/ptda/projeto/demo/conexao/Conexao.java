@@ -8,39 +8,9 @@ import ptda.projeto.demo.Tabelas.*;
 
 public class Conexao {
 
-    private static Connection conection = null;
     private static Map<Integer, Produto> allProdutos = null;
-    private static Map<Integer, Menu> allMenus = null;
-
-    public static Collection<Produto> getProdutos() {
-        if (allProdutos == null) {
-            buscarProdutos();
-        }
-        return allProdutos.values();
-    }
 
     public static void buscarProdutos() {
-    }
-
-    private static Produto getProdutoFromResultSet(ResultSet set) throws SQLException {
-        int id_produto = set.getInt("id_produto");
-        String nome = set.getString("nome");
-        String genero = set.getString("genero");
-        String foto = set.getString("foto");
-        double preco = Math.round(set.getDouble("preco") * 100) / 100d;
-
-        return new Produto(id_produto, nome, genero, foto, preco);
-    }
-
-    private static Menu getMenuFromResultSet(ResultSet set) throws SQLException {
-        int id_menu = set.getInt("id_menu");
-        String nome = set.getString("nome");
-        String genero = set.getString("genero");
-        String detalhes = set.getString("detalhes");
-        String foto = set.getString("foto");
-        double preco = Math.round(set.getDouble("preco") * 100) / 100d;
-
-        return new Menu(id_menu, nome, preco, foto, detalhes, genero, new ArrayList<>());
     }
 
     public static Collection<Menu> getMenus() {
@@ -114,7 +84,7 @@ public class Conexao {
     }
 
     private static void inserirPedidoProduto(Pedido pedido, ProdutoComQuantidade produto) {
-        System.out.println(pedido.getIdPedido());
+        System.out.println(pedido.getIdFatura());
         System.out.println(produto.getProduto().getId_produto());
         System.out.println(produto.getQuantidade());
     }

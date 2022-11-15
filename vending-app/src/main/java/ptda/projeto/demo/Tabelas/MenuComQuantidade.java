@@ -18,15 +18,6 @@ public class MenuComQuantidade extends ProdutoComQuantidade{
         this.menu = menu;
     }
 
-    public Menu getMenu() {
-        return menu;
-    }
-
-    @Override
-    public String getNome() {
-        return menu.getNome();
-    }
-
     @Override
     public double getPreco() {
         return menu.getPreco();
@@ -35,7 +26,7 @@ public class MenuComQuantidade extends ProdutoComQuantidade{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof MenuComQuantidade)) return false;
         MenuComQuantidade that = (MenuComQuantidade) o;
         return menu.equals(that.menu);
     }

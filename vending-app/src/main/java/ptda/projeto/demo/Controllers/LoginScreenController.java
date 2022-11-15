@@ -14,7 +14,7 @@ public class LoginScreenController {
     @FXML
     PasswordField password;
 
-    public void userLogin(ActionEvent event) throws IOException {
+    public void userLogin() throws IOException {
         if (username.getText().isEmpty() || password.getText().isEmpty()) {
             Entrypoint.showAlert(Alert.AlertType.ERROR, "Erro", "Preencha todos os campos!", ButtonType.OK);
         } else {

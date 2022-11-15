@@ -9,10 +9,7 @@ import java.io.IOException;
 
 public class AfterLoginController {
 
-    @FXML
-    private Button logout;
-
-    public void userLogOut(ActionEvent event) throws IOException {
+    public void userLogOut() throws IOException {
         Entrypoint.loadFile("login_screen.fxml");
     }
 

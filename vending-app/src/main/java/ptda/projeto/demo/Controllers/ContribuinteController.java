@@ -20,14 +20,8 @@ public class ContribuinteController {
     @FXML
     private Label label;
 
-    int numContribuinte;
     @FXML
-    private Button BtnVoltar;
-    @FXML
-    private Button BtnAvancar1;
-
-    @FXML
-    public void onBotaoAvancarClick(ActionEvent actionEvent) throws IOException {
+    public void onBotaoAvancarClick() throws IOException {
 
         String contribuinte = "Consumidor Final";
 
@@ -39,7 +33,7 @@ public class ContribuinteController {
             contribuinte = txtContribuinte.getText();
 
             try {
-                numContribuinte = Integer.parseInt(txtContribuinte.getText());
+                Integer.parseInt(txtContribuinte.getText());
                 Entrypoint.loadFile("PagamentoConcluido.fxml");
 
             } catch (NumberFormatException e) {
@@ -56,7 +50,7 @@ public class ContribuinteController {
     }
 
     @FXML
-    public void onBotaoVoltarClick(ActionEvent actionEvent) throws IOException {
+    public void onBotaoVoltarClick() throws IOException {
         Entrypoint.loadFile("finalizar.fxml");
     }
 }

@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class Pedido {
 
-    private int idPedido;
     private UUID idFatura;
     private ArrayList<ProdutoComQuantidade> produtos;
     private ArrayList<MenuComQuantidade> menus;
@@ -50,7 +49,4 @@ public class Pedido {
         return preco;
     }
 
-    public int getIdPedido() {
-        return idPedido;
-    }
 }
