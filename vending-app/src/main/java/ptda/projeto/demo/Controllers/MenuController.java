@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.PtdaAplication;
 import ptda.projeto.demo.Tabelas.Menu;
 import ptda.projeto.demo.Tabelas.MenuComQuantidade;
 import ptda.projeto.demo.Tabelas.Produto;
@@ -224,7 +223,6 @@ public class MenuController {
             a1.setHeaderText(null);
             a1.showAndWait();
         }else {
-            PtdaAplication hP = new PtdaAplication();
             Entrypoint.loadFile("confirmar.fxml");
         }
     }

@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.PtdaAplication;
 
 import java.io.IOException;
 
@@ -48,13 +47,11 @@ public class ConfirmarController {
 
     @FXML
     public void onConfirmarButtonClick(ActionEvent actionEvent) throws IOException {
-        PtdaAplication hP = new PtdaAplication();
         Entrypoint.loadFile("finalizar.fxml");
     }
 
     @FXML
     public void onVoltarButtonClick(ActionEvent actionEvent) throws IOException {
-        PtdaAplication hP = new PtdaAplication();
         Entrypoint.loadFile("MenuView.fxml");
     }
 }
