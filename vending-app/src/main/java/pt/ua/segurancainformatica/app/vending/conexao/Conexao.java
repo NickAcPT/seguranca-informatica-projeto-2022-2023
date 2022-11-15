@@ -80,13 +80,6 @@ public enum Conexao {
     }
 
     private static void inserirPedidoMenu(final Pedido pedido, final MenuComQuantidade menu) {
-        //     private int idPedido;
-        //    private UUID idFatura;
-        //    private ArrayList<ProdutoComQuantidade> produtos;
-        //    private ArrayList<MenuComQuantidade> menus;
-        //    private Instant data;
-        //    private String contribuinte;
-        //    private double preco;
         System.out.println("Inserir pedido menu " + pedido + " " + menu);
     }
 
