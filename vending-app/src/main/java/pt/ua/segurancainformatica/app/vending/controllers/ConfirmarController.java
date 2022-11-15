@@ -23,7 +23,6 @@ public class ConfirmarController {
 
     @Deprecated
     public void initialize() {
-
         lista.setItems(Entrypoint.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));

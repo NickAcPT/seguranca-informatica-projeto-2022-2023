@@ -16,14 +16,12 @@ public class ContribuinteController {
 
     @FXML
     public void onBotaoAvancarClick() {
-
         String contribuinte = "Consumidor Final";
 
         if (null == txtContribuinte.getText() || "".equals(this.txtContribuinte.getText())) {
             txtContribuinte.setText(contribuinte);
             Entrypoint.loadFile("pagamento_concluido.fxml");
         } else {
-
             contribuinte = txtContribuinte.getText();
 
             try {

@@ -9,7 +9,6 @@ val jbAnnotationsVersion: String by extra
 val nullawayVersion: String by extra
 
 allprojects {
-
     this.group = "pt.ua.segurancainformatica"
     this.version = "1.0-SNAPSHOT"
 

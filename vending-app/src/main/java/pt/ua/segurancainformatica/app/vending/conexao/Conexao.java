@@ -116,7 +116,6 @@ public class Conexao {
     }
 
     public static void guardaPedido(@Nullable String contribuinte) {
-
         double total = Entrypoint.getProdutosLista().stream().mapToDouble(p -> p.getPreco() * p.getQuantidade()).sum();
 
         Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
