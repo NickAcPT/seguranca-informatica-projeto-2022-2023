@@ -1,52 +1,51 @@
 package ptda.projeto.demo.conexao;
 
-import ptda.projeto.demo.tables.MenuComQuantidade;
-import ptda.projeto.demo.tables.ProdutoComQuantidade;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
+import ptda.projeto.demo.tables.MenuComQuantidade;
+import ptda.projeto.demo.tables.ProdutoComQuantidade;
 
 public class Pedido {
 
-    private UUID idFatura;
-    private ArrayList<ProdutoComQuantidade> produtos;
-    private ArrayList<MenuComQuantidade> menus;
-    private Instant data;
-    private String contribuinte;
-    private double preco;
+    private final UUID idFatura;
+    private final ArrayList<ProdutoComQuantidade> produtos;
+    private final ArrayList<MenuComQuantidade> menus;
+    private final Instant data;
+    private final String contribuinte;
+    private final double preco;
 
-    public Pedido(UUID idFatura, String contribuinte, double preco) {
+    public Pedido(final UUID idFatura, final String contribuinte, final double preco) {
         this.idFatura = idFatura;
-        this.data = Instant.now();
+        data = Instant.now();
         this.contribuinte = contribuinte;
         this.preco = preco;
-        this.produtos = new ArrayList<>();
-        this.menus = new ArrayList<>();
+        produtos = new ArrayList<>();
+        menus = new ArrayList<>();
     }
 
     public UUID getIdFatura() {
-        return idFatura;
+        return this.idFatura;
     }
 
     public ArrayList<ProdutoComQuantidade> getProdutos() {
-        return produtos;
+        return this.produtos;
     }
 
     public ArrayList<MenuComQuantidade> getMenus() {
-        return menus;
+        return this.menus;
     }
 
     public Instant getData() {
-        return data;
+        return this.data;
     }
 
     public String getContribuinte() {
-        return contribuinte;
+        return this.contribuinte;
     }
 
     public double getPreco() {
-        return preco;
+        return this.preco;
     }
 
 }

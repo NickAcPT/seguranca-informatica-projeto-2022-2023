@@ -6,41 +6,41 @@ public class ProdutoComQuantidade {
     private Produto produto;
 
     private int quantidade;
-    protected ProdutoComQuantidade(int quantidade) {
+
+    protected ProdutoComQuantidade(final int quantidade) {
         this.quantidade = quantidade;
     }
 
-    public ProdutoComQuantidade(Produto produto, int quantidade) {
+    public ProdutoComQuantidade(final Produto produto, final int quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
     }
 
     public int getQuantidade() {
-        return quantidade;
+        return this.quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(final int quantidade) {
         this.quantidade = quantidade;
     }
 
     public double getPreco() {
-        return produto.getPreco();
+        return this.produto.getPreco();
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof ProdutoComQuantidade)) return false;
-        ProdutoComQuantidade that = (ProdutoComQuantidade) o;
-        return produto.equals(that.produto);
+        if (!(o instanceof ProdutoComQuantidade that)) return false;
+        return this.produto.equals(that.produto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(produto);
+        return Objects.hash(this.produto);
     }
 
     public Produto getProduto() {
-        return produto;
+        return this.produto;
     }
 }

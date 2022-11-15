@@ -1,8 +1,7 @@
 package ptda.projeto.demo.controllers;
 
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
-
 import java.io.IOException;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 
 public class AfterLoginController {
 

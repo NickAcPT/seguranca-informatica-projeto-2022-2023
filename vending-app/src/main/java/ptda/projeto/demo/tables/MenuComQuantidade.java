@@ -2,37 +2,36 @@ package ptda.projeto.demo.tables;
 
 import java.util.Objects;
 
-public class MenuComQuantidade extends ProdutoComQuantidade{
+public class MenuComQuantidade extends ProdutoComQuantidade {
 
-    private Menu menu;
+    private final Menu menu;
 
-    @Override
-    public String toString() {
-        return "MenuComQuantidade{" +
-                "menu=" + menu +
-                '}';
-    }
-
-    public MenuComQuantidade(Menu menu, int quantidade) {
+    public MenuComQuantidade(final Menu menu, final int quantidade) {
         super(quantidade);
         this.menu = menu;
     }
 
     @Override
-    public double getPreco() {
-        return menu.getPreco();
+    public String toString() {
+        return "MenuComQuantidade{" +
+                "menu=" + this.menu +
+                '}';
     }
 
     @Override
-    public boolean equals(Object o) {
+    public double getPreco() {
+        return this.menu.getPreco();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof MenuComQuantidade)) return false;
-        MenuComQuantidade that = (MenuComQuantidade) o;
-        return menu.equals(that.menu);
+        if (!(o instanceof MenuComQuantidade that)) return false;
+        return this.menu.equals(that.menu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), menu);
+        return Objects.hash(super.hashCode(), this.menu);
     }
 }

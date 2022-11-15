@@ -4,39 +4,39 @@ import javafx.scene.image.Image;
 
 public class Produto {
 
-    private Image fotoImage = null;
-    private int id_produto;
-    private String nome;
-    private String genero;
-    private double preco;
+    private Image fotoImage;
+    private final int id_produto;
+    private final String nome;
+    private final String genero;
+    private final double preco;
 
-    public Produto(int id_produto, String nome, String genero, String foto, double preco) {
+    public Produto(final int id_produto, final String nome, final String genero, final String foto, final double preco) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.genero = genero;
         this.preco = preco;
-        if (foto != null && !foto.equals("")) {
-            this.fotoImage = new Image(foto, true);
+        if (null != foto && !"".equals(foto)) {
+            fotoImage = new Image(foto, true);
         }
     }
 
     public int getId_produto() {
-        return id_produto;
+        return this.id_produto;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public String getGenero() {
-        return genero;
+        return this.genero;
     }
 
     public Image getFotoImage() {
-        return fotoImage;
+        return this.fotoImage;
     }
 
     public double getPreco() {
-        return preco;
+        return this.preco;
     }
 }

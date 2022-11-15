@@ -13,7 +13,7 @@ public class LoginScreenController {
     PasswordField password;
 
     public void userLogin() throws IOException {
-        if (username.getText().isEmpty() || password.getText().isEmpty()) {
+        if (this.username.getText().isEmpty() || this.password.getText().isEmpty()) {
             Entrypoint.showAlert(Alert.AlertType.ERROR, "Erro", "Preencha todos os campos!", ButtonType.OK);
         } else {
             Entrypoint.loadFile("iniciar_pedido.fxml");

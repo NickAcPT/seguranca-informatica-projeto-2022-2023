@@ -19,45 +19,45 @@ public class Entrypoint extends Application {
     private static final ObservableList<ProdutoComQuantidade> produtosLista = FXCollections.observableArrayList();
 
     @Nullable
-    private static Stage primaryStage = null;
+    private static Stage primaryStage;
 
     public static ObservableList<ProdutoComQuantidade> getProdutosLista() {
-        return produtosLista;
+        return Entrypoint.produtosLista;
     }
 
-    public static void main(String[] args) {
-        launch();
+    public static void main(final String[] args) {
+        Application.launch();
     }
 
-    public static void showAlert(Alert.AlertType type, String title, String content, ButtonType... buttons) {
-        FlatAlert alert = new FlatAlert(type, title, buttons);
-        JMetro jMetro = new JMetro(Style.DARK);
+    public static void showAlert(final Alert.AlertType type, final String title, final String content, final ButtonType... buttons) {
+        final FlatAlert alert = new FlatAlert(type, title, buttons);
+        final JMetro jMetro = new JMetro(Style.DARK);
         jMetro.setScene(alert.getDialogPane().getScene());
         alert.setContentText(content);
         alert.showAndWait();
     }
 
-    public static void loadFile(String fxml) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
-        Scene scene;
+    public static void loadFile(final String fxml) {
+        final FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
+        final Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());
-            if (primaryStage != null) {
-                JMetro jMetro = new JMetro(Style.DARK);
+            if (null != primaryStage) {
+                final JMetro jMetro = new JMetro(Style.DARK);
                 jMetro.setScene(scene);
                 scene.getRoot().getStyleClass().add("background");
 
-                primaryStage.setScene(scene);
-                primaryStage.show();
+                Entrypoint.primaryStage.setScene(scene);
+                Entrypoint.primaryStage.show();
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(final Stage primaryStage) {
         Entrypoint.primaryStage = primaryStage;
-        loadFile("login_screen.fxml");
+        Entrypoint.loadFile("login_screen.fxml");
     }
 }

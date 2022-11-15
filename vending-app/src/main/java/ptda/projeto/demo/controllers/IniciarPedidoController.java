@@ -1,10 +1,9 @@
 package ptda.projeto.demo.controllers;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.conexao.Conexao;
-
-import java.io.IOException;
 
 public class IniciarPedidoController {
 
@@ -18,7 +17,6 @@ public class IniciarPedidoController {
     public void onIniciarMouseClicked() throws IOException {
         Entrypoint.loadFile("MenuView.fxml");
     }
-
 
 
 }

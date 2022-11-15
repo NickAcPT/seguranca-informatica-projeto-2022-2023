@@ -1,14 +1,11 @@
 package ptda.projeto.demo.controllers;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.conexao.Conexao;
-
-import java.io.IOException;
-
-import static java.lang.Integer.parseInt;
 
 public class ContribuinteController {
 
@@ -23,22 +20,22 @@ public class ContribuinteController {
 
         String contribuinte = "Consumidor Final";
 
-        if (txtContribuinte.getText() == null || txtContribuinte.getText().equals("")){
-            txtContribuinte.setText(contribuinte);
+        if (null == txtContribuinte.getText() || "".equals(txtContribuinte.getText())) {
+            this.txtContribuinte.setText(contribuinte);
             Entrypoint.loadFile("PagamentoConcluido.fxml");
         } else {
 
-            contribuinte = txtContribuinte.getText();
+            contribuinte = this.txtContribuinte.getText();
 
             try {
-                Integer.parseInt(txtContribuinte.getText());
+                Integer.parseInt(this.txtContribuinte.getText());
                 Entrypoint.loadFile("PagamentoConcluido.fxml");
 
-            } catch (NumberFormatException e) {
-                label.setText("Digite apenas números!");
+            } catch (final NumberFormatException e) {
+                this.label.setText("Digite apenas números!");
                 return;
-            } catch (Exception e) {
-                label.setText("erro");
+            } catch (final Exception e) {
+                this.label.setText("erro");
                 return;
             }
         }

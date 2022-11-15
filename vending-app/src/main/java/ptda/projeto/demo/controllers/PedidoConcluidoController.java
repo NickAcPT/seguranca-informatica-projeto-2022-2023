@@ -1,12 +1,12 @@
 package ptda.projeto.demo.controllers;
 
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
-
 import java.io.IOException;
+import javafx.fxml.FXML;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 
 public class PedidoConcluidoController {
 
-    @javafx.fxml.FXML
+    @FXML
     public void onPedidoMouseClicked() throws IOException {
         Entrypoint.loadFile("iniciar_pedido.fxml");
     }

@@ -1,35 +1,19 @@
 package ptda.projeto.demo.tables;
 
-import javafx.scene.image.Image;
-
 import java.util.List;
 import java.util.Objects;
+import javafx.scene.image.Image;
 
 public class Menu {
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "fotoImage=" + fotoImage +
-                ", id_menu=" + id_menu +
-                ", nome='" + nome + '\'' +
-                ", preco=" + preco +
-                ", foto='" + foto + '\'' +
-                ", detalhes='" + detalhes + '\'' +
-                ", genero='" + genero + '\'' +
-                ", produtos=" + produtos +
-                '}';
-    }
-
-    private Image fotoImage = null;
-    private int id_menu;
-    private String nome;
-    private double preco;
-    private String foto;
-    private String detalhes;
-    private String genero;
-    private List<Produto> produtos;
-
-    public Menu(int id_menu, String nome, double preco, String foto, String detalhes, String genero, List<Produto> produtos) {
+    private Image fotoImage;
+    private final int id_menu;
+    private final String nome;
+    private final double preco;
+    private final String foto;
+    private final String detalhes;
+    private final String genero;
+    private final List<Produto> produtos;
+    public Menu(final int id_menu, final String nome, final double preco, final String foto, final String detalhes, final String genero, final List<Produto> produtos) {
         this.id_menu = id_menu;
         this.nome = nome;
         this.preco = preco;
@@ -38,33 +22,47 @@ public class Menu {
         this.genero = genero;
         this.produtos = produtos;
 
-        if (foto != null && !foto.equals("")) {
-            this.fotoImage = new Image(foto, true);
+        if (null != foto && !"".equals(foto)) {
+            fotoImage = new Image(foto, true);
         }
     }
 
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "fotoImage=" + this.fotoImage +
+                ", id_menu=" + this.id_menu +
+                ", nome='" + this.nome + '\'' +
+                ", preco=" + this.preco +
+                ", foto='" + this.foto + '\'' +
+                ", detalhes='" + this.detalhes + '\'' +
+                ", genero='" + this.genero + '\'' +
+                ", produtos=" + this.produtos +
+                '}';
+    }
+
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public double getPreco() {
-        return preco;
+        return this.preco;
     }
 
     public Image getFotoImage() {
-        return fotoImage;
+        return this.fotoImage;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Menu menu = (Menu) o;
-        return id_menu == menu.id_menu;
+        if (null == o || this.getClass() != o.getClass()) return false;
+        final Menu menu = (Menu) o;
+        return this.id_menu == menu.id_menu;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_menu);
+        return Objects.hash(this.id_menu);
     }
 }

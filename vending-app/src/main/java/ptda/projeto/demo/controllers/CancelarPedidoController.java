@@ -1,13 +1,15 @@
 package ptda.projeto.demo.controllers;
 
+import javafx.fxml.FXML;
+
 public class CancelarPedidoController {
 
-    @javafx.fxml.FXML
+    @FXML
     public void onBotaoNaoClick() {
 
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void onBotaoSimClick() {
 
     }

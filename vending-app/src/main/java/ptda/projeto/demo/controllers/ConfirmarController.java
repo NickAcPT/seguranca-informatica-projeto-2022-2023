@@ -1,40 +1,38 @@
 package ptda.projeto.demo.controllers;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-
-import java.io.IOException;
+import ptda.projeto.demo.tables.ProdutoComQuantidade;
 
 public class ConfirmarController {
 
     @FXML
-    public TableColumn quantidade;
+    public TableColumn<Object, Object> quantidade;
     @FXML
     public Label totalPagarLabel;
     @FXML
-    private TableView lista;
+    private TableView<ProdutoComQuantidade> lista;
     @FXML
-    private TableColumn preco;
+    private TableColumn<Object, Object> preco;
     @FXML
-    private TableColumn produtos;
+    private TableColumn<Object, Object> produtos;
 
     @Deprecated
     public void initialize() {
 
-        lista.setItems(Entrypoint.getProdutosLista());
-        produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-        quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+        this.lista.setItems(Entrypoint.getProdutosLista());
+        this.produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        this.preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        this.quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 
-        double total = Entrypoint.getProdutosLista().stream()
+        final double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
-        totalPagarLabel.setText(String.format("%.2f", total) + "€");
+        this.totalPagarLabel.setText(String.format("%.2f", total) + "€");
 
     }
 
