@@ -37,6 +37,8 @@ allprojects {
         }
 
         options.errorprone.error("NullAway")
+
+        options.encoding = "UTF-8"
     }
 
 
