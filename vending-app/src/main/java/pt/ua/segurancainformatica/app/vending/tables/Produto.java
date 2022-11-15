@@ -5,11 +5,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class Produto {
 
-    private @Nullable Image fotoImage;
     private final int id_produto;
     private final String nome;
     private final String genero;
     private final double preco;
+    private @Nullable Image fotoImage;
 
     public Produto(int id_produto, String nome, String genero, String foto, double preco) {
         this.id_produto = id_produto;

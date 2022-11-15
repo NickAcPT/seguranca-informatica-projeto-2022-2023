@@ -16,6 +16,4 @@ public class IniciarPedidoController {
     public void onIniciarMouseClicked() {
         Entrypoint.loadFile("MenuView.fxml");
     }
-
-
 }

@@ -1,11 +1,11 @@
 package pt.ua.segurancainformatica.app.vending.tables;
 
 public abstract class ElementoComQuantidade {
+    protected int quantidade;
+
     protected ElementoComQuantidade(final int quantidade) {
         this.quantidade = quantidade;
     }
-
-    protected int quantidade;
 
     public int getQuantidade() {
         return quantidade;

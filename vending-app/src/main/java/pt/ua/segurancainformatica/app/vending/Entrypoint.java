@@ -1,6 +1,5 @@
 package pt.ua.segurancainformatica.app.vending;
 
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,12 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import jfxtras.styles.jmetro.*;
+import jfxtras.styles.jmetro.FlatAlert;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
 
-public class Entrypoint extends Application {
+import java.io.IOException;
 
+public class Entrypoint extends Application {
 
     private static final ObservableList<ElementoComQuantidade> produtosLista = FXCollections.observableArrayList();
 

@@ -9,5 +9,4 @@ public class PedidoConcluidoController {
     public void onPedidoMouseClicked() {
         Entrypoint.loadFile("iniciar_pedido.fxml");
     }
-
 }

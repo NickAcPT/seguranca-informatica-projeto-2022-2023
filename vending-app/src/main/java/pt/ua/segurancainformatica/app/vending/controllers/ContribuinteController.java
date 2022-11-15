@@ -29,7 +29,6 @@ public class ContribuinteController {
             try {
                 Integer.parseInt(txtContribuinte.getText());
                 Entrypoint.loadFile("PagamentoConcluido.fxml");
-
             } catch (NumberFormatException e) {
                 label.setText("Digite apenas números!");
                 return;
@@ -40,7 +39,6 @@ public class ContribuinteController {
         }
 
         Conexao.guardaPedido(contribuinte);
-
     }
 
     @FXML

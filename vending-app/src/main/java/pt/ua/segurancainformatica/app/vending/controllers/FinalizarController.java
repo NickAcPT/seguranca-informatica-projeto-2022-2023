@@ -16,5 +16,4 @@ public class FinalizarController {
         Conexao.guardaPedido(null);
         Entrypoint.loadFile("PedidoConcluido.fxml");
     }
-
 }

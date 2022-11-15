@@ -9,5 +9,4 @@ public class PagamentoConcluidoController {
     public void onPagamentoMouseClicked() {
         Entrypoint.loadFile("iniciar_pedido.fxml");
     }
-
 }

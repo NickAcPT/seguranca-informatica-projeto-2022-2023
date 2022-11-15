@@ -165,11 +165,9 @@ public class MenuController {
         item.setQuantidade(novaQtd);
 
         if (0 >= novaQtd) {
-
             Entrypoint.getProdutosLista().remove(selectedIndex);
         }
         lista.refresh();
-
     }
 
     @FXML
@@ -177,7 +175,6 @@ public class MenuController {
         Entrypoint.loadFile("iniciar_pedido.fxml");
 
         Entrypoint.getProdutosLista().clear();
-
     }
 
     @FXML
@@ -186,8 +183,7 @@ public class MenuController {
         if (Entrypoint.getProdutosLista().isEmpty()) {
             Alert a1 = new Alert(Alert.AlertType.WARNING);
             a1.setTitle("Campos vazios");
-            a1.setContentText(
-                    "Não tem produtos para para fazer o pedido!\nSelecione pelo menos um produto para seguir em frente!");
+            a1.setContentText("Não tem produtos para para fazer o pedido!\nSelecione pelo menos um produto para seguir em frente!");
             a1.setHeaderText(null);
             a1.showAndWait();
         } else {

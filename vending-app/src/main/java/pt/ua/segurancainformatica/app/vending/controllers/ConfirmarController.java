@@ -1,7 +1,9 @@
 package pt.ua.segurancainformatica.app.vending.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
@@ -32,7 +34,6 @@ public class ConfirmarController {
                 .sum();
 
         totalPagarLabel.setText(String.format("%.2f", total) + "€");
-
     }
 
     @FXML

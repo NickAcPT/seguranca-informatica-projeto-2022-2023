@@ -1,10 +1,11 @@
 package pt.ua.segurancainformatica.app.vending.conexao;
 
-import java.util.*;
-import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.tables.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public enum Conexao {
     ;

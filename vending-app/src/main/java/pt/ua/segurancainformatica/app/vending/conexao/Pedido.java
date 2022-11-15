@@ -1,11 +1,12 @@
 package pt.ua.segurancainformatica.app.vending.conexao;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.tables.MenuComQuantidade;
 import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class Pedido {
 
@@ -48,5 +49,4 @@ public class Pedido {
     public double getPreco() {
         return preco;
     }
-
 }

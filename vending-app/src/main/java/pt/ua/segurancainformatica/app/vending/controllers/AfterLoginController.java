@@ -7,5 +7,4 @@ public class AfterLoginController {
     public void userLogOut() {
         Entrypoint.loadFile("login_screen.fxml");
     }
-
 }

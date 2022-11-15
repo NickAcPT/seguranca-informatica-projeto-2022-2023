@@ -1,12 +1,12 @@
 package pt.ua.segurancainformatica.app.vending.tables;
 
-import java.util.List;
-import java.util.Objects;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Menu {
-    private @Nullable Image fotoImage;
     private final int id_menu;
     private final String nome;
     private final double preco;
@@ -14,6 +14,8 @@ public class Menu {
     private final String detalhes;
     private final String genero;
     private final List<Produto> produtos;
+    private @Nullable Image fotoImage;
+
     public Menu(int id_menu, String nome, double preco, String foto, String detalhes, String genero, List<Produto> produtos) {
         this.id_menu = id_menu;
         this.nome = nome;
