@@ -4,18 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.FinalizarController">
-    <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="68.0" text="Finalizar Pedido" textAlignment="CENTER">
-            <font>
-                <Font name="System Bold" size="30.0" />
-            </font>
-        </Label>
-      <HBox alignment="CENTER" layoutX="112.0" layoutY="186.0" prefHeight="46.0" prefWidth="364.0" spacing="30.0">
-         <children>
-              <Button mnemonicParsing="false" onAction="#pagaMaquina" prefHeight="46.0" prefWidth="128.0" text="Pagar aqui" />
-              <Button mnemonicParsing="false" onAction="#pagaCaixa" prefHeight="46.0" prefWidth="128.0" text="Pagar na caixa" />
-         </children>
-      </HBox>
-    </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pt.ua.segurancainformatica.app.vending.controllers.FinalizarController">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="68.0" text="Finalizar Pedido"
+           textAlignment="CENTER">
+        <font>
+            <Font name="System Bold" size="30.0"/>
+        </font>
+    </Label>
+    <HBox alignment="CENTER" layoutX="112.0" layoutY="186.0" prefHeight="46.0" prefWidth="364.0" spacing="30.0">
+        <Button mnemonicParsing="false" onAction="#pagaMaquina" prefHeight="46.0" prefWidth="128.0"
+                text="Pagar aqui"/>
+        <Button mnemonicParsing="false" onAction="#pagaCaixa" prefHeight="46.0" prefWidth="128.0"
+                text="Pagar na caixa"/>
+    </HBox>
 </AnchorPane>
