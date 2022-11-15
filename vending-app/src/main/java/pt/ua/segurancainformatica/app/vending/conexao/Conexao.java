@@ -85,7 +85,7 @@ public enum Conexao {
 
     private static void inserirPedidoProduto(Pedido pedido, ProdutoComQuantidade produto) {
         System.out.println(pedido.getIdFatura());
-        System.out.println(produto.getProduto().getId_produto());
+        System.out.println(produto.getProduto().getIdProduto());
         System.out.println(produto.getQuantidade());
     }
 

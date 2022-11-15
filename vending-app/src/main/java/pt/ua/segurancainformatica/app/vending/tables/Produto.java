@@ -5,14 +5,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class Produto {
 
-    private final int id_produto;
+    private final int idProduto;
     private final String nome;
     private final String genero;
     private final double preco;
     private @Nullable Image fotoImage;
 
-    public Produto(int id_produto, String nome, String genero, String foto, double preco) {
-        this.id_produto = id_produto;
+    public Produto(int idProduto, String nome, String genero, String foto, double preco) {
+        this.idProduto = idProduto;
         this.nome = nome;
         this.genero = genero;
         this.preco = preco;
@@ -21,8 +21,8 @@ public class Produto {
         }
     }
 
-    public int getId_produto() {
-        return id_produto;
+    public int getIdProduto() {
+        return idProduto;
     }
 
     public String getNome() {

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Menu {
-    private final int id_menu;
+    private final int idMenu;
     private final String nome;
     private final double preco;
     private final String foto;
@@ -16,8 +16,8 @@ public class Menu {
     private final List<Produto> produtos;
     private @Nullable Image fotoImage;
 
-    public Menu(int id_menu, String nome, double preco, String foto, String detalhes, String genero, List<Produto> produtos) {
-        this.id_menu = id_menu;
+    public Menu(int idMenu, String nome, double preco, String foto, String detalhes, String genero, List<Produto> produtos) {
+        this.idMenu = idMenu;
         this.nome = nome;
         this.preco = preco;
         this.foto = foto;
@@ -34,7 +34,7 @@ public class Menu {
     public String toString() {
         return "Menu{" +
                 "fotoImage=" + fotoImage +
-                ", id_menu=" + id_menu +
+                ", id_menu=" + idMenu +
                 ", nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", foto='" + foto + '\'' +
@@ -60,11 +60,11 @@ public class Menu {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof final Menu menu)) return false;
-        return id_menu == menu.id_menu;
+        return idMenu == menu.idMenu;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_menu);
+        return Objects.hash(idMenu);
     }
 }
