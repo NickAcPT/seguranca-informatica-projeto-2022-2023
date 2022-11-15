@@ -6,8 +6,15 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 
 public class LoginScreenController {
+
+    @FXML
+    public void initialize() {
+        Conexao.buscarProdutos();
+        Conexao.buscarMenus();
+    }
 
     @FXML
     TextField username;

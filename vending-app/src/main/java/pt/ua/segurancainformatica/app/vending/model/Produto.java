@@ -16,7 +16,7 @@ public class Produto {
         this.nome = nome;
         this.genero = genero;
         this.preco = preco;
-        if (null != foto && !"".equals(foto)) {
+        if (foto != null && !"".equals(foto)) {
             this.fotoImage = new Image(foto, true);
         }
     }

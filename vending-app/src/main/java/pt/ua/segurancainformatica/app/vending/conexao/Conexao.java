@@ -1,32 +1,82 @@
 package pt.ua.segurancainformatica.app.vending.conexao;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.model.*;
 
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Conexao {
+    private static final List<Produto> produtos = new ArrayList<>();
+    private static final List<Menu> menus = new ArrayList<>();
+
     private Conexao() {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final @Nullable Map<Integer, Produto> allProdutos = null;
+    private static <T> List<T> loadFromCsv(Function<CSVRecord, T> creator, String filename) {
+        var localValues = new ArrayList<T>();
+        try (InputStream inputStream = Conexao.class.getResourceAsStream(filename)) {
+            if (inputStream == null) throw new IOException("File not found");
 
-    public static void buscarProdutos() {
+            var lines = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            for (CSVRecord record : CSVFormat.DEFAULT.builder().setHeader().build().parse(new StringReader(lines))) {
+                localValues.add(creator.apply(record));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return localValues;
     }
 
-    public static Collection<Menu> getMenus() {
-        return List.of(new Menu(0, "Teste", 2.0,
-                "https://static.wikia.nocookie.net/meme/images/0/07/Amogus_Template.png/revision/latest?cb=20210308145830",
-                "Teste", "Menus",
-                List.of(new Produto(0, "teste 12", "Pizza",
-                        "https://static.wikia.nocookie.net/meme/images/0/07/Amogus_Template.png/revision/latest?cb=20210308145830",
-                        2.0))));
+    public static void buscarProdutos() {
+        if (!produtos.isEmpty()) return;
+
+        produtos.addAll(loadFromCsv((record) -> new Produto(Integer.parseInt(record.get("id_produto")),
+                record.get("nome"),
+                record.get("genero"),
+                record.get("foto"),
+                Double.parseDouble(record.get("preco"))), "/produto.csv"));
     }
 
     public static void buscarMenus() {
+        if (!menus.isEmpty()) return;
+
+        menus.addAll(loadFromCsv((record) -> new Menu(Integer.parseInt(record.get("id_menu")),
+                record.get("nome"),
+                Double.parseDouble(record.get("preco")),
+                record.get("foto"),
+                record.get("detalhes"),
+                record.get("genero"),
+                new ArrayList<>()), "/menu.csv"));
+
+        loadFromCsv((record) -> {
+            var productId = Integer.parseInt(record.get("id_produto"));
+            var menuId = Integer.parseInt(record.get("id_menu"));
+
+            menus.stream()
+                    .filter(it -> it.idMenu() == menuId).findFirst()
+                    .ifPresent(menu -> menu.produtos().add(produtos.stream()
+                            .filter(it -> it.getIdProduto() == productId).findFirst().orElse(null))
+                    );
+            return null;
+        }, "/menuproduto.csv");
+    }
+
+    public static Collection<Menu> getMenus() {
+        return menus;
     }
 
     public static ArrayList<Produto> getHamburgers() {
@@ -58,12 +108,7 @@ public class Conexao {
     }
 
     private static ArrayList<Produto> getProdutoByGenero(String genero) {
-        if (null == allProdutos) {
-            buscarProdutos();
-            return new ArrayList<>();
-        }
-        return allProdutos.values().stream().filter(produto -> produto.getGenero().equals(genero))
-                .collect(Collectors.toCollection(ArrayList::new));
+        return produtos.stream().filter(produto -> produto.getGenero().equals(genero)).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static void inserirPedido(Pedido pedido) {
@@ -72,9 +117,7 @@ public class Conexao {
 
     public static void guardaPedido(@Nullable String contribuinte) {
 
-        double total = Entrypoint.getProdutosLista().stream()
-                .mapToDouble(p -> p.getPreco() * p.getQuantidade())
-                .sum();
+        double total = Entrypoint.getProdutosLista().stream().mapToDouble(p -> p.getPreco() * p.getQuantidade()).sum();
 
         Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
 

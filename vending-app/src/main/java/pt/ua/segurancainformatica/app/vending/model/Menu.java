@@ -25,9 +25,17 @@ public class Menu {
         this.genero = genero;
         this.produtos = produtos;
 
-        if (null != foto && !"".equals(foto)) {
+        if (foto != null && !"".equals(foto)) {
             this.fotoImage = new Image(foto, true);
         }
+    }
+
+    public int idMenu() {
+        return idMenu;
+    }
+
+    public List<Produto> produtos() {
+        return produtos;
     }
 
     @Override

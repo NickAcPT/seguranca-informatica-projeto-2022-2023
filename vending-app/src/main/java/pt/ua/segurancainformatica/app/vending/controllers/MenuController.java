@@ -39,14 +39,16 @@ public class MenuController {
 
     @Deprecated
     public void initialize() {
-        fonteTitulo();
-        fonteBotoes();
+        setTitleFont();
+        loadButtonFont();
 
         lista.setItems(Entrypoint.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         cancelar.setStyle("-fx-background-color: #78120e");
+
+        onBotaoMenuClick();
     }
 
     private void onBotaozinhoClick(ActionEvent event) {
@@ -56,15 +58,15 @@ public class MenuController {
         if (userData instanceof Produto p) {
             ProdutoComQuantidade pQ = new ProdutoComQuantidade(p, 1);
 
-            adicionarNaLista(pQ);
+            addToList(pQ);
         } else if (userData instanceof pt.ua.segurancainformatica.app.vending.model.Menu p) {
             MenuComQuantidade pQ = new MenuComQuantidade(p, 1);
 
-            adicionarNaLista(pQ);
+            addToList(pQ);
         }
     }
 
-    private void adicionarNaLista(ElementoComQuantidade pQ) {
+    private void addToList(ElementoComQuantidade pQ) {
         boolean existeNaLista = false;
 
         for (ElementoComQuantidade item : Entrypoint.getProdutosLista()) {
@@ -88,7 +90,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Menu menu : Conexao.getMenus()) {
-            criarBotaozinho(menu);
+            createMenuButton(menu);
         }
     }
 
@@ -97,7 +99,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto hamburger : Conexao.getHamburgers()) {
-            criarBotaozinho(hamburger);
+            createProductButton(hamburger);
         }
     }
 
@@ -106,7 +108,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto pizza : Conexao.getPizzas()) {
-            criarBotaozinho(pizza);
+            createProductButton(pizza);
         }
     }
 
@@ -115,7 +117,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto cachorro : Conexao.getCachorros()) {
-            criarBotaozinho(cachorro);
+            createProductButton(cachorro);
         }
     }
 
@@ -124,7 +126,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto sandes : Conexao.getSandes()) {
-            criarBotaozinho(sandes);
+            createProductButton(sandes);
         }
     }
 
@@ -133,7 +135,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto bebida : Conexao.getBebidas()) {
-            criarBotaozinho(bebida);
+            createProductButton(bebida);
         }
     }
 
@@ -142,7 +144,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto acompanhamento : Conexao.getAcompanhamentos()) {
-            criarBotaozinho(acompanhamento);
+            createProductButton(acompanhamento);
         }
     }
 
@@ -151,7 +153,7 @@ public class MenuController {
         grelha.getChildren().clear();
 
         for (Produto sobremesa : Conexao.getSobremesas()) {
-            criarBotaozinho(sobremesa);
+            createProductButton(sobremesa);
         }
     }
 
@@ -179,7 +181,6 @@ public class MenuController {
 
     @FXML
     public void onBotaoFinalizarClick() {
-
         if (Entrypoint.getProdutosLista().isEmpty()) {
             Alert a1 = new Alert(Alert.AlertType.WARNING);
             a1.setTitle("Campos vazios");
@@ -191,12 +192,12 @@ public class MenuController {
         }
     }
 
-    private void fonteTitulo() {
+    private void setTitleFont() {
         Font font = Font.loadFont(getClass().getResourceAsStream("/Roboto-Bold.ttf"), 32);
         title.setFont(font);
     }
 
-    public void fonteBotoes() {
+    public void loadButtonFont() {
         Font font = Font.loadFont(getClass().getResourceAsStream("/Roboto-Regular.ttf"), 17);
         for (Node child : botoesMenu.getChildren()) {
             if (child instanceof Button button) {
@@ -205,14 +206,14 @@ public class MenuController {
         }
     }
 
-    private void criarBotaozinho(Produto hamburger) {
-        Button botaozinho = new Button();
-        botaozinho.setText(hamburger.getNome());
-        botaozinho.setUserData(hamburger);
-        setDefaultProprieties(botaozinho, hamburger.getFotoImage());
+    private void createProductButton(Produto hamburger) {
+        Button btn = new Button();
+        btn.setText(hamburger.getNome());
+        btn.setUserData(hamburger);
+        setDefaultProprieties(btn, hamburger.getFotoImage());
     }
 
-    private void criarBotaozinho(Menu menu) {
+    private void createMenuButton(Menu menu) {
         Button botaozinho = new Button();
         botaozinho.setText(menu.getNome());
         botaozinho.setUserData(menu);
@@ -222,7 +223,7 @@ public class MenuController {
     private void setDefaultProprieties(Button botaozinho, @Nullable Image foto) {
         botaozinho.setPrefSize(150, 150);
         botaozinho.setPadding(new Insets(0));
-        if (null != foto) {
+        if (foto != null) {
             botaozinho.setGraphic(new ImageView(foto));
             botaozinho.setContentDisplay(ContentDisplay.TOP);
         }

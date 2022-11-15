@@ -7,12 +7,6 @@ import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 public class IniciarPedidoController {
 
     @FXML
-    public void initialize() {
-        Conexao.buscarProdutos();
-        Conexao.buscarMenus();
-    }
-
-    @FXML
     public void onIniciarMouseClicked() {
         Entrypoint.loadFile("menu_view.fxml");
     }

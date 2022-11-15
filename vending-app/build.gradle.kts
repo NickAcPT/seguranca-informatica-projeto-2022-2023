@@ -11,6 +11,7 @@ javafx {
 
 dependencies {
     implementation("org.jfxtras:jmetro:11.6.16")
+    implementation("org.apache.commons:commons-csv:1.9.0")
 }
 
 application {

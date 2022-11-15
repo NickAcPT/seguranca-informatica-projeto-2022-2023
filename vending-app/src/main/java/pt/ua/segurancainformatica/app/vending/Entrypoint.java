@@ -44,7 +44,7 @@ public class Entrypoint extends Application {
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());
-            if (null != Entrypoint.primaryStage) {
+            if (Entrypoint.primaryStage != null) {
                 JMetro jMetro = new JMetro(Style.DARK);
                 jMetro.setScene(scene);
                 scene.getRoot().getStyleClass().add("background");
