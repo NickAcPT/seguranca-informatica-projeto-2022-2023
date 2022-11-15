@@ -1,11 +1,11 @@
-package ptda.projeto.demo.controllers;
+package pt.ua.segurancainformatica.app.vending.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.tables.ProdutoComQuantidade;
+import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class ConfirmarController {
 

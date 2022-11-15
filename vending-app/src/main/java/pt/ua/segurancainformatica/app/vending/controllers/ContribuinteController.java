@@ -1,11 +1,11 @@
-package ptda.projeto.demo.controllers;
+package pt.ua.segurancainformatica.app.vending.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.conexao.Conexao;
+import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 
 public class ContribuinteController {
 
@@ -20,7 +20,7 @@ public class ContribuinteController {
 
         String contribuinte = "Consumidor Final";
 
-        if (null == txtContribuinte.getText() || "".equals(txtContribuinte.getText())) {
+        if (txtContribuinte.getText() == null || "".equals(txtContribuinte.getText())) {
             this.txtContribuinte.setText(contribuinte);
             Entrypoint.loadFile("PagamentoConcluido.fxml");
         } else {

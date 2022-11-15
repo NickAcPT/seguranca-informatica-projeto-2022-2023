@@ -1,4 +1,4 @@
-package ptda.projeto.demo.controllers;
+package pt.ua.segurancainformatica.app.vending.controllers;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -14,9 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.conexao.Conexao;
-import ptda.projeto.demo.tables.Menu;
-import ptda.projeto.demo.tables.*;
+import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
+import pt.ua.segurancainformatica.app.vending.tables.*;
+import pt.ua.segurancainformatica.app.vending.tables.Menu;
 
 public class MenuController {
 
@@ -57,7 +57,7 @@ public class MenuController {
             final ProdutoComQuantidade pQ = new ProdutoComQuantidade(p, 1);
 
             this.adicionarNaLista(pQ);
-        } else if (userData instanceof Menu p) {
+        } else if (userData instanceof pt.ua.segurancainformatica.app.vending.tables.Menu p) {
             final MenuComQuantidade pQ = new MenuComQuantidade(p, 1);
 
             this.adicionarNaLista(pQ);
@@ -90,7 +90,7 @@ public class MenuController {
     public void onBotaoMenuClick() {
         this.grelha.getChildren().clear();
 
-        for (final Menu menu : Conexao.getMenus()) {
+        for (final pt.ua.segurancainformatica.app.vending.tables.Menu menu : Conexao.getMenus()) {
             this.criarBotaozinho(menu);
         }
     }
@@ -232,7 +232,7 @@ public class MenuController {
     private void setDefaultProprieties(final Button botaozinho, final Image foto) {
         botaozinho.setPrefSize(150, 150);
         botaozinho.setPadding(new Insets(0));
-        if (null != foto) {
+        if (foto != null) {
             botaozinho.setGraphic(new ImageView(foto));
             botaozinho.setContentDisplay(ContentDisplay.TOP);
         }

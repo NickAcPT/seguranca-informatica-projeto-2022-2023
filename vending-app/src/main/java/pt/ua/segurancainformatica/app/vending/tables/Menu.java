@@ -1,11 +1,12 @@
-package ptda.projeto.demo.tables;
+package pt.ua.segurancainformatica.app.vending.tables;
 
 import java.util.List;
 import java.util.Objects;
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.Nullable;
 
 public class Menu {
-    private Image fotoImage;
+    private @Nullable Image fotoImage;
     private final int id_menu;
     private final String nome;
     private final double preco;
@@ -49,7 +50,7 @@ public class Menu {
         return this.preco;
     }
 
-    public Image getFotoImage() {
+    public @Nullable Image getFotoImage() {
         return this.fotoImage;
     }
 

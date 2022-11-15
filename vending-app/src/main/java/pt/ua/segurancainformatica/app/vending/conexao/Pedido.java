@@ -1,10 +1,10 @@
-package ptda.projeto.demo.conexao;
+package pt.ua.segurancainformatica.app.vending.conexao;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
-import ptda.projeto.demo.tables.MenuComQuantidade;
-import ptda.projeto.demo.tables.ProdutoComQuantidade;
+import pt.ua.segurancainformatica.app.vending.tables.MenuComQuantidade;
+import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class Pedido {
 

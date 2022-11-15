@@ -1,9 +1,9 @@
-package ptda.projeto.demo.controllers;
+package pt.ua.segurancainformatica.app.vending.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.conexao.Conexao;
+import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 
 public class IniciarPedidoController {
 

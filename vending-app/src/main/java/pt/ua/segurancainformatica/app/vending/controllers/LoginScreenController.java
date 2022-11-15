@@ -1,4 +1,4 @@
-package ptda.projeto.demo.controllers;
+package pt.ua.segurancainformatica.app.vending.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;

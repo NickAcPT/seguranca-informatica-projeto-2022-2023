@@ -1,4 +1,4 @@
-package ptda.projeto.demo.tables;
+package pt.ua.segurancainformatica.app.vending.tables;
 
 import java.util.Objects;
 

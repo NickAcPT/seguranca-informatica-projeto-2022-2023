@@ -1,15 +1,16 @@
-package ptda.projeto.demo.conexao;
+package pt.ua.segurancainformatica.app.vending.conexao;
 
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.tables.*;
+import pt.ua.segurancainformatica.app.vending.tables.*;
 
 public enum Conexao {
     ;
 
-    private static final Map<Integer, Produto> allProdutos = null;
+    private static final @Nullable Map<Integer, Produto> allProdutos = null;
 
     public static void buscarProdutos() {
     }
@@ -55,8 +56,9 @@ public enum Conexao {
     }
 
     private static ArrayList<Produto> getProdutoByGenero(final String genero) {
-        if (null == allProdutos) {
+        if (allProdutos == null) {
             Conexao.buscarProdutos();
+            return new ArrayList<>();
         }
         return Conexao.allProdutos.values().stream().filter(produto -> produto.getGenero().equals(genero))
                 .collect(Collectors.toCollection(ArrayList::new));

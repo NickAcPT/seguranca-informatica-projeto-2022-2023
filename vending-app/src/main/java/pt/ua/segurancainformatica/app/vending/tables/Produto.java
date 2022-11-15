@@ -1,10 +1,11 @@
-package ptda.projeto.demo.tables;
+package pt.ua.segurancainformatica.app.vending.tables;
 
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.Nullable;
 
 public class Produto {
 
-    private Image fotoImage;
+    private @Nullable Image fotoImage;
     private final int id_produto;
     private final String nome;
     private final String genero;
@@ -32,7 +33,7 @@ public class Produto {
         return this.genero;
     }
 
-    public Image getFotoImage() {
+    public @Nullable Image getFotoImage() {
         return this.fotoImage;
     }
 

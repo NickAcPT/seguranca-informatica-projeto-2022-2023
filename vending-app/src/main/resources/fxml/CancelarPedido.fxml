@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.controllers.CancelarPedidoController">
+<AnchorPane prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.CancelarPedidoController">
    <children>
       <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="79.0" prefHeight="132.0" prefWidth="400.0" text="Pretende mesmo cancelar o pedido?" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="118.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
