@@ -3,6 +3,7 @@ package pt.ua.segurancainformatica.app.vending.conexao;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.tables.MenuComQuantidade;
 import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
@@ -12,10 +13,10 @@ public class Pedido {
     private final ArrayList<ProdutoComQuantidade> produtos;
     private final ArrayList<MenuComQuantidade> menus;
     private final Instant data;
-    private final String contribuinte;
+    private final @Nullable String contribuinte;
     private final double preco;
 
-    public Pedido(final UUID idFatura, final String contribuinte, final double preco) {
+    public Pedido(final UUID idFatura, final @Nullable String contribuinte, final double preco) {
         this.idFatura = idFatura;
         data = Instant.now();
         this.contribuinte = contribuinte;
@@ -40,7 +41,7 @@ public class Pedido {
         return this.data;
     }
 
-    public String getContribuinte() {
+    public @Nullable String getContribuinte() {
         return this.contribuinte;
     }
 

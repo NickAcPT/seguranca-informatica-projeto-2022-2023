@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
 import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class ConfirmarController {
@@ -14,7 +15,7 @@ public class ConfirmarController {
     @FXML
     public Label totalPagarLabel;
     @FXML
-    private TableView<ProdutoComQuantidade> lista;
+    private TableView<ElementoComQuantidade> lista;
     @FXML
     private TableColumn<Object, Object> preco;
     @FXML

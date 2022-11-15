@@ -47,12 +47,12 @@
          <children>
             <HBox alignment="CENTER" layoutY="24.0" prefHeight="152.0" prefWidth="600.0" spacing="100.0">
                <children>
-                  <Button fx:id="BtnVoltar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBotaoVoltarClick" prefHeight="50.0" prefWidth="96.0" text="Voltar">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBotaoVoltarClick" prefHeight="50.0" prefWidth="96.0" text="Voltar">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BtnAvancar1" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="258.0" layoutY="23.0" mnemonicParsing="false" onAction="#onBotaoAvancarClick" prefHeight="50.0" prefWidth="96.0" text="Avançar">
+                  <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="258.0" layoutY="23.0" mnemonicParsing="false" onAction="#onBotaoAvancarClick" prefHeight="50.0" prefWidth="96.0" text="Avançar">
                      <font>
                         <Font size="15.0" />
                      </font>

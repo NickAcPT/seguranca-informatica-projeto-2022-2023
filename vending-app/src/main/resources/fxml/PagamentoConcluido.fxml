@@ -4,16 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="pagamentoPane" onMouseClicked="#onPagamentoMouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.PagamentoConcluidoController">
+<AnchorPane onMouseClicked="#onPagamentoMouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.PagamentoConcluidoController">
    <children>
       <VBox alignment="CENTER" layoutX="82.0" layoutY="159.0" prefHeight="71.0" prefWidth="435.0">
          <children>
-            <Label fx:id="pagamentoLabel1" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPagamentoMouseClicked" prefHeight="55.0" prefWidth="453.0" text="Pagamento Concluído!" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPagamentoMouseClicked" prefHeight="55.0" prefWidth="453.0" text="Pagamento Concluído!" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="38.0" />
                </font>
             </Label>
-            <Label fx:id="pagamentoLabel2" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPagamentoMouseClicked" prefHeight="30.0" prefWidth="498.0" text="Toque para fazer um novo pedido!" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPagamentoMouseClicked" prefHeight="30.0" prefWidth="498.0" text="Toque para fazer um novo pedido!" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>

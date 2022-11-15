@@ -57,7 +57,7 @@ public class Menu {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (null == o || this.getClass() != o.getClass()) return false;
+        if (!(o instanceof Menu)) return false;
         final Menu menu = (Menu) o;
         return this.id_menu == menu.id_menu;
     }

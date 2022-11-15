@@ -2,37 +2,24 @@ package pt.ua.segurancainformatica.app.vending.tables;
 
 import java.util.Objects;
 
-public class ProdutoComQuantidade {
-    private Produto produto;
-
-    private int quantidade;
-
-    protected ProdutoComQuantidade(final int quantidade) {
-        this.quantidade = quantidade;
-    }
+public class ProdutoComQuantidade extends ElementoComQuantidade {
+    private final Produto produto;
 
     public ProdutoComQuantidade(final Produto produto, final int quantidade) {
+        super(quantidade);
         this.produto = produto;
-        this.quantidade = quantidade;
     }
 
-    public int getQuantidade() {
-        return this.quantidade;
-    }
-
-    public void setQuantidade(final int quantidade) {
-        this.quantidade = quantidade;
-    }
-
+    @Override
     public double getPreco() {
-        return this.produto.getPreco();
+        return Objects.requireNonNull(this.produto).getPreco();
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof ProdutoComQuantidade that)) return false;
-        return this.produto.equals(that.produto);
+        return Objects.equals(this.produto, that.produto);
     }
 
     @Override

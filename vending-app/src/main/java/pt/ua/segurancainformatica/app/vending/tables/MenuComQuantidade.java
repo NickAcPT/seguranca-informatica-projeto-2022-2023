@@ -2,7 +2,7 @@ package pt.ua.segurancainformatica.app.vending.tables;
 
 import java.util.Objects;
 
-public class MenuComQuantidade extends ProdutoComQuantidade {
+public class MenuComQuantidade extends ElementoComQuantidade {
 
     private final Menu menu;
 

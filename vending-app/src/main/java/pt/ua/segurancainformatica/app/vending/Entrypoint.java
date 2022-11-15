@@ -11,17 +11,18 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.*;
 import org.jetbrains.annotations.Nullable;
+import pt.ua.segurancainformatica.app.vending.tables.ElementoComQuantidade;
 import pt.ua.segurancainformatica.app.vending.tables.ProdutoComQuantidade;
 
 public class Entrypoint extends Application {
 
 
-    private static final ObservableList<ProdutoComQuantidade> produtosLista = FXCollections.observableArrayList();
+    private static final ObservableList<ElementoComQuantidade> produtosLista = FXCollections.observableArrayList();
 
     @Nullable
     private static Stage primaryStage;
 
-    public static ObservableList<ProdutoComQuantidade> getProdutosLista() {
+    public static ObservableList<ElementoComQuantidade> getProdutosLista() {
         return Entrypoint.produtosLista;
     }
 

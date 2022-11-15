@@ -96,7 +96,7 @@ public enum Conexao {
         System.out.println(produto.getQuantidade());
     }
 
-    public static void guardaPedido(final String contribuinte) {
+    public static void guardaPedido(@Nullable final String contribuinte) {
 
         final double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
@@ -104,11 +104,11 @@ public enum Conexao {
 
         final Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
 
-        for (final ProdutoComQuantidade produtoComQuantidade : Entrypoint.getProdutosLista()) {
-            if (produtoComQuantidade instanceof MenuComQuantidade mcq) {
+        for (final ElementoComQuantidade elementoComQuantidade : Entrypoint.getProdutosLista()) {
+            if (elementoComQuantidade instanceof MenuComQuantidade mcq) {
                 pedido.getMenus().add(mcq);
-            } else {
-                pedido.getProdutos().add(produtoComQuantidade);
+            } else if (elementoComQuantidade instanceof ProdutoComQuantidade pcq) {
+                pedido.getProdutos().add(pcq);
             }
         }
 

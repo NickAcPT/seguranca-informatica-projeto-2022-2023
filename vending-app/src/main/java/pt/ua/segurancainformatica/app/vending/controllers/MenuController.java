@@ -13,10 +13,11 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
-import pt.ua.segurancainformatica.app.vending.tables.*;
 import pt.ua.segurancainformatica.app.vending.tables.Menu;
+import pt.ua.segurancainformatica.app.vending.tables.*;
 
 public class MenuController {
 
@@ -27,7 +28,7 @@ public class MenuController {
     @FXML
     private FlowPane grelha;
     @FXML
-    private TableView<ProdutoComQuantidade> lista;
+    private TableView<ElementoComQuantidade> lista;
     @FXML
     private Button cancelar;
     @FXML
@@ -64,23 +65,20 @@ public class MenuController {
         }
     }
 
-    private void adicionarNaLista(ProdutoComQuantidade pQ) {
+    private void adicionarNaLista(ElementoComQuantidade pQ) {
         boolean existeNaLista = false;
 
-        for (final ProdutoComQuantidade item : Entrypoint.getProdutosLista()) {
-            if (item instanceof ProdutoComQuantidade) {
-                if (item.equals(pQ)) {
-                    pQ = item;
-                    existeNaLista = true;
-                    break;
-                }
+        for (final ElementoComQuantidade item : Entrypoint.getProdutosLista()) {
+            if (item.equals(pQ)) {
+                pQ = item;
+                existeNaLista = true;
+                break;
             }
         }
 
         if (existeNaLista) {
             pQ.setQuantidade(pQ.getQuantidade() + 1);
         } else {
-
             Entrypoint.getProdutosLista().add(pQ);
         }
         this.lista.refresh();
@@ -90,7 +88,7 @@ public class MenuController {
     public void onBotaoMenuClick() {
         this.grelha.getChildren().clear();
 
-        for (final pt.ua.segurancainformatica.app.vending.tables.Menu menu : Conexao.getMenus()) {
+        for (final Menu menu : Conexao.getMenus()) {
             this.criarBotaozinho(menu);
         }
     }
@@ -163,18 +161,15 @@ public class MenuController {
         final int selectedIndex = this.lista.getSelectionModel().getSelectedIndex();
         if (-1 == selectedIndex) return;
 
-        final ProdutoComQuantidade item = Entrypoint.getProdutosLista().get(selectedIndex);
-        if (item instanceof ProdutoComQuantidade) {
-            final ProdutoComQuantidade produtoComQuantidade = item;
-            final int novaQtd = produtoComQuantidade.getQuantidade() - 1;
-            produtoComQuantidade.setQuantidade(novaQtd);
+        final ElementoComQuantidade item = Entrypoint.getProdutosLista().get(selectedIndex);
+        final int novaQtd = item.getQuantidade() - 1;
+        item.setQuantidade(novaQtd);
 
-            if (0 >= novaQtd) {
+        if (0 >= novaQtd) {
 
-                Entrypoint.getProdutosLista().remove(selectedIndex);
-            }
-            this.lista.refresh();
+            Entrypoint.getProdutosLista().remove(selectedIndex);
         }
+        this.lista.refresh();
 
     }
 
@@ -229,7 +224,7 @@ public class MenuController {
         this.setDefaultProprieties(botaozinho, menu.getFotoImage());
     }
 
-    private void setDefaultProprieties(final Button botaozinho, final Image foto) {
+    private void setDefaultProprieties(final Button botaozinho, @Nullable final Image foto) {
         botaozinho.setPrefSize(150, 150);
         botaozinho.setPadding(new Insets(0));
         if (foto != null) {

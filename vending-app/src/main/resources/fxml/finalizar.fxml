@@ -13,8 +13,8 @@
         </Label>
       <HBox alignment="CENTER" layoutX="112.0" layoutY="186.0" prefHeight="46.0" prefWidth="364.0" spacing="30.0">
          <children>
-              <Button fx:id="BtnPagaAqui" mnemonicParsing="false" onAction="#pagaMaquina" prefHeight="46.0" prefWidth="128.0" text="Pagar aqui" />
-              <Button fx:id="BtnPagaCaixa" mnemonicParsing="false" onAction="#pagaCaixa" prefHeight="46.0" prefWidth="128.0" text="Pagar na caixa" />
+              <Button mnemonicParsing="false" onAction="#pagaMaquina" prefHeight="46.0" prefWidth="128.0" text="Pagar aqui" />
+              <Button mnemonicParsing="false" onAction="#pagaCaixa" prefHeight="46.0" prefWidth="128.0" text="Pagar na caixa" />
          </children>
       </HBox>
     </children>
