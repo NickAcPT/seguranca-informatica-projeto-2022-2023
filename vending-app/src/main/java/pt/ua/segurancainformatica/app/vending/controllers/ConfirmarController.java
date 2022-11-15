@@ -43,6 +43,6 @@ public class ConfirmarController {
 
     @FXML
     public void onVoltarButtonClick() {
-        Entrypoint.loadFile("MenuView.fxml");
+        Entrypoint.loadFile("menu_view.fxml");
     }
 }

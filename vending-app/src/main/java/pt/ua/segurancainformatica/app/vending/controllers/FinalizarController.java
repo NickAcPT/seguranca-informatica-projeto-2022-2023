@@ -14,6 +14,6 @@ public class FinalizarController {
     @FXML
     public void pagaCaixa() {
         Conexao.guardaPedido(null);
-        Entrypoint.loadFile("PedidoConcluido.fxml");
+        Entrypoint.loadFile("pedido_concluido.fxml");
     }
 }

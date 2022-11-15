@@ -21,14 +21,14 @@ public class ContribuinteController {
 
         if (null == txtContribuinte.getText() || "".equals(this.txtContribuinte.getText())) {
             txtContribuinte.setText(contribuinte);
-            Entrypoint.loadFile("PagamentoConcluido.fxml");
+            Entrypoint.loadFile("pagamento_concluido.fxml");
         } else {
 
             contribuinte = txtContribuinte.getText();
 
             try {
                 Integer.parseInt(txtContribuinte.getText());
-                Entrypoint.loadFile("PagamentoConcluido.fxml");
+                Entrypoint.loadFile("pagamento_concluido.fxml");
             } catch (NumberFormatException e) {
                 label.setText("Digite apenas números!");
                 return;
