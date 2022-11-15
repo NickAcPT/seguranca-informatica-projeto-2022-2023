@@ -5,7 +5,7 @@ import pt.ua.segurancainformatica.app.vending.Entrypoint;
 
 public class AfterLoginController {
 
-    public void userLogOut() throws IOException {
+    public void userLogOut() {
         Entrypoint.loadFile("login_screen.fxml");
     }
 

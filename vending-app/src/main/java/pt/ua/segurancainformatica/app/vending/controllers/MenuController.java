@@ -40,35 +40,35 @@ public class MenuController {
 
     @Deprecated
     public void initialize() {
-        this.fonteTitulo();
-        this.fonteBotoes();
+        fonteTitulo();
+        fonteBotoes();
 
-        this.lista.setItems(Entrypoint.getProdutosLista());
-        this.produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-        this.quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-        this.cancelar.setStyle("-fx-background-color: #78120e");
+        lista.setItems(Entrypoint.getProdutosLista());
+        produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+        cancelar.setStyle("-fx-background-color: #78120e");
     }
 
-    private void onBotaozinhoClick(final ActionEvent event) {
-        final Button source = (Button) event.getSource();
-        final Object userData = source.getUserData();
+    private void onBotaozinhoClick(ActionEvent event) {
+        Button source = (Button) event.getSource();
+        Object userData = source.getUserData();
 
         if (userData instanceof Produto p) {
-            final ProdutoComQuantidade pQ = new ProdutoComQuantidade(p, 1);
+            ProdutoComQuantidade pQ = new ProdutoComQuantidade(p, 1);
 
-            this.adicionarNaLista(pQ);
+            adicionarNaLista(pQ);
         } else if (userData instanceof pt.ua.segurancainformatica.app.vending.tables.Menu p) {
-            final MenuComQuantidade pQ = new MenuComQuantidade(p, 1);
+            MenuComQuantidade pQ = new MenuComQuantidade(p, 1);
 
-            this.adicionarNaLista(pQ);
+            adicionarNaLista(pQ);
         }
     }
 
     private void adicionarNaLista(ElementoComQuantidade pQ) {
         boolean existeNaLista = false;
 
-        for (final ElementoComQuantidade item : Entrypoint.getProdutosLista()) {
+        for (ElementoComQuantidade item : Entrypoint.getProdutosLista()) {
             if (item.equals(pQ)) {
                 pQ = item;
                 existeNaLista = true;
@@ -81,100 +81,100 @@ public class MenuController {
         } else {
             Entrypoint.getProdutosLista().add(pQ);
         }
-        this.lista.refresh();
+        lista.refresh();
     }
 
     @FXML
     public void onBotaoMenuClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Menu menu : Conexao.getMenus()) {
-            this.criarBotaozinho(menu);
+        for (Menu menu : Conexao.getMenus()) {
+            criarBotaozinho(menu);
         }
     }
 
     @FXML
     protected void onBotaoHamburgerClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto hamburger : Conexao.getHamburgers()) {
-            this.criarBotaozinho(hamburger);
+        for (Produto hamburger : Conexao.getHamburgers()) {
+            criarBotaozinho(hamburger);
         }
     }
 
     @FXML
     protected void onBotaoPizzaClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto pizza : Conexao.getPizzas()) {
-            this.criarBotaozinho(pizza);
+        for (Produto pizza : Conexao.getPizzas()) {
+            criarBotaozinho(pizza);
         }
     }
 
     @FXML
     protected void onBotaoCachorroClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto cachorro : Conexao.getCachorros()) {
-            this.criarBotaozinho(cachorro);
+        for (Produto cachorro : Conexao.getCachorros()) {
+            criarBotaozinho(cachorro);
         }
     }
 
     @FXML
     protected void onBotaoSandesClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto sandes : Conexao.getSandes()) {
-            this.criarBotaozinho(sandes);
+        for (Produto sandes : Conexao.getSandes()) {
+            criarBotaozinho(sandes);
         }
     }
 
     @FXML
     protected void onBotaoBebidasClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto bebida : Conexao.getBebidas()) {
-            this.criarBotaozinho(bebida);
+        for (Produto bebida : Conexao.getBebidas()) {
+            criarBotaozinho(bebida);
         }
     }
 
     @FXML
     protected void onBotaoAcompanhamentosClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto acompanhamento : Conexao.getAcompanhamentos()) {
-            this.criarBotaozinho(acompanhamento);
+        for (Produto acompanhamento : Conexao.getAcompanhamentos()) {
+            criarBotaozinho(acompanhamento);
         }
     }
 
     @FXML
     public void onBotaoSobremesasClick() {
-        this.grelha.getChildren().clear();
+        grelha.getChildren().clear();
 
-        for (final Produto sobremesa : Conexao.getSobremesas()) {
-            this.criarBotaozinho(sobremesa);
+        for (Produto sobremesa : Conexao.getSobremesas()) {
+            criarBotaozinho(sobremesa);
         }
     }
 
     @FXML
     protected void onBotaoRemoverClick() {
-        final int selectedIndex = this.lista.getSelectionModel().getSelectedIndex();
+        int selectedIndex = lista.getSelectionModel().getSelectedIndex();
         if (-1 == selectedIndex) return;
 
-        final ElementoComQuantidade item = Entrypoint.getProdutosLista().get(selectedIndex);
-        final int novaQtd = item.getQuantidade() - 1;
+        ElementoComQuantidade item = Entrypoint.getProdutosLista().get(selectedIndex);
+        int novaQtd = item.getQuantidade() - 1;
         item.setQuantidade(novaQtd);
 
         if (0 >= novaQtd) {
 
             Entrypoint.getProdutosLista().remove(selectedIndex);
         }
-        this.lista.refresh();
+        lista.refresh();
 
     }
 
     @FXML
-    protected void onBotaoCancelarClick() throws IOException {
+    protected void onBotaoCancelarClick() {
         Entrypoint.loadFile("iniciar_pedido.fxml");
 
         Entrypoint.getProdutosLista().clear();
@@ -182,10 +182,10 @@ public class MenuController {
     }
 
     @FXML
-    public void onBotaoFinalizarClick() throws IOException {
+    public void onBotaoFinalizarClick() {
 
         if (Entrypoint.getProdutosLista().isEmpty()) {
-            final Alert a1 = new Alert(Alert.AlertType.WARNING);
+            Alert a1 = new Alert(Alert.AlertType.WARNING);
             a1.setTitle("Campos vazios");
             a1.setContentText(
                     "Não tem produtos para para fazer o pedido!\nSelecione pelo menos um produto para seguir em frente!");
@@ -197,37 +197,37 @@ public class MenuController {
     }
 
     private void fonteTitulo() {
-        final Font font = Font.loadFont(this.getClass().getResourceAsStream("/Roboto-Bold.ttf"), 32);
-        this.title.setFont(font);
+        Font font = Font.loadFont(getClass().getResourceAsStream("/Roboto-Bold.ttf"), 32);
+        title.setFont(font);
     }
 
     public void fonteBotoes() {
-        final Font font = Font.loadFont(this.getClass().getResourceAsStream("/Roboto-Regular.ttf"), 17);
-        for (final Node child : this.botoesMenu.getChildren()) {
+        Font font = Font.loadFont(getClass().getResourceAsStream("/Roboto-Regular.ttf"), 17);
+        for (Node child : botoesMenu.getChildren()) {
             if (child instanceof Button button) {
                 button.setFont(font);
             }
         }
     }
 
-    private void criarBotaozinho(final Produto hamburger) {
-        final Button botaozinho = new Button();
+    private void criarBotaozinho(Produto hamburger) {
+        Button botaozinho = new Button();
         botaozinho.setText(hamburger.getNome());
         botaozinho.setUserData(hamburger);
-        this.setDefaultProprieties(botaozinho, hamburger.getFotoImage());
+        setDefaultProprieties(botaozinho, hamburger.getFotoImage());
     }
 
-    private void criarBotaozinho(final Menu menu) {
-        final Button botaozinho = new Button();
+    private void criarBotaozinho(Menu menu) {
+        Button botaozinho = new Button();
         botaozinho.setText(menu.getNome());
         botaozinho.setUserData(menu);
-        this.setDefaultProprieties(botaozinho, menu.getFotoImage());
+        setDefaultProprieties(botaozinho, menu.getFotoImage());
     }
 
-    private void setDefaultProprieties(final Button botaozinho, @Nullable final Image foto) {
+    private void setDefaultProprieties(Button botaozinho, @Nullable Image foto) {
         botaozinho.setPrefSize(150, 150);
         botaozinho.setPadding(new Insets(0));
-        if (foto != null) {
+        if (null != foto) {
             botaozinho.setGraphic(new ImageView(foto));
             botaozinho.setContentDisplay(ContentDisplay.TOP);
         }
@@ -235,6 +235,6 @@ public class MenuController {
         botaozinho.setOnAction(this::onBotaozinhoClick);
         botaozinho.wrapTextProperty().setValue(true);
         botaozinho.textAlignmentProperty().setValue(TextAlignment.CENTER);
-        this.grelha.getChildren().add(botaozinho);
+        grelha.getChildren().add(botaozinho);
     }
 }

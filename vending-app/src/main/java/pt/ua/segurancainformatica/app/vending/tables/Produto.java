@@ -11,33 +11,33 @@ public class Produto {
     private final String genero;
     private final double preco;
 
-    public Produto(final int id_produto, final String nome, final String genero, final String foto, final double preco) {
+    public Produto(int id_produto, String nome, String genero, String foto, double preco) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.genero = genero;
         this.preco = preco;
         if (null != foto && !"".equals(foto)) {
-            fotoImage = new Image(foto, true);
+            this.fotoImage = new Image(foto, true);
         }
     }
 
     public int getId_produto() {
-        return this.id_produto;
+        return id_produto;
     }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public String getGenero() {
-        return this.genero;
+        return genero;
     }
 
     public @Nullable Image getFotoImage() {
-        return this.fotoImage;
+        return fotoImage;
     }
 
     public double getPreco() {
-        return this.preco;
+        return preco;
     }
 }

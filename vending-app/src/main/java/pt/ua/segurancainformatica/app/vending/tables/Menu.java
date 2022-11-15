@@ -14,7 +14,7 @@ public class Menu {
     private final String detalhes;
     private final String genero;
     private final List<Produto> produtos;
-    public Menu(final int id_menu, final String nome, final double preco, final String foto, final String detalhes, final String genero, final List<Produto> produtos) {
+    public Menu(int id_menu, String nome, double preco, String foto, String detalhes, String genero, List<Produto> produtos) {
         this.id_menu = id_menu;
         this.nome = nome;
         this.preco = preco;
@@ -24,46 +24,45 @@ public class Menu {
         this.produtos = produtos;
 
         if (null != foto && !"".equals(foto)) {
-            fotoImage = new Image(foto, true);
+            this.fotoImage = new Image(foto, true);
         }
     }
 
     @Override
     public String toString() {
         return "Menu{" +
-                "fotoImage=" + this.fotoImage +
-                ", id_menu=" + this.id_menu +
-                ", nome='" + this.nome + '\'' +
-                ", preco=" + this.preco +
-                ", foto='" + this.foto + '\'' +
-                ", detalhes='" + this.detalhes + '\'' +
-                ", genero='" + this.genero + '\'' +
-                ", produtos=" + this.produtos +
+                "fotoImage=" + fotoImage +
+                ", id_menu=" + id_menu +
+                ", nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", foto='" + foto + '\'' +
+                ", detalhes='" + detalhes + '\'' +
+                ", genero='" + genero + '\'' +
+                ", produtos=" + produtos +
                 '}';
     }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public double getPreco() {
-        return this.preco;
+        return preco;
     }
 
     public @Nullable Image getFotoImage() {
-        return this.fotoImage;
+        return fotoImage;
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Menu)) return false;
-        final Menu menu = (Menu) o;
-        return this.id_menu == menu.id_menu;
+        if (!(o instanceof final Menu menu)) return false;
+        return id_menu == menu.id_menu;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id_menu);
+        return Objects.hash(id_menu);
     }
 }

@@ -16,26 +16,26 @@ public class ContribuinteController {
     private Label label;
 
     @FXML
-    public void onBotaoAvancarClick() throws IOException {
+    public void onBotaoAvancarClick() {
 
         String contribuinte = "Consumidor Final";
 
-        if (txtContribuinte.getText() == null || "".equals(txtContribuinte.getText())) {
-            this.txtContribuinte.setText(contribuinte);
+        if (null == txtContribuinte.getText() || "".equals(this.txtContribuinte.getText())) {
+            txtContribuinte.setText(contribuinte);
             Entrypoint.loadFile("PagamentoConcluido.fxml");
         } else {
 
-            contribuinte = this.txtContribuinte.getText();
+            contribuinte = txtContribuinte.getText();
 
             try {
-                Integer.parseInt(this.txtContribuinte.getText());
+                Integer.parseInt(txtContribuinte.getText());
                 Entrypoint.loadFile("PagamentoConcluido.fxml");
 
-            } catch (final NumberFormatException e) {
-                this.label.setText("Digite apenas números!");
+            } catch (NumberFormatException e) {
+                label.setText("Digite apenas números!");
                 return;
-            } catch (final Exception e) {
-                this.label.setText("erro");
+            } catch (Exception e) {
+                label.setText("erro");
                 return;
             }
         }
@@ -45,7 +45,7 @@ public class ContribuinteController {
     }
 
     @FXML
-    public void onBotaoVoltarClick() throws IOException {
+    public void onBotaoVoltarClick() {
         Entrypoint.loadFile("finalizar.fxml");
     }
 }

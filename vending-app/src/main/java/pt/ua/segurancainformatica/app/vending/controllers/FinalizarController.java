@@ -8,12 +8,12 @@ import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 public class FinalizarController {
 
     @FXML
-    public void pagaMaquina() throws IOException {
+    public void pagaMaquina() {
         Entrypoint.loadFile("Contribuinte.fxml");
     }
 
     @FXML
-    public void pagaCaixa() throws IOException {
+    public void pagaCaixa() {
         Conexao.guardaPedido(null);
         Entrypoint.loadFile("PedidoConcluido.fxml");
     }

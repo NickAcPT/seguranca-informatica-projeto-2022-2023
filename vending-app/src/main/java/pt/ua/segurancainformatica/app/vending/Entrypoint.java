@@ -23,42 +23,42 @@ public class Entrypoint extends Application {
     private static Stage primaryStage;
 
     public static ObservableList<ElementoComQuantidade> getProdutosLista() {
-        return Entrypoint.produtosLista;
+        return produtosLista;
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         Application.launch();
     }
 
-    public static void showAlert(final Alert.AlertType type, final String title, final String content, final ButtonType... buttons) {
-        final FlatAlert alert = new FlatAlert(type, title, buttons);
-        final JMetro jMetro = new JMetro(Style.DARK);
+    public static void showAlert(Alert.AlertType type, String title, String content, ButtonType... buttons) {
+        FlatAlert alert = new FlatAlert(type, title, buttons);
+        JMetro jMetro = new JMetro(Style.DARK);
         jMetro.setScene(alert.getDialogPane().getScene());
         alert.setContentText(content);
         alert.showAndWait();
     }
 
-    public static void loadFile(final String fxml) {
-        final FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
-        final Scene scene;
+    public static void loadFile(String fxml) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
+        Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());
-            if (null != primaryStage) {
-                final JMetro jMetro = new JMetro(Style.DARK);
+            if (null != Entrypoint.primaryStage) {
+                JMetro jMetro = new JMetro(Style.DARK);
                 jMetro.setScene(scene);
                 scene.getRoot().getStyleClass().add("background");
 
-                Entrypoint.primaryStage.setScene(scene);
-                Entrypoint.primaryStage.show();
+                primaryStage.setScene(scene);
+                primaryStage.show();
             }
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void start(final Stage primaryStage) {
+    public void start(Stage primaryStage) {
         Entrypoint.primaryStage = primaryStage;
-        Entrypoint.loadFile("login_screen.fxml");
+        loadFile("login_screen.fxml");
     }
 }

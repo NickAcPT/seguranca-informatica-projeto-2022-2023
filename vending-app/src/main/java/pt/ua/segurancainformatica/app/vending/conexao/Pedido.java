@@ -16,37 +16,37 @@ public class Pedido {
     private final @Nullable String contribuinte;
     private final double preco;
 
-    public Pedido(final UUID idFatura, final @Nullable String contribuinte, final double preco) {
+    public Pedido(UUID idFatura, @Nullable String contribuinte, double preco) {
         this.idFatura = idFatura;
-        data = Instant.now();
+        this.data = Instant.now();
         this.contribuinte = contribuinte;
         this.preco = preco;
-        produtos = new ArrayList<>();
-        menus = new ArrayList<>();
+        this.produtos = new ArrayList<>();
+        this.menus = new ArrayList<>();
     }
 
     public UUID getIdFatura() {
-        return this.idFatura;
+        return idFatura;
     }
 
     public ArrayList<ProdutoComQuantidade> getProdutos() {
-        return this.produtos;
+        return produtos;
     }
 
     public ArrayList<MenuComQuantidade> getMenus() {
-        return this.menus;
+        return menus;
     }
 
     public Instant getData() {
-        return this.data;
+        return data;
     }
 
     public @Nullable String getContribuinte() {
-        return this.contribuinte;
+        return contribuinte;
     }
 
     public double getPreco() {
-        return this.preco;
+        return preco;
     }
 
 }

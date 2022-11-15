@@ -7,7 +7,7 @@ import pt.ua.segurancainformatica.app.vending.Entrypoint;
 public class PedidoConcluidoController {
 
     @FXML
-    public void onPedidoMouseClicked() throws IOException {
+    public void onPedidoMouseClicked() {
         Entrypoint.loadFile("iniciar_pedido.fxml");
     }
 

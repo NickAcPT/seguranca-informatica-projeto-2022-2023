@@ -28,76 +28,76 @@ public enum Conexao {
     }
 
     public static ArrayList<Produto> getHamburgers() {
-        return Conexao.getProdutoByGenero("hamburger");
+        return getProdutoByGenero("hamburger");
     }
 
     public static ArrayList<Produto> getPizzas() {
-        return Conexao.getProdutoByGenero("pizza");
+        return getProdutoByGenero("pizza");
     }
 
     public static ArrayList<Produto> getSandes() {
-        return Conexao.getProdutoByGenero("sandes");
+        return getProdutoByGenero("sandes");
     }
 
     public static ArrayList<Produto> getCachorros() {
-        return Conexao.getProdutoByGenero("cachorro");
+        return getProdutoByGenero("cachorro");
     }
 
     public static ArrayList<Produto> getBebidas() {
-        return Conexao.getProdutoByGenero("bebida");
+        return getProdutoByGenero("bebida");
     }
 
     public static ArrayList<Produto> getSobremesas() {
-        return Conexao.getProdutoByGenero("sobremesas");
+        return getProdutoByGenero("sobremesas");
     }
 
     public static ArrayList<Produto> getAcompanhamentos() {
-        return Conexao.getProdutoByGenero("acompanhamentos");
+        return getProdutoByGenero("acompanhamentos");
     }
 
-    private static ArrayList<Produto> getProdutoByGenero(final String genero) {
-        if (allProdutos == null) {
-            Conexao.buscarProdutos();
+    private static ArrayList<Produto> getProdutoByGenero(String genero) {
+        if (null == allProdutos) {
+            buscarProdutos();
             return new ArrayList<>();
         }
-        return Conexao.allProdutos.values().stream().filter(produto -> produto.getGenero().equals(genero))
+        return allProdutos.values().stream().filter(produto -> produto.getGenero().equals(genero))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static void inserirPedido(final Pedido pedido) throws SQLException {
+    public static void inserirPedido(Pedido pedido) {
 
         System.out.println(pedido.getIdFatura().toString());
         System.out.println(pedido.getData().toString());
         System.out.println(pedido.getPreco());
         System.out.println(pedido.getContribuinte());
 
-        for (final ProdutoComQuantidade produto : pedido.getProdutos()) {
-            Conexao.inserirPedidoProduto(pedido, produto);
+        for (ProdutoComQuantidade produto : pedido.getProdutos()) {
+            inserirPedidoProduto(pedido, produto);
         }
-        for (final MenuComQuantidade menu : pedido.getMenus()) {
-            Conexao.inserirPedidoMenu(pedido, menu);
+        for (MenuComQuantidade menu : pedido.getMenus()) {
+            inserirPedidoMenu(pedido, menu);
         }
     }
 
-    private static void inserirPedidoMenu(final Pedido pedido, final MenuComQuantidade menu) {
+    private static void inserirPedidoMenu(Pedido pedido, MenuComQuantidade menu) {
         System.out.println("Inserir pedido menu " + pedido + " " + menu);
     }
 
-    private static void inserirPedidoProduto(final Pedido pedido, final ProdutoComQuantidade produto) {
+    private static void inserirPedidoProduto(Pedido pedido, ProdutoComQuantidade produto) {
         System.out.println(pedido.getIdFatura());
         System.out.println(produto.getProduto().getId_produto());
         System.out.println(produto.getQuantidade());
     }
 
-    public static void guardaPedido(@Nullable final String contribuinte) {
+    public static void guardaPedido(@Nullable String contribuinte) {
 
-        final double total = Entrypoint.getProdutosLista().stream()
+        double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
-        final Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
+        Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
 
-        for (final ElementoComQuantidade elementoComQuantidade : Entrypoint.getProdutosLista()) {
+        for (ElementoComQuantidade elementoComQuantidade : Entrypoint.getProdutosLista()) {
             if (elementoComQuantidade instanceof MenuComQuantidade mcq) {
                 pedido.getMenus().add(mcq);
             } else if (elementoComQuantidade instanceof ProdutoComQuantidade pcq) {
@@ -105,10 +105,6 @@ public enum Conexao {
             }
         }
 
-        try {
-            Conexao.inserirPedido(pedido);
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
+        inserirPedido(pedido);
     }
 }

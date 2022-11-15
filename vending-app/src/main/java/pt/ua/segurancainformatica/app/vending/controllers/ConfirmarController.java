@@ -24,26 +24,26 @@ public class ConfirmarController {
     @Deprecated
     public void initialize() {
 
-        this.lista.setItems(Entrypoint.getProdutosLista());
-        this.produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-        this.quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+        lista.setItems(Entrypoint.getProdutosLista());
+        produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 
-        final double total = Entrypoint.getProdutosLista().stream()
+        double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
-        this.totalPagarLabel.setText(String.format("%.2f", total) + "€");
+        totalPagarLabel.setText(String.format("%.2f", total) + "€");
 
     }
 
     @FXML
-    public void onConfirmarButtonClick() throws IOException {
+    public void onConfirmarButtonClick() {
         Entrypoint.loadFile("finalizar.fxml");
     }
 
     @FXML
-    public void onVoltarButtonClick() throws IOException {
+    public void onVoltarButtonClick() {
         Entrypoint.loadFile("MenuView.fxml");
     }
 }

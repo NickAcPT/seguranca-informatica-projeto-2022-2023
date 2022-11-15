@@ -14,7 +14,7 @@ public class IniciarPedidoController {
     }
 
     @FXML
-    public void onIniciarMouseClicked() throws IOException {
+    public void onIniciarMouseClicked() {
         Entrypoint.loadFile("MenuView.fxml");
     }
 

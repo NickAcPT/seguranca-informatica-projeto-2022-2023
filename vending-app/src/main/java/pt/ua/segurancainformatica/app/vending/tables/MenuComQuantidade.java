@@ -6,7 +6,7 @@ public class MenuComQuantidade extends ElementoComQuantidade {
 
     private final Menu menu;
 
-    public MenuComQuantidade(final Menu menu, final int quantidade) {
+    public MenuComQuantidade(Menu menu, int quantidade) {
         super(quantidade);
         this.menu = menu;
     }
@@ -14,24 +14,24 @@ public class MenuComQuantidade extends ElementoComQuantidade {
     @Override
     public String toString() {
         return "MenuComQuantidade{" +
-                "menu=" + this.menu +
+                "menu=" + menu +
                 '}';
     }
 
     @Override
     public double getPreco() {
-        return this.menu.getPreco();
+        return menu.getPreco();
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MenuComQuantidade that)) return false;
-        return this.menu.equals(that.menu);
+        return menu.equals(that.menu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.menu);
+        return Objects.hash(super.hashCode(), menu);
     }
 }
