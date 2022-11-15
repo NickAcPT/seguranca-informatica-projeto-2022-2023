@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.Tabelas.*;
+import ptda.projeto.demo.tables.*;
 
 public class Conexao {
 

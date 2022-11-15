@@ -1,10 +1,8 @@
-package ptda.projeto.demo.Controllers;
+package ptda.projeto.demo.controllers;
 
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import jfxtras.styles.jmetro.*;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 
 public class LoginScreenController {

@@ -1,8 +1,5 @@
-package ptda.projeto.demo.Controllers;
+package ptda.projeto.demo.controllers;
 
-import javafx.event.Event;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 
 import java.io.IOException;

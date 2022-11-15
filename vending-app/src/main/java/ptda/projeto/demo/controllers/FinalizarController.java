@@ -1,7 +1,6 @@
-package ptda.projeto.demo.Controllers;
+package ptda.projeto.demo.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.conexao.Conexao;
 

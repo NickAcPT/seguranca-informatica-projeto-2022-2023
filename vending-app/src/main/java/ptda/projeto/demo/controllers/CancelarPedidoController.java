@@ -1,7 +1,4 @@
-package ptda.projeto.demo.Controllers;
-
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
+package ptda.projeto.demo.controllers;
 
 public class CancelarPedidoController {
 

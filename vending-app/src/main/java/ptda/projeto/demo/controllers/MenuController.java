@@ -1,4 +1,4 @@
-package ptda.projeto.demo.Controllers;
+package ptda.projeto.demo.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +13,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import pt.ua.segurancainformatica.app.vending.Entrypoint;
-import ptda.projeto.demo.Tabelas.Menu;
-import ptda.projeto.demo.Tabelas.MenuComQuantidade;
-import ptda.projeto.demo.Tabelas.Produto;
-import ptda.projeto.demo.Tabelas.ProdutoComQuantidade;
+import ptda.projeto.demo.tables.Menu;
+import ptda.projeto.demo.tables.MenuComQuantidade;
+import ptda.projeto.demo.tables.Produto;
+import ptda.projeto.demo.tables.ProdutoComQuantidade;
 import ptda.projeto.demo.conexao.Conexao;
 
 import java.io.IOException;

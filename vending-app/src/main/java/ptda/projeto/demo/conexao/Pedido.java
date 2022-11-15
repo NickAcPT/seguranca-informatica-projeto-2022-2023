@@ -1,7 +1,7 @@
 package ptda.projeto.demo.conexao;
 
-import ptda.projeto.demo.Tabelas.MenuComQuantidade;
-import ptda.projeto.demo.Tabelas.ProdutoComQuantidade;
+import ptda.projeto.demo.tables.MenuComQuantidade;
+import ptda.projeto.demo.tables.ProdutoComQuantidade;
 
 import java.time.Instant;
 import java.util.ArrayList;

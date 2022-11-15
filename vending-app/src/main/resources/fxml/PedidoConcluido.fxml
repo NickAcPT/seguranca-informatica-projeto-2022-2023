@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="pagamentoPane" onMouseClicked="#onPedidoMouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.Controllers.PedidoConcluidoController">
+<AnchorPane fx:id="pagamentoPane" onMouseClicked="#onPedidoMouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.controllers.PedidoConcluidoController">
    <children>
       <VBox alignment="CENTER" layoutX="82.0" layoutY="159.0" onMouseClicked="#onPedidoMouseClicked" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

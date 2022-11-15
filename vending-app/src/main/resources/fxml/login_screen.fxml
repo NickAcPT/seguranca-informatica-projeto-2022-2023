@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.Controllers.LoginScreenController">
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ptda.projeto.demo.controllers.LoginScreenController">
    <children>
       <AnchorPane>
          <children>

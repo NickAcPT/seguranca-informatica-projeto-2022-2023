@@ -1,4 +1,4 @@
-package ptda.projeto.demo.Tabelas;
+package ptda.projeto.demo.tables;
 
 import java.util.Objects;
 

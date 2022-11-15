@@ -11,7 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.*;
 import org.jetbrains.annotations.Nullable;
-import ptda.projeto.demo.Tabelas.ProdutoComQuantidade;
+import ptda.projeto.demo.tables.ProdutoComQuantidade;
 
 public class Entrypoint extends Application {
 
