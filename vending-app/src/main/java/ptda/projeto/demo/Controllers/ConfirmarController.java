@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.PtdaAplication;
-import ptda.projeto.demo.Tabelas.ProdutoComQuantidade;
 
 import java.io.IOException;
 
@@ -32,12 +32,13 @@ public class ConfirmarController {
 
     @Deprecated
     public void initialize() {
-        lista.setItems(PtdaAplication.getProdutosLista());
+
+        lista.setItems(Entrypoint.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 
-        double total = PtdaAplication.getProdutosLista().stream()
+        double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
@@ -48,12 +49,12 @@ public class ConfirmarController {
     @FXML
     public void onConfirmarButtonClick(ActionEvent actionEvent) throws IOException {
         PtdaAplication hP = new PtdaAplication();
-        hP.changeSceneToFinalizar("finalizar.fxml");
+        Entrypoint.loadFile("finalizar.fxml");
     }
 
     @FXML
     public void onVoltarButtonClick(ActionEvent actionEvent) throws IOException {
         PtdaAplication hP = new PtdaAplication();
-        hP.changeSceneToMenu("MenuView.fxml");
+        Entrypoint.loadFile("MenuView.fxml");
     }
 }

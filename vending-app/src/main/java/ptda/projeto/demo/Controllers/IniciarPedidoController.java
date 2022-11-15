@@ -2,8 +2,7 @@ package ptda.projeto.demo.Controllers;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.PtdaAplication;
 import ptda.projeto.demo.conexao.Conexao;
 
@@ -20,7 +19,7 @@ public class IniciarPedidoController {
     @FXML
     public void onIniciarMouseClicked(Event event) throws IOException {
         PtdaAplication hP = new PtdaAplication();
-        hP.changeSceneToMenu("MenuView.fxml");
+        Entrypoint.loadFile("MenuView.fxml");
     }
 
 

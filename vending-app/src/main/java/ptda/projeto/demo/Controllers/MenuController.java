@@ -12,6 +12,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.PtdaAplication;
 import ptda.projeto.demo.Tabelas.Menu;
 import ptda.projeto.demo.Tabelas.MenuComQuantidade;
@@ -66,7 +67,8 @@ public class MenuController {
     public void initialize() {
         fonteTitulo();
         fonteBotoes();
-        lista.setItems(PtdaAplication.getProdutosLista());
+
+        lista.setItems(Entrypoint.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
@@ -92,7 +94,8 @@ public class MenuController {
 
     private void adicionarNaLista(ProdutoComQuantidade pQ) {
         boolean existeNaLista = false;
-        for (Object item : PtdaAplication.getProdutosLista()) {
+
+        for (Object item : Entrypoint.getProdutosLista()) {
             if (item instanceof ProdutoComQuantidade) {
                 if (item.equals(pQ)) {
                     pQ = (ProdutoComQuantidade) item;
@@ -105,7 +108,8 @@ public class MenuController {
         if (existeNaLista) {
             pQ.setQuantidade(pQ.getQuantidade() + 1);
         } else {
-            PtdaAplication.getProdutosLista().add(pQ);
+
+            Entrypoint.getProdutosLista().add(pQ);
         }
         lista.refresh();
     }
@@ -186,14 +190,16 @@ public class MenuController {
     protected void onBotaoRemoverClick() {
         int selectedIndex = lista.getSelectionModel().getSelectedIndex();
         if (selectedIndex == -1) return;
-        Object item = PtdaAplication.getProdutosLista().get(selectedIndex);
+
+        Object item = Entrypoint.getProdutosLista().get(selectedIndex);
         if (item instanceof ProdutoComQuantidade) {
             ProdutoComQuantidade produtoComQuantidade = (ProdutoComQuantidade) item;
             int novaQtd = produtoComQuantidade.getQuantidade() - 1;
             produtoComQuantidade.setQuantidade(novaQtd);
 
             if (novaQtd <= 0) {
-                PtdaAplication.getProdutosLista().remove(selectedIndex);
+
+                Entrypoint.getProdutosLista().remove(selectedIndex);
             }
             lista.refresh();
         }
@@ -202,18 +208,16 @@ public class MenuController {
 
     @FXML
     protected void onBotaoCancelarClick() throws IOException {
+        Entrypoint.loadFile("iniciar_pedido.fxml");
 
-
-        PtdaAplication hP = new PtdaAplication();
-        hP.changeSceneToIniciar("iniciar_pedido.fxml");
-
-        PtdaAplication.getProdutosLista().clear();
+        Entrypoint.getProdutosLista().clear();
 
     }
 
     @FXML
     public void onBotaoFinalizarClick() throws IOException {
-        if (PtdaAplication.getProdutosLista().isEmpty()){
+
+        if (Entrypoint.getProdutosLista().isEmpty()){
             Alert a1 = new Alert(Alert.AlertType.WARNING);
             a1.setTitle("Campos vazios");
             a1.setContentText("Não tem produtos para para fazer o pedido!\nSelecione pelo menos um produto para seguir em frente!");
@@ -221,7 +225,7 @@ public class MenuController {
             a1.showAndWait();
         }else {
             PtdaAplication hP = new PtdaAplication();
-            hP.changeSceneToConfirmar("confirmar.fxml");
+            Entrypoint.loadFile("confirmar.fxml");
         }
     }
 

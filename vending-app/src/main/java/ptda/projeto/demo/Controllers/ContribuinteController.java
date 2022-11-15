@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.PtdaAplication;
 import ptda.projeto.demo.conexao.Conexao;
 
@@ -34,7 +35,7 @@ public class ContribuinteController {
         if (txtContribuinte.getText() == null || txtContribuinte.getText().equals("")){
             txtContribuinte.setText(contribuinte);
             PtdaAplication hP = new PtdaAplication();
-            hP.changeSceneToPagamentoConcluido("PagamentoConcluido.fxml");
+            Entrypoint.loadFile("PagamentoConcluido.fxml");
         } else {
 
             contribuinte = txtContribuinte.getText();
@@ -42,7 +43,7 @@ public class ContribuinteController {
             try {
                 numContribuinte = Integer.parseInt(txtContribuinte.getText());
                 PtdaAplication hP = new PtdaAplication();
-                hP.changeSceneToPagamentoConcluido("PagamentoConcluido.fxml");
+                Entrypoint.loadFile("PagamentoConcluido.fxml");
 
             } catch (NumberFormatException e) {
                 label.setText("Digite apenas números!");
@@ -60,6 +61,6 @@ public class ContribuinteController {
     @FXML
     public void onBotaoVoltarClick(ActionEvent actionEvent) throws IOException {
         PtdaAplication hP = new PtdaAplication();
-        hP.changeSceneToFinalizar("finalizar.fxml");
+        Entrypoint.loadFile("finalizar.fxml");
     }
 }

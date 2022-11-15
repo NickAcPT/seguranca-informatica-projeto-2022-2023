@@ -3,13 +3,10 @@ package ptda.projeto.demo.conexao;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import ptda.projeto.demo.PtdaAplication;
+import pt.ua.segurancainformatica.app.vending.Entrypoint;
 import ptda.projeto.demo.Tabelas.*;
 
 public class Conexao {
-
-    private static final String CONNECTION_IP = "estga-dev.clients.ua.pt";
-    private static final String CONNECTION_DB = "PTDA_BD_3";
 
     private static Connection conection = null;
     private static Map<Integer, Produto> allProdutos = null;
@@ -123,12 +120,14 @@ public class Conexao {
     }
 
     public static void guardaPedido(String contribuinte) {
-        double total = PtdaAplication.getProdutosLista().stream()
+
+        double total = Entrypoint.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
         Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
-        for (ProdutoComQuantidade produtoComQuantidade : PtdaAplication.getProdutosLista()) {
+
+        for (ProdutoComQuantidade produtoComQuantidade : Entrypoint.getProdutosLista()) {
             if (produtoComQuantidade instanceof MenuComQuantidade) {
                 MenuComQuantidade mcq = (MenuComQuantidade) produtoComQuantidade;
                 pedido.getMenus().add(mcq);

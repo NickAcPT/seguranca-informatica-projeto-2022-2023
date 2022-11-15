@@ -2,6 +2,8 @@ package pt.ua.segurancainformatica.app.vending;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -9,11 +11,19 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.*;
 import org.jetbrains.annotations.Nullable;
+import ptda.projeto.demo.Tabelas.ProdutoComQuantidade;
 
 public class Entrypoint extends Application {
 
+
+    private static final ObservableList<ProdutoComQuantidade> produtosLista = FXCollections.observableArrayList();
+
     @Nullable
     private static Stage primaryStage = null;
+
+    public static ObservableList<ProdutoComQuantidade> getProdutosLista() {
+        return produtosLista;
+    }
 
     public static void main(String[] args) {
         launch();
@@ -29,7 +39,7 @@ public class Entrypoint extends Application {
 
     public static void loadFile(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
-        Scene scene = null;
+        Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());
             if (primaryStage != null) {
@@ -46,7 +56,7 @@ public class Entrypoint extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Entrypoint.primaryStage = primaryStage;
         loadFile("login_screen.fxml");
     }
