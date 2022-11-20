@@ -1,31 +1,65 @@
 package pt.ua.segurancainformatica.app.vending;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.FlatAlert;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import org.jetbrains.annotations.Nullable;
+import pt.ua.segurancainformatica.app.vending.model.ElementoComQuantidade;
+
+import java.io.IOException;
 
 public class Entrypoint extends Application {
 
-    public static void main(String[] args) {
-        launch();
-    }
+    private static final ObservableList<ElementoComQuantidade> produtosLista = FXCollections.observableArrayList();
 
     @Nullable
-    private static Stage primaryStage = null;
+    private static Stage primaryStage;
 
-    public static void loadFile(String fxml) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/" + fxml));
-        var scene = new javafx.scene.Scene(fxmlLoader.load());
-        if (primaryStage != null) {
-            primaryStage.setScene(scene);
-            primaryStage.show();
+    public static ObservableList<ElementoComQuantidade> getProdutosLista() {
+        return produtosLista;
+    }
+
+    public static void main(String[] args) {
+        Application.launch();
+    }
+
+    public static void showAlert(Alert.AlertType type, String title, String content, ButtonType... buttons) {
+        FlatAlert alert = new FlatAlert(type, title, buttons);
+        JMetro jMetro = new JMetro(Style.DARK);
+        jMetro.setScene(alert.getDialogPane().getScene());
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public static void loadFile(String fxml) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Entrypoint.class.getResource("/fxml/" + fxml));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load());
+            if (Entrypoint.primaryStage != null) {
+                JMetro jMetro = new JMetro(Style.DARK);
+                jMetro.setScene(scene);
+                scene.getRoot().getStyleClass().add("background");
+
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Entrypoint.primaryStage = primaryStage;
-        loadFile("Teste.fxml");
+        loadFile("login_screen.fxml");
     }
 }

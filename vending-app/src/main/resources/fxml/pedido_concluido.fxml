@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onMouseClicked="#onPedidoMouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="background"
+            xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pt.ua.segurancainformatica.app.vending.controllers.PedidoConcluidoController">
+   <VBox alignment="CENTER" layoutX="82.0" layoutY="159.0" onMouseClicked="#onPedidoMouseClicked" prefHeight="400.0"
+         prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.topAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPedidoMouseClicked" prefHeight="55.0"
+             prefWidth="453.0" text="Pedido Concluído!" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="38.0"/>
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPedidoMouseClicked" prefHeight="37.0"
+             prefWidth="435.0" text="Dirija-se à caixa para realizar o seu pagamento" textAlignment="CENTER"
+             underline="true">
+         <font>
+            <Font name="System Bold" size="15.0"/>
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onPedidoMouseClicked" prefHeight="50.0"
+             prefWidth="435.0" text="Toque para fazer um novo pedido!" textAlignment="CENTER">
+         <font>
+            <Font size="20.0"/>
+         </font>
+      </Label>
+   </VBox>
+</AnchorPane>

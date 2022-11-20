@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="800.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.MenuController">
+    <top>
+        <AnchorPane prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="162.0" layoutY="34.0"
+                   prefHeight="81.0" prefWidth="600.0" text="Faça o seu pedido!" textAlignment="CENTER"
+                   AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+                <font>
+                    <Font name="System Bold" size="32.0"/>
+                </font>
+            </Label>
+        </AnchorPane>
+    </top>
+    <left>
+        <AnchorPane prefHeight="508.0" prefWidth="155.0" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="55.0" layoutY="74.0" prefHeight="508.0"
+                        prefWidth="178.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="140.0">
+                    <VBox fx:id="botoesMenu" alignment="TOP_CENTER" layoutX="22.0" layoutY="86.0"
+                          prefHeight="591.2" prefWidth="140.0" AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0">
+                        <Button contentDisplay="CENTER" layoutX="20.0" layoutY="20.0"
+                                mnemonicParsing="false" onAction="#onBotaoMenuClick" prefHeight="116.0"
+                                prefWidth="184.0" text="Menus" textAlignment="CENTER" textFill="#6084db"
+                                wrapText="true">
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false"
+                                onAction="#onBotaoHamburgerClick" prefHeight="116.0" prefWidth="184.0"
+                                text="Hamburger" textAlignment="CENTER" textFill="#6084db" wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="20.0" layoutY="20.0"
+                                mnemonicParsing="false" onAction="#onBotaoPizzaClick" prefHeight="116.0"
+                                prefWidth="184.0" text="Pizza" textAlignment="CENTER" textFill="#6084db"
+                                wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="20.0" layoutY="147.0"
+                                mnemonicParsing="false" onAction="#onBotaoCachorroClick" prefHeight="116.0"
+                                prefWidth="184.0" text="Cachorro Quente" textAlignment="CENTER"
+                                textFill="#6084db" wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="10.0" layoutY="263.0"
+                                mnemonicParsing="false" onAction="#onBotaoSandesClick" prefHeight="116.0"
+                                prefWidth="184.0" text="Sandes" textAlignment="CENTER" textFill="#6084db"
+                                wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="10.0" layoutY="263.0"
+                                mnemonicParsing="false" onAction="#onBotaoBebidasClick" prefHeight="116.0"
+                                prefWidth="184.0" text="Bebidas" textAlignment="CENTER" textFill="#6084db"
+                                wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="10.0" layoutY="226.0"
+                                mnemonicParsing="false" onAction="#onBotaoAcompanhamentosClick"
+                                prefHeight="116.0" prefWidth="184.0" text="Acompanhamentos"
+                                textAlignment="CENTER" textFill="#6084db" wrapText="true">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" layoutX="20.0" layoutY="435.0"
+                                mnemonicParsing="false" onAction="#onBotaoSobremesasClick"
+                                prefHeight="116.0" prefWidth="184.0" text="Sobremesas"
+                                textAlignment="CENTER" textFill="#6084db" wrapText="true">
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </VBox.margin>
+                        </Button>
+                    </VBox>
+                </AnchorPane>
+            </ScrollPane>
+        </AnchorPane>
+    </left>
+    <center>
+        <AnchorPane prefHeight="386.0" prefWidth="445.0" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0"
+                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <FlowPane fx:id="grelha" alignment="CENTER_LEFT" hgap="10.0" orientation="VERTICAL"
+                          prefHeight="317.0" prefWidth="409.0" rowValignment="TOP" vgap="10.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </FlowPane>
+            </ScrollPane>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <AnchorPane prefHeight="134.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" layoutX="163.0" layoutY="20.0" prefHeight="134.4" prefWidth="600.0"
+                  spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <TableView fx:id="lista" prefHeight="125.0" prefWidth="297.0">
+                    <columns>
+                        <TableColumn fx:id="produtos" editable="false" prefWidth="158.00000607967377"
+                                     resizable="false" text="Produtos"/>
+                        <TableColumn fx:id="preco" editable="false" prefWidth="72.0" resizable="false"
+                                     text="Preco"/>
+                        <TableColumn fx:id="quantidade" editable="false" prefWidth="66.4000183105469"
+                                     resizable="false" text="Qtd"/>
+                    </columns>
+                    <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" top="5.0"/>
+                    </HBox.margin>
+                </TableView>
+                <VBox alignment="CENTER" prefHeight="176.0" prefWidth="114.0" spacing="5.0">
+                    <HBox.margin>
+                        <Insets right="5.0"/>
+                    </HBox.margin>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                            onAction="#onBotaoRemoverClick" prefHeight="64.0" prefWidth="104.0"
+                            text="Remover Selecionado" textAlignment="CENTER" wrapText="true">
+                        <VBox.margin>
+                            <Insets/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="cancelar" alignment="CENTER" cancelButton="true" contentDisplay="CENTER"
+                            layoutX="10.0" layoutY="51.0" mnemonicParsing="false"
+                            onAction="#onBotaoCancelarClick" prefHeight="55.0" prefWidth="104.0"
+                            text="Cancelar Pedido" textAlignment="CENTER" wrapText="true">
+                        <VBox.margin>
+                            <Insets/>
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+                <Button contentDisplay="CENTER" defaultButton="true" layoutX="385.0" layoutY="85.0"
+                        mnemonicParsing="false" onAction="#onBotaoFinalizarClick" prefHeight="78.0"
+                        prefWidth="134.0" text="Finalizar Pedido" textAlignment="CENTER" wrapText="true">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </AnchorPane>
+    </bottom>
+</BorderPane>

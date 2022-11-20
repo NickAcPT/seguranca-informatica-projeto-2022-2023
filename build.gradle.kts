@@ -9,7 +9,6 @@ val jbAnnotationsVersion: String by extra
 val nullawayVersion: String by extra
 
 allprojects {
-
     this.group = "pt.ua.segurancainformatica"
     this.version = "1.0-SNAPSHOT"
 
@@ -34,6 +33,7 @@ allprojects {
     tasks.withType<JavaCompile>().configureEach {
         options.errorprone {
             option("NullAway:AnnotatedPackages", "pt.ua")
+            option("NullAway:ExcludedFieldAnnotations", "javafx.fxml.FXML")
         }
 
         options.errorprone.error("NullAway")

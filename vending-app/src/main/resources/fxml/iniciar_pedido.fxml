@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onMouseClicked="#onIniciarMouseClicked" prefHeight="740.0" prefWidth="600.0" styleClass="background"
+            xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pt.ua.segurancainformatica.app.vending.controllers.IniciarPedidoController">
+   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="217.0" layoutY="313.0"
+          onMouseClicked="#onIniciarMouseClicked" prefHeight="740.0" prefWidth="600.0" text="Toque para iniciar pedido"
+          textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <font>
+         <Font name="System Bold" size="36.0"/>
+      </font>
+   </Label>
+</AnchorPane>
