@@ -6,6 +6,7 @@ import pt.ua.segurancainformatica.citizencard.callbacks.CitizenCardListener;
 import pt.ua.segurancainformatica.citizencard.impl.CitizenCardLibraryImpl;
 import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
+import java.security.Provider;
 import java.util.ArrayList;
 
 /**
@@ -32,4 +33,5 @@ public interface CitizenCardLibrary extends AutoCloseable{
 
     ArrayList<CitizenCardListener> getListeners();
 
+    Provider getProvider();
 }

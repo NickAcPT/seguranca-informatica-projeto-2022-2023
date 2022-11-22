@@ -12,6 +12,8 @@ import pt.ua.segurancainformatica.citizencard.callbacks.CardEventCallback;
 import pt.ua.segurancainformatica.citizencard.callbacks.CitizenCardListener;
 import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
+import java.security.Provider;
+import java.security.Security;
 import java.util.ArrayList;
 
 public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable {
@@ -73,5 +75,10 @@ public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable
     public void close() throws Exception {
         context.StopEventCallback(eventCallbackId);
         PTEID_ReaderSet.releaseSDK();
+    }
+
+    @Override
+    public Provider getProvider() {
+        return Security.getProvider("SunPKCS11-CartaoCidadao");
     }
 }

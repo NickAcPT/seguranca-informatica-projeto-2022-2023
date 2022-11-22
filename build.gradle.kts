@@ -26,8 +26,9 @@ allprojects {
 
     this.dependencies {
         "errorprone"("com.google.errorprone:error_prone_core:$errorproneVersion")
-        "compileOnly"("org.jetbrains:annotations:$jbAnnotationsVersion")
         "errorprone"("com.uber.nullaway:nullaway:$nullawayVersion")
+        "compileOnly"("org.jetbrains:annotations:$jbAnnotationsVersion")
+        "testCompileOnly"("org.jetbrains:annotations:$jbAnnotationsVersion")
     }
 
     tasks.withType<JavaCompile>().configureEach {
