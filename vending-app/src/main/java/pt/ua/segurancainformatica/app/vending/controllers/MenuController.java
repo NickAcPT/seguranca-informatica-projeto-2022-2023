@@ -42,6 +42,7 @@ public class MenuController {
         setTitleFont();
         loadButtonFont();
 
+        Entrypoint.getProdutosLista().clear();
         lista.setItems(Entrypoint.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
