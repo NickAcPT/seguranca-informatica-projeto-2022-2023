@@ -6,14 +6,15 @@ import pt.ua.segurancainformatica.licensing.common.model.info.SystemInformationE
 /**
  * Represents an environment variable entry.
  */
-public record EnvironmentVariableEntry(@NotNull String key, @NotNull String value) implements SystemInformationEntry<String> {
+public record EnvironmentVariableEntry(@NotNull String environmentVariable,
+                                       @NotNull String value) implements SystemInformationEntry<String, String> {
     /**
      * Creates a new system information entry from an environment variable.
      *
-     * @param key the name of the entry
+     * @param environmentVariable the name of the entry
      */
-    public EnvironmentVariableEntry(String key) {
-        this(key, System.getenv(key));
+    public EnvironmentVariableEntry(String environmentVariable) {
+        this(environmentVariable, System.getenv(environmentVariable));
     }
 
     /**
@@ -25,6 +26,11 @@ public record EnvironmentVariableEntry(@NotNull String key, @NotNull String valu
      */
     @Override
     public boolean matches() {
-        return value.equals(System.getenv(key));
+        return value.equals(System.getenv(environmentVariable));
+    }
+
+    @Override
+    public String key() {
+        return environmentVariable;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Represents a network interface entry.
  */
 public record NetworkInterfaceEntry(@NotNull String adapterName,
-                                    byte @NotNull [] hardwareAddress) implements SystemInformationEntry<byte[]> {
+                                    byte @NotNull [] hardwareAddress) implements SystemInformationEntry<String, byte[]> {
     @Override
     public boolean matches() {
         try {
