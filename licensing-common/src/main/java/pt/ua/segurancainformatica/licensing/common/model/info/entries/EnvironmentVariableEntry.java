@@ -1,12 +1,10 @@
-package pt.ua.segurancainformatica.licensing.common.model.info;
+package pt.ua.segurancainformatica.licensing.common.model.info.entries;
 
 import org.jetbrains.annotations.NotNull;
+import pt.ua.segurancainformatica.licensing.common.model.info.SystemInformationEntry;
 
 /**
- * Represents a system information entry.
- *
- * @param key   the name of the entry
- * @param value the value of the entry
+ * Represents an environment variable entry.
  */
 public record EnvironmentVariableEntry(@NotNull String key, @NotNull String value) implements SystemInformationEntry<String> {
     /**
