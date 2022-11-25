@@ -27,7 +27,8 @@ public class LicensingCommon {
             "VirtualBox",
             "TAP",
             "TUN",
-            "Docker"
+            "Docker",
+            "vEthernet"
     );
 
     private LicensingCommon() {
