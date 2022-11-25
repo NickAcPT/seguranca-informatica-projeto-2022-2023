@@ -1,6 +1,7 @@
 package pt.ua.segurancainformatica.citizencard.model;
 
-import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 /**
  * Object representing a Portuguese Citizen Card.
@@ -9,7 +10,10 @@ import java.security.Key;
  */
 public interface CitizenCard {
      String getName();
+
      String getCivilNumber();
 
-     Key getCitizenAuthenticationCertificate();
+     PublicKey getAuthenticationPublicKey();
+
+     PrivateKey getAuthenticationPrivateKey();
 }

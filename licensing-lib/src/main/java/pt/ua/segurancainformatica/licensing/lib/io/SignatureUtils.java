@@ -22,7 +22,7 @@ public class SignatureUtils {
      * @return The signature.
      */
     public static byte @Nullable [] signBlob(@NotNull CitizenCard card, byte @NotNull [] blob) {
-        var key = ((PrivateKey) card.getCitizenAuthenticationCertificate());
+        var key = card.getAuthenticationPrivateKey();
 
         try {
             Signature sha256withRSA = Signature.getInstance("SHA256withRSA", pkcs11Provider);

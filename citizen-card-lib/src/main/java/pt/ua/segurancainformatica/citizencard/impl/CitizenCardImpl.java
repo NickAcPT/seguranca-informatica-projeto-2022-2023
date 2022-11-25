@@ -30,12 +30,24 @@ public class CitizenCardImpl implements CitizenCard {
     }
 
     @Override
-    public Key getCitizenAuthenticationCertificate() throws CitizenCardException {
+    public PublicKey getAuthenticationPublicKey() {
         try {
             var keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
             keyStore.load(null, null);
 
-            return keyStore.getKey("CITIZEN AUTHENTICATION CERTIFICATE", null);
+            return keyStore.getCertificate("CITIZEN AUTHENTICATION CERTIFICATE").getPublicKey();
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
+            throw new CitizenCardException(e);
+        }
+    }
+
+    @Override
+    public PrivateKey getAuthenticationPrivateKey() throws CitizenCardException {
+        try {
+            var keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
+            keyStore.load(null, null);
+
+            return ((PrivateKey) keyStore.getKey("CITIZEN AUTHENTICATION CERTIFICATE", null));
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException |
                  UnrecoverableKeyException e) {
             throw new CitizenCardException(e);
