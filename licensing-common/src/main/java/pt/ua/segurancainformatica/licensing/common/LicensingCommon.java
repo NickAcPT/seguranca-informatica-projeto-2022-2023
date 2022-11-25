@@ -21,6 +21,7 @@ public class LicensingCommon {
 
     private static final List<String> FILTERED_NETWORK_INTERFACE_NAMES = List.of(
             "Virtual Adapter",
+            "Virtual Network",
             "Hyper-V",
             "Bluetooth",
             "VMware",
