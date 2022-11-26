@@ -2,7 +2,7 @@ package pt.ua.segurancainformatica.licensing.lib.tests.io;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pt.ua.segurancainformatica.licensing.lib.io.SignatureUtils;
+import pt.ua.segurancainformatica.licensing.common.utils.SignatureUtils;
 
 public class SignatureUtilsTests extends CitizenCardRequiringTest {
 
@@ -12,7 +12,7 @@ public class SignatureUtilsTests extends CitizenCardRequiringTest {
 
         Assertions.assertDoesNotThrow(() -> {
             if (card != null) {
-                SignatureUtils.signBlob(card, bytes);
+                SignatureUtils.signBlob(card.getAuthenticationPrivateKey(), bytes);
             }
         });
     }

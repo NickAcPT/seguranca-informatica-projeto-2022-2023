@@ -9,6 +9,14 @@ import java.io.IOException;
 
 public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object, byte[]> {
     private final SmileMapper mapper = new SmileMapper();
+    private Class<?> expectedDeserializeType = null;
+
+    public SmileMappingWrapperStep() {
+    }
+
+    public SmileMappingWrapperStep(Class<?> expectedDeserializeType) {
+        this.expectedDeserializeType = expectedDeserializeType;
+    }
 
     @Override
     public byte[] wrap(SecureWrapperPipelineContext context, Object input) {
@@ -22,7 +30,11 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
     @Override
     public Object unwrap(SecureWrapperPipelineContext context, byte[] input) {
         try {
-            return mapper.readValue(input, context.type());
+            if (expectedDeserializeType != null) {
+                return mapper.readValue(input, expectedDeserializeType);
+            } else {
+                return mapper.readValue(input, context.type());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
