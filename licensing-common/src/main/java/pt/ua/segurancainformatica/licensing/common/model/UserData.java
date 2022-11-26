@@ -11,7 +11,12 @@ import java.security.spec.X509EncodedKeySpec;
 
 public record UserData(
         String fullName,
+        String civilNumber,
         byte[] encodedPublicKey) {
+
+    public UserData(String fullName, String civilNumber, PublicKey publicKey) {
+        this(fullName, civilNumber, publicKey.getEncoded());
+    }
 
     @JsonIgnore
     public @Nullable PublicKey publicKey() throws InvalidKeySpecException {
