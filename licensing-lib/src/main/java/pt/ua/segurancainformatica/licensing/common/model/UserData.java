@@ -33,9 +33,7 @@ public record UserData(
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserData userData = (UserData) o;
+        if (!(o instanceof UserData userData)) return false;
 
         if (!fullName.equals(userData.fullName)) return false;
         if (!civilNumber.equals(userData.civilNumber)) return false;
@@ -48,5 +46,14 @@ public record UserData(
         result = 31 * result + civilNumber.hashCode();
         result = 31 * result + Arrays.hashCode(encodedPublicKey);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "fullName='" + fullName + '\'' +
+                ", civilNumber='" + civilNumber + '\'' +
+                ", encodedPublicKey=" + Arrays.toString(encodedPublicKey) +
+                '}';
     }
 }

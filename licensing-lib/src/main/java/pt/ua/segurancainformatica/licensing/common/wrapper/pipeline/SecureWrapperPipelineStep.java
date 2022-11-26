@@ -2,8 +2,8 @@ package pt.ua.segurancainformatica.licensing.common.wrapper.pipeline;
 
 /**
  * A pipeline step that can be used to wrap and unwrap objects securely.
- * @param <I>
- * @param <O>
+ * @param <I> The input type of the step.
+ * @param <O> The output type of the step.
  */
 public interface SecureWrapperPipelineStep<I, O> {
 

@@ -2,6 +2,8 @@ package pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
 
@@ -9,12 +11,12 @@ import java.io.IOException;
 
 public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object, byte[]> {
     private final SmileMapper mapper = new SmileMapper();
-    private Class<?> expectedDeserializeType = null;
+    private @Nullable Class<?> expectedDeserializeType = null;
 
     public SmileMappingWrapperStep() {
     }
 
-    public SmileMappingWrapperStep(Class<?> expectedDeserializeType) {
+    public SmileMappingWrapperStep(@NotNull Class<?> expectedDeserializeType) {
         this.expectedDeserializeType = expectedDeserializeType;
     }
 

@@ -12,7 +12,7 @@ public class SignatureUtils {
 
     /**
      * Signs the given data with the given private key.
-     * @param card The Citizen Card to use.
+     * @param key The private key to use.
      * @param blob The data to sign.
      * @return The signature.
      */

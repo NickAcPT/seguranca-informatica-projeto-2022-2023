@@ -9,6 +9,9 @@ public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], S
     @Override
     public SignedSecureObject wrap(SecureWrapperPipelineContext context, byte[] input) {
         var signature = SignatureUtils.signBlob(context.signingKey(), input);
+        if (signature == null) {
+            throw new NullPointerException("Signature is null");
+        }
         return new SignedSecureObject(input, signature);
     }
 

@@ -12,9 +12,7 @@ public record ApplicationInformation(
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ApplicationInformation that = (ApplicationInformation) o;
+        if (!(o instanceof ApplicationInformation that)) return false;
 
         if (!name.equals(that.name)) return false;
         if (!version.equals(that.version)) return false;
@@ -27,5 +25,14 @@ public record ApplicationInformation(
         result = 31 * result + version.hashCode();
         result = 31 * result + Arrays.hashCode(hash);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationInformation{" +
+                "name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", hash=" + Arrays.toString(hash) +
+                '}';
     }
 }

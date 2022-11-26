@@ -46,7 +46,7 @@ public class CipherUtils {
     public static CipherResult cipherBlob(byte[] blob, SecretKey secretKeySpec) throws GeneralSecurityException {
         Cipher cipher = prepareCipher(secretKeySpec, Cipher.ENCRYPT_MODE);
 
-        return new CipherResult(cipher.getIV(), cipher.doFinal(blob));
+        return new CipherResult(cipher.doFinal(blob), cipher.getIV());
     }
 
     public static byte[] decipherBlob(CipherResult input, SecretKey cipherKey) throws GeneralSecurityException {

@@ -1,6 +1,5 @@
 package pt.ua.segurancainformatica.licensing.common.wrapper;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.jetbrains.annotations.NotNull;
 import pt.ua.segurancainformatica.licensing.common.utils.CipherUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
@@ -13,6 +12,7 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileM
 import javax.crypto.SecretKey;
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -52,30 +52,35 @@ public class SecureWrapper {
     }
 
     @SuppressWarnings("unchecked")
-    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunction<SecureWrapperPipelineContext, ? super Object, ? super Object>> action) {
+    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunction<SecureWrapperPipelineContext, ? super Object, ? super Object>> action, boolean reverse) {
         Object tmpInput = originalInput;
-        for (SecureWrapperPipelineStep<?, ?> step : steps) {
+        var stepsToPerform = new ArrayList<>(steps);
+
+        if (reverse) Collections.reverse(stepsToPerform);
+
+        for (SecureWrapperPipelineStep<?, ?> step : stepsToPerform) {
             var castStep = (SecureWrapperPipelineStep<? super Object, ? super Object>) step;
             var resultingStepFunction = (BiFunction<SecureWrapperPipelineContext, ? super Object, ? super Object>) action.apply(castStep);
-            tmpInput = resultingStepFunction.apply(ctx, tmpInput);
+            try {
+                tmpInput = resultingStepFunction.apply(ctx, tmpInput);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return (O) tmpInput;
     }
 
     public static <T> byte[] wrapObject(T object, @NotNull SecureWrapperPipelineContext context) {
-        return performSteps(object, context, (step) -> step::wrap);
+        return performSteps(object, context, (step) -> step::wrap, false);
     }
 
     public static <T> T unwrapObject(byte[] bytes, @NotNull SecureWrapperPipelineContext context) {
-        return performSteps(bytes, context, (step) -> step::unwrap);
+        return performSteps(bytes, context, (step) -> step::unwrap, true);
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(PrivateKey signingKey, SecretKey cipherKey) {
-        TypeReference<T> type = new TypeReference<>() {
-        };
-
+    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, PrivateKey signingKey, SecretKey cipherKey) {
         return new SecureWrapperPipelineContext(type, signingKey, cipherKey);
     }
 }

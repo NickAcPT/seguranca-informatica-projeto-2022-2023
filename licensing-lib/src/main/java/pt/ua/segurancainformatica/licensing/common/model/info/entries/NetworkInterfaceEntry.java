@@ -43,9 +43,7 @@ public record NetworkInterfaceEntry(@NotNull String adapterName,
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        NetworkInterfaceEntry that = (NetworkInterfaceEntry) o;
+        if (!(o instanceof NetworkInterfaceEntry that)) return false;
 
         if (!adapterName.equals(that.adapterName)) return false;
         return Arrays.equals(hardwareAddress, that.hardwareAddress);
