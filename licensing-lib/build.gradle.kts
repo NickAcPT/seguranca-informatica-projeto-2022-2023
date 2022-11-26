@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(":licensing-common"))
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.14.0")
     implementation(project(":citizen-card-lib"))
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
@@ -12,7 +12,5 @@ tasks {
         testLogging {
             events("passed", "skipped", "failed")
         }
-
-       // systemProperty("java.security.debug", "access,failure,properties,provider,sunpkcs11")
     }
 }
