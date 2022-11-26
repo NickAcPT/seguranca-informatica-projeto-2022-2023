@@ -1,4 +1,4 @@
-package pt.ua.segurancainformatica.licensing.lib.io;
+package pt.ua.segurancainformatica.licensing.common.utils;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
