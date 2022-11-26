@@ -17,6 +17,7 @@ allprojects {
     apply(plugin = "java")
     apply(plugin = "net.ltgt.errorprone")
 
+    // Add our repositories
     this.repositories {
         mavenCentral()
         flatDir {
@@ -24,6 +25,13 @@ allprojects {
         }
     }
 
+    /*
+    Add our dependencies for all projects:
+    - ErrorProne - For static analysis of Java code.
+    - NullAway - For static analysis to detect nullability issues in Java code.
+    - JetBrains' annotations - For helping the IDE to analyze the code better,
+    - and providing @Nullable and @NotNull annotations for documentation.
+    */
     this.dependencies {
         "errorprone"("com.google.errorprone:error_prone_core:$errorproneVersion")
         "errorprone"("com.uber.nullaway:nullaway:$nullawayVersion")
@@ -31,7 +39,8 @@ allprojects {
         "testCompileOnly"("org.jetbrains:annotations:$jbAnnotationsVersion")
     }
 
-    tasks.withType<JavaCompile>().configureEach {
+    // Configure ErrorProne, enable NullAway and set encoding to UTF-8
+    this.tasks.withType<JavaCompile>().configureEach {
         options.errorprone {
             option("NullAway:AnnotatedPackages", "pt.ua")
             option("NullAway:ExcludedFieldAnnotations", "javafx.fxml.FXML")
@@ -42,8 +51,15 @@ allprojects {
         options.encoding = "UTF-8"
     }
 
+    // For reproducible builds (https://reproducible-builds.org/docs/jvm/)
+    this.tasks.withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
+    }
 
-    extensions.getByType<JavaPluginExtension>().apply {
+
+    // Configure the toolchain to use Java 18
+    this.extensions.getByType<JavaPluginExtension>().apply {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(18))
         }
