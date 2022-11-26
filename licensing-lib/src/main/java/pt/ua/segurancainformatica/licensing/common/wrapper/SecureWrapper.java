@@ -10,11 +10,10 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.Signat
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileMappingWrapperStep;
 
 import javax.crypto.SecretKey;
-import java.security.PrivateKey;
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -22,6 +21,11 @@ import java.util.function.Function;
  */
 @SuppressWarnings("TypeParameterUnusedInFormals")
 public class SecureWrapper {
+
+    @FunctionalInterface
+    private interface BiFunctionThrowingException<T, U, R> {
+        R apply(T t, U u) throws SecureWrapperInvalidatedException;
+    }
 
     private static final List<SecureWrapperPipelineStep<?, ?>> steps = new ArrayList<>();
 
@@ -52,7 +56,7 @@ public class SecureWrapper {
     }
 
     @SuppressWarnings("unchecked")
-    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunction<SecureWrapperPipelineContext, ? super Object, ? super Object>> action, boolean reverse) {
+    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunctionThrowingException<SecureWrapperPipelineContext, ? super Object, ? super Object>> action, boolean reverse) throws SecureWrapperInvalidatedException {
         Object tmpInput = originalInput;
         var stepsToPerform = new ArrayList<>(steps);
 
@@ -60,27 +64,23 @@ public class SecureWrapper {
 
         for (SecureWrapperPipelineStep<?, ?> step : stepsToPerform) {
             var castStep = (SecureWrapperPipelineStep<? super Object, ? super Object>) step;
-            var resultingStepFunction = (BiFunction<SecureWrapperPipelineContext, ? super Object, ? super Object>) action.apply(castStep);
-            try {
-                tmpInput = resultingStepFunction.apply(ctx, tmpInput);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            var resultingStepFunction = (BiFunctionThrowingException<SecureWrapperPipelineContext, ? super Object, ? super Object>) action.apply(castStep);
+            tmpInput = resultingStepFunction.apply(ctx, tmpInput);
         }
 
         return (O) tmpInput;
     }
 
-    public static <T> byte[] wrapObject(T object, @NotNull SecureWrapperPipelineContext context) {
+    public static <T> byte[] wrapObject(T object, @NotNull SecureWrapperPipelineContext context) throws SecureWrapperInvalidatedException {
         return performSteps(object, context, (step) -> step::wrap, false);
     }
 
-    public static <T> T unwrapObject(byte[] bytes, @NotNull SecureWrapperPipelineContext context) {
+    public static <T> T unwrapObject(byte[] bytes, @NotNull SecureWrapperPipelineContext context) throws SecureWrapperInvalidatedException {
         return performSteps(bytes, context, (step) -> step::unwrap, true);
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, PrivateKey signingKey, SecretKey cipherKey) {
+    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair signingKey, SecretKey cipherKey) {
         return new SecureWrapperPipelineContext(type, signingKey, cipherKey);
     }
 }
