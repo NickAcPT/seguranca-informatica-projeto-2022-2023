@@ -8,8 +8,6 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalida
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
 
-import java.io.IOException;
-
 public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object, byte[]> {
     private final SmileMapper mapper = new SmileMapper();
     private @Nullable Class<?> expectedDeserializeType = null;
@@ -38,7 +36,7 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
             } else {
                 return mapper.readValue(input, context.type());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new SecureWrapperInvalidatedException("Unable to serialize the object to smile format.", e);
         }
     }
