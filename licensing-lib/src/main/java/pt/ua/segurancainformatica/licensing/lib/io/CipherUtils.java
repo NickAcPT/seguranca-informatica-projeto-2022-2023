@@ -1,13 +1,8 @@
 package pt.ua.segurancainformatica.licensing.lib.io;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,22 +42,16 @@ public class CipherUtils {
         secretKeySpec.getEncoded();
         byte[] iv= new byte[16];
         new SecureRandom().nextBytes(iv);
-        FileInputStream fis=null;
-        FileOutputStream fos=null;
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         ivParameterSpec.getIV();
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,ivParameterSpec);
         Files.write(Path.of("iv"),iv);
+
         try {
-            fis = new FileInputStream(file);
-            fos = new FileOutputStream("certificate");
-            byte[] byteStorage =fis.readAllBytes();
-            fos.write(cipher.doFinal(byteStorage));
-        }catch (Exception exception){
-            fis.close();
-            fos.close();
-            exception.printStackTrace();
+            Files.write(Path.of("certificate"), cipher.doFinal(Files.readAllBytes(Path.of(file))));
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            throw new RuntimeException(e);
         }
     }
 
