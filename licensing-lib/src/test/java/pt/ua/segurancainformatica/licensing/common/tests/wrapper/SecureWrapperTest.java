@@ -23,14 +23,13 @@ import java.util.Random;
 
 class SecureWrapperTest {
 
+    private static final Random random = new Random();
     private static SecureWrapperPipelineContext context;
     private static LicenseRequest request;
     private static KeyPair userKeyPair;
     private static KeyPair gestorKeyPair;
     private static SecretKey cipherKey;
     private static KeyPairGenerator keyPairGenerator;
-
-    private static final Random random = new Random();
 
     @BeforeAll
     static void setUp() throws NoSuchAlgorithmException {
@@ -45,12 +44,11 @@ class SecureWrapperTest {
 
         cipherKey = aesGenerator.generateKey();
 
-        var contextKeyPair = new KeyPair(gestorKeyPair.getPublic(), gestorKeyPair.getPrivate());
-
-        context = SecureWrapper.createContext(LicenseRequest.class, contextKeyPair, cipherKey);
+        context = SecureWrapper.createContext(LicenseRequest.class, gestorKeyPair.getPublic(), userKeyPair, cipherKey);
         request = new LicenseRequest(
                 new UserData("Sample User", "123456789", userKeyPair.getPublic()),
-                new ApplicationInformation("Sample App", "1.0.0", new byte[0]));
+                new ApplicationInformation("Sample App", "1.0.0", new byte[0])
+        );
     }
 
     @Test
@@ -63,7 +61,8 @@ class SecureWrapperTest {
     @Test
     void unwrapObject() throws SecureWrapperInvalidatedException {
         var wrapped = SecureWrapper.wrapObject(request, context);
-        var unwrapped = Assertions.assertDoesNotThrow((ThrowingSupplier<LicenseRequest>) () -> SecureWrapper.unwrapObject(wrapped, context));
+        var unwrapped = Assertions.assertDoesNotThrow(
+                (ThrowingSupplier<LicenseRequest>) () -> SecureWrapper.unwrapObject(wrapped, context));
         Assertions.assertEquals(request, unwrapped);
     }
 
@@ -71,10 +70,11 @@ class SecureWrapperTest {
     void unwrapObjectWithIncorrectPrivateKey() throws SecureWrapperInvalidatedException {
         var keyPair = keyPairGenerator.generateKeyPair();
 
-        // Wrap the object and sign it with the wrong key pair
+        // Wrap the object and sign it with the wrong private key
         var modifiedContext = new SecureWrapperPipelineContext(
                 context.type(),
-                new KeyPair(context.signingKey().getPublic(), keyPair.getPrivate()),
+                context.managerPublicKey(),
+                new KeyPair(context.userKeyPair().getPublic(), keyPair.getPrivate()),
                 context.cipherKey()
         );
 
@@ -91,8 +91,13 @@ class SecureWrapperTest {
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong key pair
-        var modifiedContext = new SecureWrapperPipelineContext(context.type(),
-                new KeyPair(keyPair.getPublic(), context.signingKey().getPrivate()),
+        var modifiedContext = new SecureWrapperPipelineContext(
+                context.type(),
+                context.managerPublicKey(),
+                new KeyPair(
+                        keyPair.getPublic(),
+                        context.userKeyPair().getPrivate()
+                ),
                 context.cipherKey()
         );
 

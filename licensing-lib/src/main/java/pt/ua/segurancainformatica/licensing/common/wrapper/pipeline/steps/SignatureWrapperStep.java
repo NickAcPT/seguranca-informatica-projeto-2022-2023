@@ -14,7 +14,7 @@ public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], S
         byte[] signature;
 
         try {
-            signature = SignatureUtils.signBlob(context.signingKey().getPrivate(), input);
+            signature = SignatureUtils.signBlob(context.userKeyPair().getPrivate(), input);
         } catch (GeneralSecurityException e) {
             throw new SecureWrapperInvalidatedException("Unable to sign the object.", e);
         }
@@ -27,7 +27,7 @@ public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], S
     @Override
     public byte[] unwrap(SecureWrapperPipelineContext context, SignedSecureObject input) throws SecureWrapperInvalidatedException {
         try {
-            if (!SignatureUtils.verifyBlob(context.signingKey().getPublic(), input.object(), input.signature())) {
+            if (!SignatureUtils.verifyBlob(context.userKeyPair().getPublic(), input.object(), input.signature())) {
                 throw new SecureWrapperInvalidatedException("Object signature is invalid.");
             }
         } catch (GeneralSecurityException e) {

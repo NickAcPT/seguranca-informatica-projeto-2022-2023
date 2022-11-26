@@ -11,6 +11,7 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileM
 
 import javax.crypto.SecretKey;
 import java.security.KeyPair;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ public class SecureWrapper {
         // Input: T, Output: byte[]
         steps.add(new SmileMappingWrapperStep());
 
-        // Then, sign the value with the private key (to ensure integrity)
+        // Then, sign the value with the user's private key (to ensure integrity)
         // Input: byte[], Output: SignedSecureObject
         steps.add(new SignatureWrapperStep());
 
@@ -80,7 +81,7 @@ public class SecureWrapper {
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair signingKey, SecretKey cipherKey) {
-        return new SecureWrapperPipelineContext(type, signingKey, cipherKey);
+    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, PublicKey managerPublicKey, KeyPair userKeyPair, SecretKey cipherKey) {
+        return new SecureWrapperPipelineContext(type, managerPublicKey, userKeyPair, cipherKey);
     }
 }
