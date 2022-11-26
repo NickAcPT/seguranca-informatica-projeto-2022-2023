@@ -1,8 +1,14 @@
 package pt.ua.segurancainformatica.licensing.common.utils;
 
-import javax.crypto.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 
 public class CipherUtils {
@@ -11,10 +17,14 @@ public class CipherUtils {
     private static final int KEY_SIZE = 256;
     private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
 
+    public CipherUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Generate a key and return it as a byte array.
      */
-    public byte[] generateKey() throws NoSuchAlgorithmException {
+    public static byte[] generateKey() throws NoSuchAlgorithmException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
         keyGenerator.init(KEY_SIZE);
 
@@ -25,15 +35,38 @@ public class CipherUtils {
     /**
      * Cipher a byte array using a key and return the ciphered byte array with the IV as result.
      */
-    public CipherResult cipherBlob(byte[] key, byte[] blob) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, KEY_ALGORITHM);
+    public static CipherResult cipherBlob(byte[] blob, byte[] key) throws GeneralSecurityException {
+        return cipherBlob(blob, new SecretKeySpec(key, KEY_ALGORITHM));
+    }
 
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+    /**
+     * Cipher a byte array using a key and return the ciphered byte array with the IV as result.
+     */
+    @NotNull
+    public static CipherResult cipherBlob(byte[] blob, SecretKey secretKeySpec) throws GeneralSecurityException {
+        Cipher cipher = prepareCipher(secretKeySpec, Cipher.ENCRYPT_MODE);
 
         return new CipherResult(cipher.getIV(), cipher.doFinal(blob));
     }
 
-    public record CipherResult(byte[] iv, byte[] encrypted) {
+    public static byte[] decipherBlob(CipherResult input, SecretKey cipherKey) throws GeneralSecurityException {
+        Cipher cipher = prepareCipher(cipherKey, Cipher.DECRYPT_MODE, input.iv());
+
+        return cipher.doFinal(input.blob());
+    }
+
+    @NotNull
+    private static Cipher prepareCipher(SecretKey secretKeySpec, int mode) throws GeneralSecurityException {
+        return prepareCipher(secretKeySpec, mode, null);
+    }
+
+    @NotNull
+    private static Cipher prepareCipher(SecretKey secretKeySpec, int mode, byte @Nullable [] iv) throws GeneralSecurityException {
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        cipher.init(mode, secretKeySpec, iv == null ? null : new IvParameterSpec(iv));
+        return cipher;
+    }
+
+    public record CipherResult(byte[] blob, byte[] iv) {
     }
 }

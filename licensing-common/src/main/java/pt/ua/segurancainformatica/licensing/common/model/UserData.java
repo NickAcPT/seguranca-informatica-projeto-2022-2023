@@ -1,6 +1,7 @@
 package pt.ua.segurancainformatica.licensing.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.security.KeyFactory;
@@ -8,13 +9,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 
 public record UserData(
-        String fullName,
-        String civilNumber,
-        byte[] encodedPublicKey) {
+        @NotNull String fullName,
+        @NotNull String civilNumber,
+        byte @NotNull [] encodedPublicKey) {
 
-    public UserData(String fullName, String civilNumber, PublicKey publicKey) {
+    public UserData(@NotNull String fullName, @NotNull String civilNumber, @NotNull PublicKey publicKey) {
         this(fullName, civilNumber, publicKey.getEncoded());
     }
 
@@ -26,5 +28,25 @@ public record UserData(
         } catch (NoSuchAlgorithmException e) { // wat
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserData userData = (UserData) o;
+
+        if (!fullName.equals(userData.fullName)) return false;
+        if (!civilNumber.equals(userData.civilNumber)) return false;
+        return Arrays.equals(encodedPublicKey, userData.encodedPublicKey);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fullName.hashCode();
+        result = 31 * result + civilNumber.hashCode();
+        result = 31 * result + Arrays.hashCode(encodedPublicKey);
+        return result;
     }
 }

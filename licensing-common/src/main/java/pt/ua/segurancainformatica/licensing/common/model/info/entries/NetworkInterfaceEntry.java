@@ -39,4 +39,22 @@ public record NetworkInterfaceEntry(@NotNull String adapterName,
                 ", hardwareAddress=" + Arrays.toString(hardwareAddress) +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NetworkInterfaceEntry that = (NetworkInterfaceEntry) o;
+
+        if (!adapterName.equals(that.adapterName)) return false;
+        return Arrays.equals(hardwareAddress, that.hardwareAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = adapterName.hashCode();
+        result = 31 * result + Arrays.hashCode(hardwareAddress);
+        return result;
+    }
 }

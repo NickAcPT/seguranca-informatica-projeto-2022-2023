@@ -2,12 +2,15 @@ package pt.ua.segurancainformatica.licensing.common.wrapper;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.jetbrains.annotations.NotNull;
+import pt.ua.segurancainformatica.licensing.common.utils.CipherUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.model.SignedSecureObject;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.ObjectCipherStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SignatureWrapperStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileMappingWrapperStep;
 
+import javax.crypto.SecretKey;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +27,24 @@ public class SecureWrapper {
 
     static {
         // First, convert to Smile Format (binary JSON)
+        // Input: T, Output: byte[]
         steps.add(new SmileMappingWrapperStep());
+
         // Then, sign the value with the private key (to ensure integrity)
+        // Input: byte[], Output: SignedSecureObject
         steps.add(new SignatureWrapperStep());
+
         // We re-convert to Smile Format, but now from a SignedSecureObject
+        // Input: SignedSecureObject, Output: byte[]
         steps.add(new SmileMappingWrapperStep(SignedSecureObject.class));
+
+        // Then, cipher the value with the cipher key
+        // Input: byte[], Output: CipherUtils.CipherResult
+        steps.add(new ObjectCipherStep());
+
+        // Re-convert again to Smile Format, but now from a CipherUtils.CipherResult
+        // Input: CipherUtils.CipherResult, Output: byte[]
+        steps.add(new SmileMappingWrapperStep(CipherUtils.CipherResult.class));
     }
 
     private SecureWrapper() {
@@ -56,10 +72,10 @@ public class SecureWrapper {
     }
 
     @NotNull
-    private static <T> SecureWrapperPipelineContext createContext(PrivateKey signingKey) {
+    public static <T> SecureWrapperPipelineContext createContext(PrivateKey signingKey, SecretKey cipherKey) {
         TypeReference<T> type = new TypeReference<>() {
         };
 
-        return new SecureWrapperPipelineContext(type, signingKey);
+        return new SecureWrapperPipelineContext(type, signingKey, cipherKey);
     }
 }
