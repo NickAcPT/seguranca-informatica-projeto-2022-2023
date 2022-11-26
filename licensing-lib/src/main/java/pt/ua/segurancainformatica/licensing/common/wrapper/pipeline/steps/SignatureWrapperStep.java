@@ -21,7 +21,7 @@ public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], S
 
         if (signature == null) throw new SecureWrapperInvalidatedException("Object signature returned null.");
 
-        return new SignedSecureObject(input, signature);
+        return new SignedSecureObject(input, signature, context.userKeyPair().getPublic().getEncoded());
     }
 
     @Override

@@ -11,7 +11,6 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileM
 
 import javax.crypto.SecretKey;
 import java.security.KeyPair;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +80,7 @@ public class SecureWrapper {
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, PublicKey managerPublicKey, KeyPair userKeyPair, SecretKey cipherKey) {
+    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair managerPublicKey, KeyPair userKeyPair, SecretKey cipherKey) {
         return new SecureWrapperPipelineContext(type, managerPublicKey, userKeyPair, cipherKey);
     }
 }

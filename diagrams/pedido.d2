@@ -1,0 +1,63 @@
+finalRequest: Pedido de Licença (Final) {
+    cipheredRequest: Pedido de Licença (Cifrado)
+    cipheredSymmetricKey: Chave Simétrica (Cifrada)
+}
+
+cipheredRequest: Pedido de Licença (Cifrado) {
+    request: Pedido de Licença
+    symmetricKey: Chave Simétrica
+}
+
+signedRequest: Pedido de Licença Assinado {
+    request: Pedido de Licença {
+        machineInfo: Informação da Máquina
+        userInfo: Informação do Utilizador
+        appInfo: Informação da Aplicação
+    }
+    pubKey: Chave Publica do Utilizador
+    signature: Assinatura
+}
+
+manager: Gestor {
+    keyPair: Par de Chaves {
+        publicKey: Chave Pública
+        privateKey: Chave Privada
+    }
+}
+
+computer: Computador {
+    info: Informação {
+        envVars: Variáveis de Ambiente
+        networkCards: Placas de Rede
+    }
+
+    app: Aplicação {
+        name: Nome
+        version: Versão
+        hash: Hash
+    }
+}
+
+citizenCard: Cartão de Cidadão {
+    info: Informação Pessoal {
+        name: Nome
+        address: Morada
+    }
+    keyPair: Par de Chaves {
+        publicKey: Chave Pública
+        privateKey: Chave Privada
+    }
+}
+
+citizenCard.keyPair.publicKey -> signedRequest.pubKey
+computer.info -> signedRequest.request.machineInfo: usa informação
+citizenCard.info -> signedRequest.request.userInfo
+computer.app -> signedRequest.request.appInfo
+
+signedRequest.request -> citizenCard.keyPair.privateKey: assinado com
+citizenCard.keyPair.privateKey -> signedRequest.signature: usada para gerar assinatura
+
+signedRequest -> cipheredRequest.request: cifrado com chave simétrica
+
+cipheredRequest.symmetricKey -> manager.keyPair.publicKey -> finalRequest.cipheredSymmetricKey: cifrado com
+cipheredRequest.request -> finalRequest.cipheredRequest
