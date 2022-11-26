@@ -8,7 +8,7 @@ public class SignatureUtilsTests extends CitizenCardRequiringTest {
 
     @Test
     public void testSignBlob() {
-        byte[] bytes = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+        byte[] bytes = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
 
         Assertions.assertDoesNotThrow(() -> {
             if (card != null) {
@@ -16,5 +16,4 @@ public class SignatureUtilsTests extends CitizenCardRequiringTest {
             }
         });
     }
-
 }
