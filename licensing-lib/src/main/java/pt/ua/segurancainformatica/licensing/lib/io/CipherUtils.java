@@ -16,8 +16,6 @@ public class CipherUtils {
     /**
      * Generate a key inside the file
      * @param keyFile file that you will save your key
-     * @throws NoSuchAlgorithmException
-     * @throws IOException
      */
     public void keyGenerate(String keyFile) throws NoSuchAlgorithmException, IOException {
         KeyGenerator keyGenerator= KeyGenerator.getInstance("AES");
@@ -31,11 +29,6 @@ public class CipherUtils {
      * Cipher a file with a key, generate/modify un iv file and un certificate file ciphered
      * @param keyFile file with key
      * @param file file that will be cipher
-     * @throws IOException
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidAlgorithmParameterException
-     * @throws InvalidKeyException
      */
     public void cypherFile(String keyFile, String file) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
         SecretKeySpec secretKeySpec = new SecretKeySpec(Files.readAllBytes(Path.of(keyFile)), "AES");
