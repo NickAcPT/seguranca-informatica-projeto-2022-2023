@@ -1,51 +1,39 @@
 package pt.ua.segurancainformatica.licensing.common.utils;
 
 import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class CipherUtils {
 
+    private static final String KEY_ALGORITHM = "AES";
+    private static final int KEY_SIZE = 256;
+    private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
+
     /**
-     * Generate a key inside the file
-     * @param keyFile file that you will save your key
+     * Generate a key and return it as a byte array.
      */
-    public void keyGenerate(String keyFile) throws NoSuchAlgorithmException, IOException {
-        KeyGenerator keyGenerator= KeyGenerator.getInstance("AES");
-        keyGenerator.init(256);
-        SecretKey secretKey = keyGenerator.generateKey();
-        byte[] encoded = secretKey.getEncoded();
-        Files.write(Path.of(keyFile),encoded);
+    public byte[] generateKey() throws NoSuchAlgorithmException {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
+        keyGenerator.init(KEY_SIZE);
+
+        SecretKey key = keyGenerator.generateKey();
+        return key.getEncoded();
     }
 
     /**
-     * Cipher a file with a key, generate/modify un iv file and un certificate file ciphered
-     * @param keyFile file with key
-     * @param file file that will be cipher
+     * Cipher a byte array using a key and return the ciphered byte array with the IV as result.
      */
-    public void cypherFile(String keyFile, String file) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(Files.readAllBytes(Path.of(keyFile)), "AES");
-        secretKeySpec.getEncoded();
-        byte[] iv= new byte[16];
-        new SecureRandom().nextBytes(iv);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-        ivParameterSpec.getIV();
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,ivParameterSpec);
-        Files.write(Path.of("iv"),iv);
+    public CipherResult cipherBlob(byte[] key, byte[] blob) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, KEY_ALGORITHM);
 
-        try {
-            Files.write(Path.of("certificate"), cipher.doFinal(Files.readAllBytes(Path.of(file))));
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
-            throw new RuntimeException(e);
-        }
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+
+        return new CipherResult(cipher.getIV(), cipher.doFinal(blob));
     }
 
+    public record CipherResult(byte[] iv, byte[] encrypted) {
+    }
 }
