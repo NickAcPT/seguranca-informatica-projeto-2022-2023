@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 import java.util.Random;
 
 class SecureWrapperTest {
@@ -47,8 +48,7 @@ class SecureWrapperTest {
                 null
         ), userKeyPair, cipherKey);
 
-        managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, new KeyPair(
-                userKeyPair.getPublic(), null), cipherKey);
+        managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, null, null);
         request = new LicenseRequest(
                 new UserData("Sample User", "123456789", userKeyPair.getPublic()),
                 new ApplicationInformation("Sample App", "1.0.0", new byte[0])
@@ -78,7 +78,28 @@ class SecureWrapperTest {
         var modifiedContext = new SecureWrapperPipelineContext(
                 userContext.type(),
                 userContext.managerKeyPair(),
-                new KeyPair(userContext.userKeyPair().getPublic(), /* Bad actor private key */ keyPair.getPrivate()),
+                new KeyPair(Objects.requireNonNull(userContext.userKeyPair()).getPublic(), /* Bad actor private key */ keyPair.getPrivate()),
+                userContext.cipherKey()
+        );
+
+        var wrapped = SecureWrapper.wrapObject(request, modifiedContext);
+
+        Assertions.assertThrows(
+                SecureWrapperInvalidatedException.class,
+                () -> SecureWrapper.unwrapObject(wrapped, managerContext)
+        );
+    }
+
+    @Test
+    void unwrapObjectWithIncorrectPublicKey() throws SecureWrapperInvalidatedException {
+        var keyPair = keyPairGenerator.generateKeyPair();
+
+        // Wrap the object and sign it with the wrong public key.
+        var modifiedContext = new SecureWrapperPipelineContext(
+                userContext.type(),
+                userContext.managerKeyPair(),
+                new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
+                        Objects.requireNonNull(userContext.userKeyPair()).getPrivate()),
                 userContext.cipherKey()
         );
 

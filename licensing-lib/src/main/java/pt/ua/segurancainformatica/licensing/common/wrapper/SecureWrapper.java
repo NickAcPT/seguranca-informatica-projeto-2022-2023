@@ -1,6 +1,7 @@
 package pt.ua.segurancainformatica.licensing.common.wrapper;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.model.CipheredSecureObject;
@@ -85,7 +86,7 @@ public class SecureWrapper {
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair managerPublicKey, KeyPair userKeyPair, SecretKey cipherKey) {
+    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair managerPublicKey, @Nullable KeyPair userKeyPair, @Nullable SecretKey cipherKey) {
         return new SecureWrapperPipelineContext(type, managerPublicKey, userKeyPair, cipherKey);
     }
 }

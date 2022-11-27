@@ -10,13 +10,13 @@ import java.util.Objects;
 public final class SecureWrapperPipelineContext {
     private final Class<?> type;
     private final KeyPair managerKeyPair;
-    private final KeyPair userKeyPair;
+    private @Nullable KeyPair userKeyPair;
     private @Nullable SecretKey cipherKey;
 
     public SecureWrapperPipelineContext(
             Class<?> type,
             KeyPair managerKeyPair,
-            KeyPair userKeyPair,
+            @Nullable KeyPair userKeyPair,
             @Nullable SecretKey cipherKey
     ) {
         this.type = type;
@@ -33,8 +33,12 @@ public final class SecureWrapperPipelineContext {
         return managerKeyPair;
     }
 
-    public KeyPair userKeyPair() {
+    public @Nullable KeyPair userKeyPair() {
         return userKeyPair;
+    }
+
+    public void userKeyPair(@NotNull KeyPair userKeyPair) {
+        this.userKeyPair = userKeyPair;
     }
 
     public @Nullable SecretKey cipherKey() {

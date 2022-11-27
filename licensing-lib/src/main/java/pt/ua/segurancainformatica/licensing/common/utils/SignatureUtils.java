@@ -3,10 +3,7 @@ package pt.ua.segurancainformatica.licensing.common.utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.security.GeneralSecurityException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
+import java.security.*;
 
 public class SignatureUtils {
     private SignatureUtils() {
@@ -31,8 +28,8 @@ public class SignatureUtils {
     /**
      * Verifies the given signature for the given data with the given public key.
      *
-     * @param key      The public key to use.
-     * @param blob     The data to verify.
+     * @param key       The public key to use.
+     * @param blob      The data to verify.
      * @param signature The signature to verify.
      * @return True if the signature is valid, false otherwise.
      */
@@ -42,5 +39,17 @@ public class SignatureUtils {
         sha256withRSA.update(blob);
 
         return sha256withRSA.verify(signature);
+    }
+
+    /**
+     * Verifies the given signature for the given data with the given public key.
+     *
+     * @param key       The public key to use.
+     * @param blob      The data to verify.
+     * @param signature The signature to verify.
+     * @return True if the signature is valid, false otherwise.
+     */
+    public static boolean verifyBlob(byte @NotNull [] key, byte @NotNull [] blob, byte @NotNull [] signature) throws GeneralSecurityException {
+        return verifyBlob(KeyUtils.getPublicKeyFromBytes(key), blob, signature);
     }
 }
