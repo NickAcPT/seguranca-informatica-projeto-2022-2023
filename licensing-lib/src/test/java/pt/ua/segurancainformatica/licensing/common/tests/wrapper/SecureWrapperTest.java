@@ -60,6 +60,16 @@ class SecureWrapperTest {
     }
 
     @Test
+    void unwrapObjectWithoutFullContext() throws SecureWrapperInvalidatedException {
+        var wrapped = SecureWrapper.wrapObject(request, userContext);
+
+        Assertions.assertThrows(
+                SecureWrapperInvalidatedException.class,
+                () -> SecureWrapper.unwrapObject(wrapped, userContext)
+        );
+    }
+
+    @Test
     void unwrapObject() throws SecureWrapperInvalidatedException {
         var wrapped = SecureWrapper.wrapObject(request, userContext);
         var unwrapped = Assertions.assertDoesNotThrow(
