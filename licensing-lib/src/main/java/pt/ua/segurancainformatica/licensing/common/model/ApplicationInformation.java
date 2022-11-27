@@ -2,12 +2,10 @@ package pt.ua.segurancainformatica.licensing.common.model;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 public record ApplicationInformation(
         @NotNull String name,
         @NotNull String version,
-        byte @NotNull [] hash
+        @NotNull String hash
 ) {
     @Override
     public boolean equals(Object o) {
@@ -16,14 +14,14 @@ public record ApplicationInformation(
 
         if (!name.equals(that.name)) return false;
         if (!version.equals(that.version)) return false;
-        return Arrays.equals(hash, that.hash);
+        return hash.equals(that.hash);
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + version.hashCode();
-        result = 31 * result + Arrays.hashCode(hash);
+        result = 31 * result + hash.hashCode();
         return result;
     }
 
@@ -32,7 +30,7 @@ public record ApplicationInformation(
         return "ApplicationInformation{" +
                 "name='" + name + '\'' +
                 ", version='" + version + '\'' +
-                ", hash=" + Arrays.toString(hash) +
+                ", hash='" + hash + '\'' +
                 '}';
     }
 }

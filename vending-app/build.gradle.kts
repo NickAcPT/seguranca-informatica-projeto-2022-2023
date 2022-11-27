@@ -1,7 +1,7 @@
-plugins {
+ plugins {
     java
     application
-    id ("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 javafx {

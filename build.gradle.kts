@@ -1,4 +1,6 @@
 import net.ltgt.gradle.errorprone.errorprone
+import java.security.MessageDigest
+import java.util.*
 
 plugins {
     id("net.ltgt.errorprone") version "3.0.1" apply false
@@ -47,6 +49,7 @@ allprojects {
         }
 
         options.errorprone.error("NullAway")
+        options.errorprone.disable("ObjectToString")
 
         options.encoding = "UTF-8"
     }
@@ -55,8 +58,9 @@ allprojects {
     this.tasks.withType<AbstractArchiveTask>().configureEach {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
-    }
 
+        this.createBuildInformationFile(this@allprojects)
+    }
 
     // Configure the toolchain to use Java 18
     this.extensions.getByType<JavaPluginExtension>().apply {
@@ -64,4 +68,40 @@ allprojects {
             languageVersion.set(JavaLanguageVersion.of(18))
         }
     }
+
+    this.tasks.withType<AbstractArchiveTask>().forEach {
+        createHashForArchiveTask(this@allprojects, it)
+    }
+}
+
+fun createHashForArchiveTask(project: Project, task: AbstractArchiveTask) {
+    project.tasks.create("createHashFor${task.name.capitalize()}") {
+        group = "segurancainformatica"
+        description = "Hashes the output of the ${task.name} task."
+        dependsOn(task)
+
+        doLast {
+            val zipFile = task.outputs.files.singleFile
+
+            val hash = MessageDigest.getInstance("SHA-256")
+                    .digest(zipFile.readBytes())
+                    .joinToString("") { "%02x".format(it) }
+
+            val hashFile = zipFile.resolveSibling(zipFile.nameWithoutExtension + ".sha256")
+            hashFile.writeText(hash)
+        }
+
+        task.finalizedBy(this)
+    }
+}
+
+fun AbstractArchiveTask.createBuildInformationFile(project: Project) {
+    val props = Properties()
+    props["name"] = "fancyName".takeIf { project.extra.has(it) }?.let { project.extra[it] } as? String ?: project.name
+    props["version"] = project.version
+
+    val buildInformationFile = project.buildDir.resolve("${project.name.removePrefix("vending-app").takeIf { it.isNotEmpty() }?.let { "$it-" } ?: ""}build-information.properties")
+    props.store(buildInformationFile.writer(), "Build information")
+
+    from(buildInformationFile)
 }

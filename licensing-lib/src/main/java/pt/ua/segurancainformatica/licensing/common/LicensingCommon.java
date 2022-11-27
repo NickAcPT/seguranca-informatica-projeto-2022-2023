@@ -1,9 +1,13 @@
 package pt.ua.segurancainformatica.licensing.common;
 
 import org.jetbrains.annotations.NotNull;
+import pt.ua.segurancainformatica.licensing.common.hashing.HashingCommon;
+import pt.ua.segurancainformatica.licensing.common.hashing.HashingException;
+import pt.ua.segurancainformatica.licensing.common.model.ApplicationInformation;
 import pt.ua.segurancainformatica.licensing.common.model.info.entries.EnvironmentVariableEntry;
 import pt.ua.segurancainformatica.licensing.common.model.info.entries.NetworkInterfaceEntry;
 
+import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -60,5 +64,18 @@ public class LicensingCommon {
         }
 
         return entries.toArray(new NetworkInterfaceEntry[0]);
+    }
+
+    public static @NotNull ApplicationInformation getApplicationInformation() throws HashingException, IOException {
+        var hash = HashingCommon.getCurrentJarHash();
+        try (var buildProperties = LicensingCommon.class.getResourceAsStream("/build-information.properties")) {
+            var properties = new java.util.Properties();
+            properties.load(buildProperties);
+            return new ApplicationInformation(
+                    properties.getProperty("application.name"),
+                    properties.getProperty("application.version"),
+                    hash
+            );
+        }
     }
 }

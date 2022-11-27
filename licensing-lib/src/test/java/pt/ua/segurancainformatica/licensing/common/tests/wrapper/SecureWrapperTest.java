@@ -48,7 +48,7 @@ class SecureWrapperTest {
         managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, null, null);
         request = new LicenseRequest(
                 new UserData("Sample User", "123456789", userKeyPair.getPublic()),
-                new ApplicationInformation("Sample App", "1.0.0", new byte[0])
+                new ApplicationInformation("Sample App", "1.0.0", "")
         );
     }
 
