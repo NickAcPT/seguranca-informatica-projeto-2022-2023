@@ -1,9 +1,6 @@
 package pt.ua.segurancainformatica.licensing.common.tests.wrapper;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -71,7 +68,7 @@ class SecureWrapperTest {
     }
 
     @Test
-    void unwrapObjectWithIncorrectPrivateKey() throws SecureWrapperInvalidatedException {
+    void unwrapObjectWithIncorrectUserPrivateKey() throws SecureWrapperInvalidatedException {
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong private key.
@@ -91,7 +88,7 @@ class SecureWrapperTest {
     }
 
     @Test
-    void unwrapObjectWithIncorrectPublicKey() throws SecureWrapperInvalidatedException {
+    void unwrapObjectWithIncorrectUserPublicKey() throws SecureWrapperInvalidatedException {
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong public key.
@@ -100,6 +97,27 @@ class SecureWrapperTest {
                 userContext.managerKeyPair(),
                 new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
                         Objects.requireNonNull(userContext.userKeyPair()).getPrivate()),
+                userContext.cipherKey()
+        );
+
+        var wrapped = SecureWrapper.wrapObject(request, modifiedContext);
+
+        Assertions.assertThrows(
+                SecureWrapperInvalidatedException.class,
+                () -> SecureWrapper.unwrapObject(wrapped, managerContext)
+        );
+    }
+
+    @Test
+    void unwrapObjectWithIncorrectManagerPublicKey() throws SecureWrapperInvalidatedException {
+        var keyPair = keyPairGenerator.generateKeyPair();
+
+        // Wrap the object and sign it with the wrong public key.
+        var modifiedContext = new SecureWrapperPipelineContext(
+                userContext.type(),
+                new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
+                        Objects.requireNonNull(userContext.managerKeyPair()).getPrivate()),
+                userContext.userKeyPair(),
                 userContext.cipherKey()
         );
 
