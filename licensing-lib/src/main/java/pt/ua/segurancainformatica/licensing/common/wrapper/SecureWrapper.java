@@ -1,10 +1,11 @@
 package pt.ua.segurancainformatica.licensing.common.wrapper;
 
 import org.jetbrains.annotations.NotNull;
-import pt.ua.segurancainformatica.licensing.common.utils.CipherUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.model.CipheredSecureObject;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.model.SignedSecureObject;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.CipherSecureObjectStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.ObjectCipherStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SignatureWrapperStep;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps.SmileMappingWrapperStep;
@@ -46,9 +47,13 @@ public class SecureWrapper {
         // Input: byte[], Output: CipherUtils.CipherResult
         steps.add(new ObjectCipherStep());
 
-        // Re-convert again to Smile Format, but now from a CipherUtils.CipherResult
-        // Input: CipherUtils.CipherResult, Output: byte[]
-        steps.add(new SmileMappingWrapperStep(CipherUtils.CipherResult.class));
+        // Then, we need to include our symmetric key, ciphered with the manager's public key
+        // Input: CipherUtils.CipherResult, Output: CipheredSecureObject
+        steps.add(new CipherSecureObjectStep());
+
+        // Re-convert again to Smile Format, but now from a CipheredSecureObject
+        // Input: CipheredSecureObject, Output: byte[]
+        steps.add(new SmileMappingWrapperStep(CipheredSecureObject.class));
     }
 
     private SecureWrapper() {
