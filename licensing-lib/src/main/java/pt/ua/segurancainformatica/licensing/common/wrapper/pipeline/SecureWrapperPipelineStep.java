@@ -15,7 +15,7 @@ public interface SecureWrapperPipelineStep<I, O> {
      * @param input The object to wrap.
      * @return The wrapped object.
      */
-    O wrap(SecureWrapperPipelineContext context, I input) throws SecureWrapperInvalidatedException;
+    O wrap(SecureWrapperPipelineContext<?> context, I input) throws SecureWrapperInvalidatedException;
 
     /**
      * Unwraps an object securely.
@@ -23,6 +23,6 @@ public interface SecureWrapperPipelineStep<I, O> {
      * @param input The object to unwrap.
      * @return The unwrapped object.
      */
-    I unwrap(SecureWrapperPipelineContext context, O input) throws SecureWrapperInvalidatedException;
+    I unwrap(SecureWrapperPipelineContext<?> context, O input) throws SecureWrapperInvalidatedException;
 
 }

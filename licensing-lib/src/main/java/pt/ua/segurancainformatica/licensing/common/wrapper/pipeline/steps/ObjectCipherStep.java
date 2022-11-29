@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 
 public class ObjectCipherStep implements SecureWrapperPipelineStep<byte[], CipherUtils.CipherResult> {
     @Override
-    public CipherUtils.CipherResult wrap(SecureWrapperPipelineContext context, byte[] input) throws SecureWrapperInvalidatedException {
+    public CipherUtils.CipherResult wrap(SecureWrapperPipelineContext<?> context, byte[] input) throws SecureWrapperInvalidatedException {
         try {
             SecretKey cipherKey = context.cipherKey();
             if (cipherKey == null) throw new SecureWrapperInvalidatedException("Cipher key is null.");
@@ -21,7 +21,7 @@ public class ObjectCipherStep implements SecureWrapperPipelineStep<byte[], Ciphe
     }
 
     @Override
-    public byte[] unwrap(SecureWrapperPipelineContext context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
+    public byte[] unwrap(SecureWrapperPipelineContext<?> context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
         try {
             SecretKey cipherKey = context.cipherKey();
             if (cipherKey == null) throw new SecureWrapperInvalidatedException("Cipher key is null.");

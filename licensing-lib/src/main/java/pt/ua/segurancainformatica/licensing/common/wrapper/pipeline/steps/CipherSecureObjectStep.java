@@ -13,7 +13,7 @@ import java.security.PrivateKey;
 
 public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherUtils.CipherResult, CipheredSecureObject> {
     @Override
-    public CipheredSecureObject wrap(SecureWrapperPipelineContext context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
+    public CipheredSecureObject wrap(SecureWrapperPipelineContext<?> context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
         var managerPubKey = context.managerKeyPair().getPublic();
         try {
             SecretKey cipherKey = context.cipherKey();
@@ -37,7 +37,7 @@ public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherU
     }
 
     @Override
-    public CipherUtils.CipherResult unwrap(SecureWrapperPipelineContext context, CipheredSecureObject input) throws SecureWrapperInvalidatedException {
+    public CipherUtils.CipherResult unwrap(SecureWrapperPipelineContext<?> context, CipheredSecureObject input) throws SecureWrapperInvalidatedException {
         PrivateKey managerPrivateKey = context.managerKeyPair().getPrivate();
         if (managerPrivateKey == null) {
             throw new SecureWrapperInvalidatedException("Unable to decipher the symmetric key because the manager private key is missing.");

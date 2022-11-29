@@ -20,7 +20,7 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
     }
 
     @Override
-    public byte[] wrap(SecureWrapperPipelineContext context, Object input) throws SecureWrapperInvalidatedException {
+    public byte[] wrap(SecureWrapperPipelineContext<?> context, Object input) throws SecureWrapperInvalidatedException {
         try {
             return mapper.writeValueAsBytes(input);
         } catch (JsonProcessingException e) {
@@ -29,7 +29,7 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
     }
 
     @Override
-    public Object unwrap(SecureWrapperPipelineContext context, byte[] input) throws SecureWrapperInvalidatedException {
+    public Object unwrap(SecureWrapperPipelineContext<?> context, byte[] input) throws SecureWrapperInvalidatedException {
         try {
             if (expectedDeserializeType != null) {
                 return mapper.readValue(input, expectedDeserializeType);

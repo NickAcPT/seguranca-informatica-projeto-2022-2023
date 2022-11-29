@@ -62,7 +62,7 @@ public class SecureWrapper {
     }
 
     @SuppressWarnings("unchecked")
-    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunctionThrowingException<SecureWrapperPipelineContext, ? super Object, ? super Object>> action, boolean reverse) throws SecureWrapperInvalidatedException {
+    private static <I, O> O performSteps(I originalInput, SecureWrapperPipelineContext<?> ctx, Function<SecureWrapperPipelineStep<? super Object, ? super Object>, BiFunctionThrowingException<SecureWrapperPipelineContext<?>, ? super Object, ? super Object>> action, boolean reverse) throws SecureWrapperInvalidatedException {
         Object tmpInput = originalInput;
         var stepsToPerform = new ArrayList<>(steps);
 
@@ -70,23 +70,23 @@ public class SecureWrapper {
 
         for (SecureWrapperPipelineStep<?, ?> step : stepsToPerform) {
             var castStep = (SecureWrapperPipelineStep<? super Object, ? super Object>) step;
-            var resultingStepFunction = (BiFunctionThrowingException<SecureWrapperPipelineContext, ? super Object, ? super Object>) action.apply(castStep);
+            var resultingStepFunction = (BiFunctionThrowingException<SecureWrapperPipelineContext<?>, ? super Object, ? super Object>) action.apply(castStep);
             tmpInput = resultingStepFunction.apply(ctx, tmpInput);
         }
 
         return (O) tmpInput;
     }
 
-    public static <T> byte[] wrapObject(T object, @NotNull SecureWrapperPipelineContext context) throws SecureWrapperInvalidatedException {
+    public static <T> byte[] wrapObject(T object, @NotNull SecureWrapperPipelineContext<T> context) throws SecureWrapperInvalidatedException {
         return performSteps(object, context, (step) -> step::wrap, false);
     }
 
-    public static <T> T unwrapObject(byte[] bytes, @NotNull SecureWrapperPipelineContext context) throws SecureWrapperInvalidatedException {
+    public static <T> T unwrapObject(byte[] bytes, @NotNull SecureWrapperPipelineContext<T> context) throws SecureWrapperInvalidatedException {
         return performSteps(bytes, context, (step) -> step::unwrap, true);
     }
 
     @NotNull
-    public static <T> SecureWrapperPipelineContext createContext(Class<T> type, KeyPair managerPublicKey, @Nullable KeyPair userKeyPair, @Nullable SecretKey cipherKey) {
-        return new SecureWrapperPipelineContext(type, managerPublicKey, userKeyPair, cipherKey);
+    public static <T> SecureWrapperPipelineContext<T> createContext(Class<T> type, KeyPair managerPublicKey, @Nullable KeyPair userKeyPair, @Nullable SecretKey cipherKey) {
+        return new SecureWrapperPipelineContext<>(type, managerPublicKey, userKeyPair, cipherKey);
     }
 }

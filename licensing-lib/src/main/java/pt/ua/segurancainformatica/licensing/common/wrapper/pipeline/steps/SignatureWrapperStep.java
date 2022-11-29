@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], SignedSecureObject> {
     @Override
-    public SignedSecureObject wrap(SecureWrapperPipelineContext context, byte[] input) throws SecureWrapperInvalidatedException {
+    public SignedSecureObject wrap(SecureWrapperPipelineContext<?> context, byte[] input) throws SecureWrapperInvalidatedException {
         byte[] signature;
 
         if (context.userKeyPair() == null) {
@@ -32,7 +32,7 @@ public class SignatureWrapperStep implements SecureWrapperPipelineStep<byte[], S
     }
 
     @Override
-    public byte[] unwrap(SecureWrapperPipelineContext context, SignedSecureObject input) throws SecureWrapperInvalidatedException {
+    public byte[] unwrap(SecureWrapperPipelineContext<?> context, SignedSecureObject input) throws SecureWrapperInvalidatedException {
         try {
             if (!SignatureUtils.verifyBlob(input.publicKey(), input.object(), input.signature())) {
                 throw new SecureWrapperInvalidatedException("Object signature is invalid.");

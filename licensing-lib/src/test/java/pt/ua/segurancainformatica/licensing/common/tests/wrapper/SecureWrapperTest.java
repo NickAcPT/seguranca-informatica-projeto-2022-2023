@@ -1,7 +1,9 @@
 package pt.ua.segurancainformatica.licensing.common.tests.wrapper;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.function.ThrowingSupplier;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import pt.ua.segurancainformatica.licensing.common.model.ApplicationInformation;
@@ -24,8 +26,8 @@ class SecureWrapperTest {
     private static final Random random = new Random();
     private static LicenseRequest request;
     private static KeyPairGenerator keyPairGenerator;
-    private static SecureWrapperPipelineContext userContext;
-    private static SecureWrapperPipelineContext managerContext;
+    private static SecureWrapperPipelineContext<LicenseRequest> userContext;
+    private static SecureWrapperPipelineContext<LicenseRequest> managerContext;
 
     @BeforeAll
     static void setUp() throws NoSuchAlgorithmException {
@@ -73,7 +75,7 @@ class SecureWrapperTest {
     void unwrapObject() throws SecureWrapperInvalidatedException {
         var wrapped = SecureWrapper.wrapObject(request, userContext);
         var unwrapped = Assertions.assertDoesNotThrow(
-                (ThrowingSupplier<LicenseRequest>) () -> SecureWrapper.unwrapObject(wrapped, managerContext));
+                () -> SecureWrapper.unwrapObject(wrapped, managerContext));
         Assertions.assertEquals(request, unwrapped);
     }
 
@@ -120,19 +122,20 @@ class SecureWrapperTest {
 
     @Test
     void unwrapObjectWithIncorrectManagerPublicKey() throws SecureWrapperInvalidatedException {
+        KeyPair managerKeyPair = Objects.requireNonNull(userContext.managerKeyPair());
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong public key.
-        var modifiedContext = new SecureWrapperPipelineContext(
+        var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
                 new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
-                        Objects.requireNonNull(userContext.managerKeyPair()).getPrivate()),
+                        managerKeyPair.getPrivate()),
                 userContext.userKeyPair(),
                 userContext.cipherKey()
         );
 
         var wrapped = SecureWrapper.wrapObject(request, modifiedContext);
-
+        SecureWrapper.unwrapObject(wrapped, managerContext);
         Assertions.assertThrows(
                 SecureWrapperInvalidatedException.class,
                 () -> SecureWrapper.unwrapObject(wrapped, managerContext)
