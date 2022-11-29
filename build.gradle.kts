@@ -1,4 +1,5 @@
 import net.ltgt.gradle.errorprone.errorprone
+import java.nio.file.Files
 import java.security.MessageDigest
 import java.util.*
 
@@ -100,8 +101,9 @@ fun AbstractArchiveTask.createBuildInformationFile(project: Project) {
     props["name"] = "fancyName".takeIf { project.extra.has(it) }?.let { project.extra[it] } as? String ?: project.name
     props["version"] = project.version
 
+    Files.createDirectories(project.buildDir.toPath())
     val buildInformationFile = project.buildDir.resolve("${project.name.removePrefix("vending-app").takeIf { it.isNotEmpty() }?.let { "$it-" } ?: ""}build-information.properties")
-    props.store(buildInformationFile.writer(), "Build information")
 
+    props.store(buildInformationFile.writer(), "Build information")
     from(buildInformationFile)
 }
