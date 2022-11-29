@@ -30,6 +30,11 @@ public class CitizenCardImpl implements CitizenCard {
     }
 
     @Override
+    public KeyPair getAuthenticationKeyPair() {
+        return new KeyPair(getAuthenticationPublicKey(), getAuthenticationPrivateKey());
+    }
+
+    @Override
     public PublicKey getAuthenticationPublicKey() {
         try {
             var keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());

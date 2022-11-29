@@ -36,7 +36,7 @@ public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable
             PTEID_ReaderSet.initSDK();
             PTEID_ReaderSet readerSet = PTEID_ReaderSet.instance();
             context = readerSet.getReader();
-            eventCallbackId = context.SetEventCallback(new CardEventCallback(), null);
+            eventCallbackId = context.SetEventCallback(new CardEventCallback(this), null);
         } catch (PTEID_Exception e) {
             throw new CitizenCardException(e);
         }

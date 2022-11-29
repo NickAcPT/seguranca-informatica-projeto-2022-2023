@@ -1,5 +1,6 @@
 package pt.ua.segurancainformatica.citizencard.model;
 
+import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -12,6 +13,8 @@ public interface CitizenCard {
      String getName();
 
      String getCivilNumber();
+
+     KeyPair getAuthenticationKeyPair();
 
      PublicKey getAuthenticationPublicKey();
 
