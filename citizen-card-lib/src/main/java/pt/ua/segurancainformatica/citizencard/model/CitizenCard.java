@@ -3,6 +3,7 @@ package pt.ua.segurancainformatica.citizencard.model;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.cert.Certificate;
 
 /**
  * Object representing a Portuguese Citizen Card.
@@ -19,4 +20,6 @@ public interface CitizenCard {
      PublicKey getAuthenticationPublicKey();
 
      PrivateKey getAuthenticationPrivateKey();
+
+     Certificate getAuthenticationCertificate();
 }

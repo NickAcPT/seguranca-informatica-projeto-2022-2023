@@ -7,6 +7,7 @@ import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
 import java.io.IOException;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
 public class CitizenCardImpl implements CitizenCard {
@@ -34,16 +35,20 @@ public class CitizenCardImpl implements CitizenCard {
         return new KeyPair(getAuthenticationPublicKey(), getAuthenticationPrivateKey());
     }
 
-    @Override
-    public PublicKey getAuthenticationPublicKey() {
+    public Certificate getAuthenticationCertificate() throws CitizenCardException {
         try {
-            var keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
+            KeyStore keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
             keyStore.load(null, null);
 
-            return keyStore.getCertificate("CITIZEN AUTHENTICATION CERTIFICATE").getPublicKey();
-        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            throw new CitizenCardException(e);
+            return keyStore.getCertificate("CITIZEN AUTHENTICATION CERTIFICATE");
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public PublicKey getAuthenticationPublicKey() {
+        return getAuthenticationCertificate().getPublicKey();
     }
 
     @Override
