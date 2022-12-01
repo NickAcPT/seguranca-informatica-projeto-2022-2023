@@ -1,16 +1,19 @@
 package pt.ua.segurancainformatica.manager.lib;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
+
 import java.io.IOException;
-import java.security.KeyPairGenerator;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
+import java.nio.file.Files;
+import java.security.*;
 
 public class LicensingManager {
 
     private static final String ALGORITHM = "RSA";
     private static final int KEY_SIZE = 2048;
+
+    private static @Nullable PublicKey loadedPublicKey;
 
     private LicensingManager() {
         throw new IllegalStateException("Utility class");
@@ -18,38 +21,48 @@ public class LicensingManager {
 
     /**
      * Generates a new keypair for the application.
-     * @return The generated public key.
+     *
      * @throws NoSuchAlgorithmException If the algorithm is not supported.
-     * @throws KeyStoreException If the keystore is not initialized.
      */
-    public static byte[] generateKeyPair() throws NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException {
+    public static void generateKeyPair() throws NoSuchAlgorithmException, IOException {
         var keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
         keyPairGenerator.initialize(KEY_SIZE);
         var keyPair = keyPairGenerator.generateKeyPair();
 
-        var instance = KeyStore.getInstance(KeyStore.getDefaultType());
-        instance.load(null, null);
-
-        // TODO: Save in keystore
-
-        return keyPair.getPublic().getEncoded();
+        Files.write(ManagerLicensingConstants.PUBLIC_KEY_PATH, keyPair.getPublic().getEncoded());
+        Files.write(ManagerLicensingConstants.PRIVATE_KEY_PATH, keyPair.getPrivate().getEncoded());
     }
 
     /**
      * Get the public key of the application.
+     *
      * @return The public key.
      */
-    public static byte[] getPublicKey() {
-        // TODO: Get from keystore
-        throw new UnsupportedOperationException("Not implemented yet");
+    public static @NotNull PublicKey getPublicKey() {
+        if (loadedPublicKey != null) {
+            return loadedPublicKey;
+        }
+
+        try {
+            var encodedPublicKey = Files.readAllBytes(ManagerLicensingConstants.PUBLIC_KEY_PATH);
+            loadedPublicKey = KeyUtils.getPublicKeyFromBytes(encodedPublicKey);
+            return loadedPublicKey;
+        } catch (IOException | GeneralSecurityException e) {
+            throw new RuntimeException("Unable to read public key", e);
+        }
     }
 
     /**
      * Get the private key of the application.
+     *
      * @return The private key.
      */
-    public static byte[] getPrivateKey() {
-        // TODO: Get from keystore
-        throw new UnsupportedOperationException("Not implemented yet");
+    public static @NotNull PrivateKey getPrivateKey() {
+        try {
+            var encodedPrivateKey = Files.readAllBytes(ManagerLicensingConstants.PRIVATE_KEY_PATH);
+            return KeyUtils.getPrivateKeyFromBytes(encodedPrivateKey);
+        } catch (IOException | GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
