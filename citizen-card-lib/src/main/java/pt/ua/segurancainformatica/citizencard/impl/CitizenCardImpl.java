@@ -35,6 +35,7 @@ public class CitizenCardImpl implements CitizenCard {
         return new KeyPair(getAuthenticationPublicKey(), getAuthenticationPrivateKey());
     }
 
+    @Override
     public Certificate getAuthenticationCertificate() throws CitizenCardException {
         try {
             KeyStore keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
