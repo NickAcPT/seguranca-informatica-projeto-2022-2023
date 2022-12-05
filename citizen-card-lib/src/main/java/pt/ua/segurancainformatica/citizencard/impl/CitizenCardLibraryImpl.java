@@ -14,6 +14,7 @@ import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
 import java.security.Provider;
 import java.security.Security;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 
 public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable {
@@ -50,7 +51,7 @@ public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable
             if (card != null) {
                 return new CitizenCardImpl(card);
             }
-        } catch (PTEID_Exception e) {
+        } catch (PTEID_Exception | CertificateException e) {
             return null;
         }
         return null;

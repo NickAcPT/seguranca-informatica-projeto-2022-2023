@@ -11,7 +11,7 @@ public class CitizenCardRequiringTest {
 
     @BeforeAll
     static void setUp() {
-        card = CitizenCardLibraryImpl.INSTANCE.readCitizenCard();
+         card = CitizenCardLibraryImpl.INSTANCE.readCitizenCard();
     }
 
     @AfterAll

@@ -1,5 +1,7 @@
 package pt.ua.segurancainformatica.citizencard.model;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -22,4 +24,6 @@ public interface CitizenCard {
      PrivateKey getAuthenticationPrivateKey();
 
      Certificate getAuthenticationCertificate();
+
+     Certificate @Nullable [] getAuthenticationCertificateChain();
 }

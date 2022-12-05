@@ -3,9 +3,6 @@ package pt.ua.segurancainformatica.citizencard.callbacks;
 import org.jetbrains.annotations.NotNull;
 import pt.gov.cartaodecidadao.Callback;
 import pt.ua.segurancainformatica.citizencard.CitizenCardLibrary;
-import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
-
-import java.util.Objects;
 
 public class CardEventCallback implements Callback {
 
@@ -17,12 +14,14 @@ public class CardEventCallback implements Callback {
 
     @Override
     public void getEvent(long lRet, long ulState, Object callbackData) {
+        // No listeners, no need to do anything
+        if (citizenCardLibrary.getListeners().isEmpty()) return;
+
         int cardState = (int) ulState & 0x0000FFFF;
         if ((cardState & 0x0100) != 0) {
             // Card inserted
-            CitizenCard card = citizenCardLibrary.readCitizenCard();
             for (CitizenCardListener citizenCard : citizenCardLibrary.getListeners()) {
-                citizenCard.onCardInserted(Objects.requireNonNull(card));
+                citizenCard.onCardInserted();
             }
         } else {
             // Card removed
