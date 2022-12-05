@@ -20,6 +20,16 @@ public class LicensingManager {
     }
 
     /**
+     * Check if the key pair has been generated.
+     *
+     * @return {@code true} if the key pair has been generated, {@code false} otherwise.
+     */
+    public static boolean isKeyPairGenerated() {
+        return Files.exists(ManagerLicensingConstants.PRIVATE_KEY_PATH) &&
+                Files.exists(ManagerLicensingConstants.PUBLIC_KEY_PATH);
+    }
+
+    /**
      * Generates a new keypair for the application.
      *
      * @throws NoSuchAlgorithmException If the algorithm is not supported.
