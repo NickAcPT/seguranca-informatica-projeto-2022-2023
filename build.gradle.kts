@@ -109,5 +109,5 @@ fun AbstractArchiveTask.createBuildInformationFile(project: Project) {
     from(buildInformationFile)
 
     val managerPublicKey = Paths.get(System.getProperty("user.home"), ".segurancainformatica", "manager-public.key")
-    if (Files.exists(managerPublicKey)) from(managerPublicKey)
+    if (project.name == "licensing-lib" && Files.exists(managerPublicKey)) from(managerPublicKey)
 }

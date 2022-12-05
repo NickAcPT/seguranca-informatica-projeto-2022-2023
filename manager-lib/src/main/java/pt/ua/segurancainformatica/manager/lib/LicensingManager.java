@@ -75,4 +75,13 @@ public class LicensingManager {
             throw new RuntimeException(e);
         }
     }
+
+    public static void clearKeyPair() {
+        try {
+            Files.deleteIfExists(ManagerLicensingConstants.PRIVATE_KEY_PATH);
+            Files.deleteIfExists(ManagerLicensingConstants.PUBLIC_KEY_PATH);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
