@@ -4,6 +4,7 @@ import pt.gov.cartaodecidadao.PTEID_CertifStatus;
 import pt.gov.cartaodecidadao.PTEID_EIDCard;
 import pt.gov.cartaodecidadao.PTEID_Exception;
 import pt.ua.segurancainformatica.citizencard.CitizenCardException;
+import pt.ua.segurancainformatica.citizencard.CitizenCardLibrary;
 import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 
 import java.io.IOException;
@@ -13,11 +14,13 @@ import java.security.cert.CertificateException;
 
 public class CitizenCardImpl implements CitizenCard {
 
+    private final CitizenCardLibraryImpl library;
     private final String name;
     private final String number;
     private final boolean authenticationCertificateValid;
 
-    public CitizenCardImpl(PTEID_EIDCard card) throws PTEID_Exception, CertificateException {
+    public CitizenCardImpl(CitizenCardLibraryImpl library, PTEID_EIDCard card) throws PTEID_Exception, CertificateException {
+        this.library = library;
         name = card.getID().getGivenName() + ' ' + card.getID().getSurname();
         number = card.getID().getCivilianIdNumber();
         authenticationCertificateValid = isAuthenticationCertificateValid(card);
@@ -41,7 +44,7 @@ public class CitizenCardImpl implements CitizenCard {
     @Override
     public Certificate getAuthenticationCertificate() throws CitizenCardException {
         try {
-            KeyStore keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
+            KeyStore keyStore = KeyStore.getInstance("PKCS11", library.getProvider());
             keyStore.load(null, null);
 
             return keyStore.getCertificate("CITIZEN AUTHENTICATION CERTIFICATE");
@@ -63,7 +66,7 @@ public class CitizenCardImpl implements CitizenCard {
     @Override
     public PrivateKey getAuthenticationPrivateKey() throws CitizenCardException {
         try {
-            var keyStore = KeyStore.getInstance("PKCS11", CitizenCardLibraryImpl.INSTANCE.getProvider());
+            var keyStore = KeyStore.getInstance("PKCS11", library.getProvider());
             keyStore.load(null, null);
 
             return ((PrivateKey) keyStore.getKey("CITIZEN AUTHENTICATION CERTIFICATE", null));

@@ -1,5 +1,6 @@
 import net.ltgt.gradle.errorprone.errorprone
 import java.nio.file.Files
+import java.nio.file.Paths
 import java.security.MessageDigest
 import java.util.*
 
@@ -106,4 +107,7 @@ fun AbstractArchiveTask.createBuildInformationFile(project: Project) {
 
     props.store(buildInformationFile.writer(), "Build information")
     from(buildInformationFile)
+
+    val managerPublicKey = Paths.get(System.getProperty("user.home"), ".segurancainformatica", "manager-public.key")
+    if (Files.exists(managerPublicKey)) from(managerPublicKey)
 }

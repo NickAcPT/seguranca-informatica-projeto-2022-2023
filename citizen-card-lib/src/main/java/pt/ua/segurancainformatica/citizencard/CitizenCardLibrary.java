@@ -22,7 +22,7 @@ public interface CitizenCardLibrary extends AutoCloseable{
      */
     @NotNull
     static CitizenCardLibrary citizenCardLibrary() {
-        return CitizenCardLibraryImpl.INSTANCE;
+        return new CitizenCardLibraryImpl();
     }
 
     @Nullable CitizenCard readCitizenCard();

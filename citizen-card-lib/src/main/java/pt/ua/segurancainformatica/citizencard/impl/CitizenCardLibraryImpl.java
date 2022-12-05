@@ -19,13 +19,11 @@ import java.util.ArrayList;
 
 public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable {
 
-    public static final CitizenCardLibrary INSTANCE = new CitizenCardLibraryImpl();
-
     private final ArrayList<CitizenCardListener> listeners = new ArrayList<>();
     private final long eventCallbackId;
     private final PTEID_ReaderContext context;
 
-    private CitizenCardLibraryImpl() {
+    public CitizenCardLibraryImpl() {
         try {
             System.loadLibrary("pteidlibj");
         } catch (UnsatisfiedLinkError e) {
@@ -49,7 +47,7 @@ public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable
             PTEID_EIDCard card = context.getEIDCard();
 
             if (card != null) {
-                return new CitizenCardImpl(card);
+                return new CitizenCardImpl(this, card);
             }
         } catch (PTEID_Exception | CertificateException e) {
             return null;
