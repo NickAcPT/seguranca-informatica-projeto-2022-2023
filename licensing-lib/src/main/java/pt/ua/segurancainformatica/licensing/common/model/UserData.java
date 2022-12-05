@@ -4,30 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import java.io.ByteArrayInputStream;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.Arrays;
 
 public record UserData(
         @NotNull String fullName,
         @NotNull String civilNumber,
-        byte @NotNull [] encodedPublicKey) {
+        byte @NotNull [] encodedAuthenticationCertificate,
+        boolean isAuthenticationCertificateValidAccordingToPteidSDK) {
 
-    public UserData(@NotNull String fullName, @NotNull String civilNumber, @NotNull PublicKey publicKey) {
-        this(fullName, civilNumber, publicKey.getEncoded());
+    public UserData(@NotNull String fullName, @NotNull String civilNumber, @NotNull Certificate certificate, boolean isAuthenticationCertificateValidAccordingToPteidSDK) throws CertificateEncodingException {
+        this(fullName, civilNumber, certificate.getEncoded(), isAuthenticationCertificateValidAccordingToPteidSDK);
     }
 
     @JsonIgnore
-    public @Nullable PublicKey publicKey() throws InvalidKeySpecException {
-        var spec = new X509EncodedKeySpec(encodedPublicKey);
+    public @Nullable Certificate authenticationCertificate() {
         try {
-            return KeyFactory.getInstance("RSA").generatePublic(spec);
-        } catch (NoSuchAlgorithmException e) { // wat
-            throw new RuntimeException(e);
+            var certificateFactory = CertificateFactory.getInstance("X.509");
+            certificateFactory.generateCertificate(new ByteArrayInputStream(encodedAuthenticationCertificate));
+        } catch (CertificateException e) {
+            return null;
         }
+        return null;
     }
 
     @Override
@@ -35,16 +37,19 @@ public record UserData(
         if (this == o) return true;
         if (!(o instanceof UserData userData)) return false;
 
+        if (isAuthenticationCertificateValidAccordingToPteidSDK != userData.isAuthenticationCertificateValidAccordingToPteidSDK)
+            return false;
         if (!fullName.equals(userData.fullName)) return false;
         if (!civilNumber.equals(userData.civilNumber)) return false;
-        return Arrays.equals(encodedPublicKey, userData.encodedPublicKey);
+        return Arrays.equals(encodedAuthenticationCertificate, userData.encodedAuthenticationCertificate);
     }
 
     @Override
     public int hashCode() {
         int result = fullName.hashCode();
         result = 31 * result + civilNumber.hashCode();
-        result = 31 * result + Arrays.hashCode(encodedPublicKey);
+        result = 31 * result + Arrays.hashCode(encodedAuthenticationCertificate);
+        result = 31 * result + (isAuthenticationCertificateValidAccordingToPteidSDK ? 1 : 0);
         return result;
     }
 
@@ -53,7 +58,8 @@ public record UserData(
         return "UserData{" +
                 "fullName='" + fullName + '\'' +
                 ", civilNumber='" + civilNumber + '\'' +
-                ", encodedPublicKey=" + Arrays.toString(encodedPublicKey) +
+                ", encodedAuthenticationCertificate=" + Arrays.toString(encodedAuthenticationCertificate) +
+                ", isAuthenticationCertificateValidAccordingToPteidSDK=" + isAuthenticationCertificateValidAccordingToPteidSDK +
                 '}';
     }
 }

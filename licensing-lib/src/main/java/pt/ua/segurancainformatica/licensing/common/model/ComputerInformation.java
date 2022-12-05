@@ -9,7 +9,8 @@ import java.util.Arrays;
 
 public record ComputerInformation(
         @NotNull EnvironmentVariableEntry[] environmentVariables,
-        @NotNull NetworkInterfaceEntry[] networkInterfaces) {
+        @NotNull NetworkInterfaceEntry[] networkInterfaces
+) {
 
     public ComputerInformation() {
         this(LicensingCommon.getEnvironmentVariableEntries(), LicensingCommon.getNetworkInterfaceEntries());

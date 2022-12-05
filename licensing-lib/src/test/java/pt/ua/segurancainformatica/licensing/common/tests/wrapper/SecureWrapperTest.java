@@ -49,7 +49,7 @@ class SecureWrapperTest {
 
         managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, null, null);
         request = new LicenseRequest(
-                new UserData("Sample User", "123456789", userKeyPair.getPublic()),
+                new UserData("Sample User", "123456789", userKeyPair.getPublic().getEncoded(), true),
                 new ApplicationInformation("Sample App", "1.0.0", "")
         );
     }
@@ -84,7 +84,7 @@ class SecureWrapperTest {
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong private key.
-        var modifiedContext = new SecureWrapperPipelineContext(
+        var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
                 userContext.managerKeyPair(),
                 new KeyPair(Objects.requireNonNull(userContext.userKeyPair()).getPublic(), /* Bad actor private key */ keyPair.getPrivate()),
@@ -104,7 +104,7 @@ class SecureWrapperTest {
         var keyPair = keyPairGenerator.generateKeyPair();
 
         // Wrap the object and sign it with the wrong public key.
-        var modifiedContext = new SecureWrapperPipelineContext(
+        var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
                 userContext.managerKeyPair(),
                 new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
