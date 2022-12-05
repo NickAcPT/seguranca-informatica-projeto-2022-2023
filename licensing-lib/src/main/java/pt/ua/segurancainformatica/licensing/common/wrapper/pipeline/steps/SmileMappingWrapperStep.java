@@ -8,6 +8,9 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalida
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineStep;
 
+import static pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedReason.ERROR_DESERIALIZE_OBJECT;
+import static pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedReason.ERROR_SERIALIZE_OBJECT;
+
 public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object, byte[]> {
     private final SmileMapper mapper = new SmileMapper();
     private @Nullable Class<?> expectedDeserializeType = null;
@@ -24,7 +27,7 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
         try {
             return mapper.writeValueAsBytes(input);
         } catch (JsonProcessingException e) {
-            throw new SecureWrapperInvalidatedException("Unable to serialize the object to smile format.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_SERIALIZE_OBJECT, e);
         }
     }
 
@@ -37,7 +40,7 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
                 return mapper.readValue(input, context.type());
             }
         } catch (Exception e) {
-            throw new SecureWrapperInvalidatedException("Unable to serialize the object to smile format.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_DESERIALIZE_OBJECT, e);
         }
     }
 }

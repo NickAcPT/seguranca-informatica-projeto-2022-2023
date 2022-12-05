@@ -11,6 +11,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 
+import static pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedReason.*;
+
 public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherUtils.CipherResult, CipheredSecureObject> {
     @Override
     public CipheredSecureObject wrap(SecureWrapperPipelineContext<?> context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
@@ -18,7 +20,7 @@ public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherU
         try {
             SecretKey cipherKey = context.cipherKey();
             if (cipherKey == null) {
-                throw new SecureWrapperInvalidatedException("Cipher key is null.");
+                throw new SecureWrapperInvalidatedException(NULL_CIPHER_KEY);
             }
 
             var cipheredSymmetric = CipherUtils.cipherBlob(
@@ -27,12 +29,12 @@ public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherU
             );
 
             if (cipheredSymmetric.iv() != null) {
-                throw new SecureWrapperInvalidatedException("Symmetric key ciphered with an IV.");
+                throw new SecureWrapperInvalidatedException(SYMMETRIC_KEY_CIPHERED_WITH_IV);
             }
 
             return new CipheredSecureObject(input, cipheredSymmetric.blob());
         } catch (GeneralSecurityException e) {
-            throw new SecureWrapperInvalidatedException("Unable to cipher the symmetric key.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_CIPHERING_SYMMETRIC_KEY, e);
         }
     }
 
@@ -40,7 +42,7 @@ public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherU
     public CipherUtils.CipherResult unwrap(SecureWrapperPipelineContext<?> context, CipheredSecureObject input) throws SecureWrapperInvalidatedException {
         PrivateKey managerPrivateKey = context.managerKeyPair().getPrivate();
         if (managerPrivateKey == null) {
-            throw new SecureWrapperInvalidatedException("Unable to decipher the symmetric key because the manager private key is missing.");
+            throw new SecureWrapperInvalidatedException(MANAGER_PRIVATE_KEY_MISSING);
         }
 
         try {
@@ -53,7 +55,7 @@ public class CipherSecureObjectStep implements SecureWrapperPipelineStep<CipherU
 
             return input.ciphered();
         } catch (Exception e) {
-            throw new SecureWrapperInvalidatedException("Unable to decipher the symmetric key.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_DECIPHERING_SYMMETRIC_KEY, e);
         }
     }
 }

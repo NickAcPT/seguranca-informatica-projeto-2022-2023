@@ -7,16 +7,18 @@ import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrappe
 
 import javax.crypto.SecretKey;
 
+import static pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedReason.*;
+
 public class ObjectCipherStep implements SecureWrapperPipelineStep<byte[], CipherUtils.CipherResult> {
     @Override
     public CipherUtils.CipherResult wrap(SecureWrapperPipelineContext<?> context, byte[] input) throws SecureWrapperInvalidatedException {
         try {
             SecretKey cipherKey = context.cipherKey();
-            if (cipherKey == null) throw new SecureWrapperInvalidatedException("Cipher key is null.");
+            if (cipherKey == null) throw new SecureWrapperInvalidatedException(NULL_CIPHER_KEY);
 
             return CipherUtils.cipherBlob(input, cipherKey);
         } catch (Exception e) {
-            throw new SecureWrapperInvalidatedException("Unable to cipher the object.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_CIPHERING_SECURE_OBJECT, e);
         }
     }
 
@@ -24,11 +26,11 @@ public class ObjectCipherStep implements SecureWrapperPipelineStep<byte[], Ciphe
     public byte[] unwrap(SecureWrapperPipelineContext<?> context, CipherUtils.CipherResult input) throws SecureWrapperInvalidatedException {
         try {
             SecretKey cipherKey = context.cipherKey();
-            if (cipherKey == null) throw new SecureWrapperInvalidatedException("Cipher key is null.");
+            if (cipherKey == null) throw new SecureWrapperInvalidatedException(NULL_CIPHER_KEY);
 
             return CipherUtils.decipherBlob(input, cipherKey);
         } catch (Exception e) {
-            throw new SecureWrapperInvalidatedException("Unable to decipher the object.", e);
+            throw new SecureWrapperInvalidatedException(ERROR_DECIPHERING_SECURE_OBJECT, e);
         }
     }
 }
