@@ -135,7 +135,6 @@ class SecureWrapperTest {
         );
 
         var wrapped = SecureWrapper.wrapObject(request, modifiedContext);
-        SecureWrapper.unwrapObject(wrapped, managerContext);
         Assertions.assertThrows(
                 SecureWrapperInvalidatedException.class,
                 () -> SecureWrapper.unwrapObject(wrapped, managerContext)
