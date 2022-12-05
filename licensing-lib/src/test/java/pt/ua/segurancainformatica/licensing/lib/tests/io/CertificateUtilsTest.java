@@ -9,7 +9,7 @@ class CertificateUtilsTest extends CitizenCardRequiringTest {
     public void testCertificateCheck() {
         Assertions.assertDoesNotThrow(() -> {
             if (card != null) {
-                Assertions.assertTrue(CertificateUtils.isValid(card.getAuthenticationCertificate()));
+                Assertions.assertTrue(CertificateUtils.isValid(card.getAuthenticationCertificate()) && card.isAuthenticationCertificateValid());
             }
         });
     }
