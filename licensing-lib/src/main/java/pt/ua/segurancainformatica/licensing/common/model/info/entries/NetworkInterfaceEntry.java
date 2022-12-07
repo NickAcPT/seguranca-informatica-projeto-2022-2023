@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * Represents a network interface entry.
  */
-public record NetworkInterfaceEntry(@NotNull String adapterName,
+public record NetworkInterfaceEntry(@NotNull String adapterName, @NotNull String friendlyName,
                                     byte @NotNull [] hardwareAddress) implements SystemInformationEntry<String, byte[]> {
     @Override
     public boolean matches() {
@@ -23,19 +23,10 @@ public record NetworkInterfaceEntry(@NotNull String adapterName,
     }
 
     @Override
-    public String key() {
-        return adapterName;
-    }
-
-    @Override
-    public byte[] value() {
-        return hardwareAddress;
-    }
-
-    @Override
     public String toString() {
         return "NetworkInterfaceEntry{" +
                 "adapterName='" + adapterName + '\'' +
+                ", friendlyName='" + friendlyName + '\'' +
                 ", hardwareAddress=" + Arrays.toString(hardwareAddress) +
                 '}';
     }
@@ -46,12 +37,14 @@ public record NetworkInterfaceEntry(@NotNull String adapterName,
         if (!(o instanceof NetworkInterfaceEntry that)) return false;
 
         if (!adapterName.equals(that.adapterName)) return false;
+        if (!friendlyName.equals(that.friendlyName)) return false;
         return Arrays.equals(hardwareAddress, that.hardwareAddress);
     }
 
     @Override
     public int hashCode() {
         int result = adapterName.hashCode();
+        result = 31 * result + friendlyName.hashCode();
         result = 31 * result + Arrays.hashCode(hardwareAddress);
         return result;
     }

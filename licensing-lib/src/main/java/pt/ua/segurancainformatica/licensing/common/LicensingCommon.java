@@ -58,7 +58,7 @@ public class LicensingCommon {
                 var i = interfaces.nextElement();
                 var hardwareAddress = i.getHardwareAddress();
                 if (hardwareAddress != null && FILTERED_NETWORK_INTERFACE_NAMES.stream().noneMatch(i.getDisplayName()::contains)) {
-                    entries.add(new NetworkInterfaceEntry(i.getDisplayName(), hardwareAddress));
+                    entries.add(new NetworkInterfaceEntry(i.getName(), i.getDisplayName(), hardwareAddress));
                 }
             }
         } catch (SocketException e) {
@@ -82,12 +82,16 @@ public class LicensingCommon {
         }
     }
 
-    public static @NotNull UserData getUserDataFromCitizenCard(CitizenCard card) throws CertificateEncodingException {
-        return new UserData(
-                card.getName(),
-                card.getCivilNumber(),
-                card.getAuthenticationCertificate(),
-                card.isAuthenticationCertificateValid()
-        );
+    public static @NotNull UserData getUserDataFromCitizenCard(CitizenCard card) {
+        try {
+            return new UserData(
+                    card.getName(),
+                    card.getCivilNumber(),
+                    card.getAuthenticationCertificate(),
+                    card.isAuthenticationCertificateValid()
+            );
+        } catch (CertificateEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

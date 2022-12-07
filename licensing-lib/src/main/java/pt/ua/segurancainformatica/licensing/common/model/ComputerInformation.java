@@ -19,9 +19,7 @@ public record ComputerInformation(
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ComputerInformation that = (ComputerInformation) o;
+        if (!(o instanceof ComputerInformation that)) return false;
 
         if (!Arrays.equals(environmentVariables, that.environmentVariables)) return false;
         return Arrays.equals(networkInterfaces, that.networkInterfaces);

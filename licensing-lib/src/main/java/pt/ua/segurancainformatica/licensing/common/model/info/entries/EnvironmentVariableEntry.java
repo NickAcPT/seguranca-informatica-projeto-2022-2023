@@ -29,8 +29,4 @@ public record EnvironmentVariableEntry(@NotNull String environmentVariable,
         return value.equals(System.getenv(environmentVariable));
     }
 
-    @Override
-    public String key() {
-        return environmentVariable;
-    }
 }

@@ -14,16 +14,4 @@ public interface SystemInformationEntry<K, V> {
      */
     boolean matches();
 
-    /**
-     * The name of the entry.
-     *
-     * @return the name of the entry
-     */
-    K key();
-
-    /**
-     * The value of the entry.
-     * @return the value of the entry.
-     */
-    V value();
 }

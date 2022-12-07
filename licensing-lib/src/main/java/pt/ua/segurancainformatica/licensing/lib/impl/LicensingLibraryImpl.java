@@ -29,8 +29,9 @@ import java.nio.file.Files;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.cert.CertificateEncodingException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListener {
     public static final LicensingLibrary INSTANCE = new LicensingLibraryImpl();
@@ -105,7 +106,49 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public boolean isRegistered() {
-        return currentLicenseInformation != null /*&& currentLicenseInformation.isValid()*/;
+        if (currentLicenseInformation == null || currentCitizenCard == null || currentApplicationInformation == null) {
+            return false;
+        }
+
+        var user = currentLicenseInformation.user();
+        var userDataFromCitizenCard = LicensingCommon.getUserDataFromCitizenCard(currentCitizenCard);
+        if (!user.equals(userDataFromCitizenCard)) {
+            System.out.println("Citizen card data does not match license data");
+            return false;
+        }
+
+        var application = currentLicenseInformation.application();
+        if (!application.equals(currentApplicationInformation)) {
+            System.out.println("Application data does not match license data");
+            return false;
+        }
+
+        if (checkIsMismatch(
+                currentLicenseInformation.computer().environmentVariables(),
+                LicensingConstants.MISMATCH_ENVIRONMENT_VARIABLE_PERCENTAGE,
+                e -> !e.matches())
+        ) {
+            System.out.println("Environment variables do not match license data");
+            return false;
+        }
+
+
+        if (checkIsMismatch(
+                currentLicenseInformation.computer().networkInterfaces(),
+                LicensingConstants.MISMATCH_NETWORK_INTERFACE_PERCENTAGE,
+                e -> !e.matches())
+        ) {
+            System.out.println("Network interfaces do not match license data");
+            return false;
+        }
+
+        return true;
+    }
+
+    private <T> boolean checkIsMismatch(@NotNull T @NotNull [] value, double percentage, Predicate<@NotNull T> predicate) {
+        var mismatchEnvVars = Arrays.stream(value).filter(predicate).count();
+        var envVars = value.length;
+        return (double) mismatchEnvVars / envVars > percentage;
     }
 
     @Override
@@ -128,9 +171,6 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
             throw new LicensingException("O processo de registo foi iniciado com sucesso.\n" +
                     "Por favor, contacte o administrador do sistema para continuar o processo.");
-        } catch (CertificateEncodingException e) {
-            throw new LicensingException("Não foi possível iniciar o processo de registo.\n" +
-                    "Não foi possível codificar o certificado de autenticação do Cartão de Cidadão.", e);
         } catch (SecureWrapperInvalidatedException e) {
             throw new LicensingException("Não foi possível efectuar o processo de registo.\n" +
                     "O sistema de segurança foi invalidado.", e);
