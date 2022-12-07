@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api("com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.14.0")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0")
     implementation("org.zeroturnaround:zt-zip:1.15")
 
     implementation(project(":citizen-card-lib"))

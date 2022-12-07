@@ -29,6 +29,10 @@ public final class SecureWrapperPipelineContext<T> {
         return type;
     }
 
+    public @Nullable KeyPair keyPairToUse() {
+        return managerKeyPair.getPrivate() != null ? managerKeyPair : userKeyPair;
+    }
+
     public KeyPair managerKeyPair() {
         return managerKeyPair;
     }

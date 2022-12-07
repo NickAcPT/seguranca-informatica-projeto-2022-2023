@@ -4,7 +4,8 @@ import picocli.CommandLine;
 
 @CommandLine.Command(name = "manager", mixinStandardHelpOptions = true, subcommands = {
         KeyCommands.class,
-        ReleaseCommands.class
+        ReleaseCommands.class,
+        LicenseCommands.class
 })
 public class ManagerCommand {
 

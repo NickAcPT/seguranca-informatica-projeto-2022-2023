@@ -75,8 +75,8 @@ public class LicensingCommon {
             var properties = new java.util.Properties();
             properties.load(buildProperties);
             return new ApplicationInformation(
-                    properties.getProperty("application.name"),
-                    properties.getProperty("application.version"),
+                    properties.getProperty("name"),
+                    properties.getProperty("version"),
                     hash
             );
         }

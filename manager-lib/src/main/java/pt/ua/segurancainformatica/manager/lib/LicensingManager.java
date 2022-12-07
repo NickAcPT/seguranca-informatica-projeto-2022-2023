@@ -2,11 +2,23 @@ package pt.ua.segurancainformatica.manager.lib;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pt.ua.segurancainformatica.licensing.common.model.license.LicenseData;
+import pt.ua.segurancainformatica.licensing.common.model.license.LicenseInformation;
+import pt.ua.segurancainformatica.licensing.common.model.request.LicenseRequest;
 import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
+import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapper;
+import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
+import pt.ua.segurancainformatica.manager.lib.licenses.LicenseInformationManager;
+import pt.ua.segurancainformatica.manager.lib.release.ApplicationRelease;
+import pt.ua.segurancainformatica.manager.lib.release.ApplicationReleaseManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.*;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class LicensingManager {
 
@@ -83,5 +95,52 @@ public class LicensingManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NotNull
+    private static String getSimpleUserName(LicenseRequest request) {
+        var name = request.user().fullName();
+        // Split at first space
+        var split = name.split(" ", 2);
+        return split[0];
+    }
+
+    public static void processRequest(byte[] requestBytes) throws SecureWrapperInvalidatedException, LicensingManagerException, IOException {
+        var managerKeyPair = new KeyPair(LicensingManager.getPublicKey(), LicensingManager.getPrivateKey());
+        var licenseRequestContext = new SecureWrapperPipelineContext<>(
+                LicenseRequest.class,
+                managerKeyPair,
+                null, null
+        );
+
+        var request = SecureWrapper.unwrapObject(requestBytes, licenseRequestContext);
+        var requestApplicationRelease = new ApplicationRelease(request.application().name(), request.application().version(), request.application().hash());
+
+        var releases = ApplicationReleaseManager.INSTANCE.getValues().stream()
+                .filter(r -> r.equals(requestApplicationRelease))
+                .findFirst().orElse(null);
+
+        if (releases == null) {
+            throw new LicensingManagerException("Release for " + requestApplicationRelease + " not found");
+        }
+
+        var now = Instant.now();
+        var license = new LicenseInformation(
+                request.user(),
+                request.application(),
+                request.computer(),
+                new LicenseData(now, now.plus(30, ChronoUnit.DAYS))
+        );
+
+        var licenseInfoContext = new SecureWrapperPipelineContext<>(
+                LicenseInformation.class,
+                managerKeyPair,
+                licenseRequestContext.userKeyPair(), licenseRequestContext.cipherKey()
+        );
+        var licenseBytes = SecureWrapper.wrapObject(license, licenseInfoContext);
+
+        Files.write(Path.of(ManagerLicensingConstants.LICENSE_TEMPLATE_NAME.replace("%name%", getSimpleUserName(request))), licenseBytes);
+
+        LicenseInformationManager.INSTANCE.addValue(license);
     }
 }

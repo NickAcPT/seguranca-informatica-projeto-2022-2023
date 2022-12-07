@@ -5,4 +5,9 @@ public record ApplicationRelease(
         String version,
         String hash
 ) {
+
+    @Override
+    public String toString() {
+        return String.format("Application \"%s\" version \"%s\" (\"%s\")", name, version, hash);
+    }
 }

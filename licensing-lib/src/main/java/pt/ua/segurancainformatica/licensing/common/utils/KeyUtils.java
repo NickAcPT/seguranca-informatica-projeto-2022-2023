@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class KeyUtils {
@@ -19,6 +20,6 @@ public class KeyUtils {
     }
 
     public static PrivateKey getPrivateKeyFromBytes(byte @NotNull [] key) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        return KeyFactory.getInstance("RSA").generatePrivate(new X509EncodedKeySpec(key));
+        return KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(key));
     }
 }

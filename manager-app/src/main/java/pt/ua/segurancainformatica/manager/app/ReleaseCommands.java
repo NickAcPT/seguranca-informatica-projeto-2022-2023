@@ -30,7 +30,7 @@ public class ReleaseCommands {
 
     @CommandLine.Command(name = "list", description = "List all application releases.")
     public Integer listReleases() {
-        var releases = ApplicationReleaseManager.getApplicationReleases();
+        var releases = ApplicationReleaseManager.INSTANCE.getValues();
 
         System.out.println("Application releases:");
         if (releases.isEmpty()) {
@@ -71,7 +71,7 @@ public class ReleaseCommands {
 
             var hash = Files.readString(hashFile);
 
-            ApplicationReleaseManager.addRelease(new ApplicationRelease(name, version, hash));
+            ApplicationReleaseManager.INSTANCE.addValue(new ApplicationRelease(name, version, hash));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,10 +84,10 @@ public class ReleaseCommands {
     public Integer removeRelease(
             @CommandLine.Parameters(index = "0", description = "The index of the release to remove") int index
     ) {
-        var releases = ApplicationReleaseManager.getApplicationReleases();
+        var releases = ApplicationReleaseManager.INSTANCE.getValues();
         var toRemove = releases.get(index - 1);
 
-        ApplicationReleaseManager.removeRelease(toRemove);
+        ApplicationReleaseManager.INSTANCE.removeValue(toRemove);
         return 0;
     }
 }

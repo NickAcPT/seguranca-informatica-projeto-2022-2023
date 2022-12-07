@@ -2,6 +2,7 @@ package pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
@@ -16,6 +17,8 @@ public class SmileMappingWrapperStep implements SecureWrapperPipelineStep<Object
     private @Nullable Class<?> expectedDeserializeType = null;
 
     public SmileMappingWrapperStep() {
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        mapper.registerModule(javaTimeModule);
     }
 
     public SmileMappingWrapperStep(@NotNull Class<?> expectedDeserializeType) {

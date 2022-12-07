@@ -10,7 +10,4 @@ public record LicenseInformation(
         ComputerInformation computer,
         LicenseData license
 ) {
-    public boolean isValid() {
-        return false;
-    }
 }

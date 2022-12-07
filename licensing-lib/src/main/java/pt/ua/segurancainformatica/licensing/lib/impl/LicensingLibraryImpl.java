@@ -104,7 +104,7 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public boolean isRegistered() {
-        return currentLicenseInformation != null && currentLicenseInformation.isValid();
+        return currentLicenseInformation != null /*&& currentLicenseInformation.isValid()*/;
     }
 
     @Override
