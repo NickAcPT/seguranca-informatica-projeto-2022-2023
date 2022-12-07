@@ -9,6 +9,7 @@ import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapper;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineSide;
 import pt.ua.segurancainformatica.manager.lib.licenses.LicenseInformationManager;
 import pt.ua.segurancainformatica.manager.lib.release.ApplicationRelease;
 import pt.ua.segurancainformatica.manager.lib.release.ApplicationReleaseManager;
@@ -109,7 +110,7 @@ public class LicensingManager {
         var managerKeyPair = new KeyPair(LicensingManager.getPublicKey(), LicensingManager.getPrivateKey());
         var licenseRequestContext = new SecureWrapperPipelineContext<>(
                 LicenseRequest.class,
-                managerKeyPair,
+                SecureWrapperPipelineSide.MANAGER, managerKeyPair,
                 null, null
         );
 
@@ -134,7 +135,7 @@ public class LicensingManager {
 
         var licenseInfoContext = new SecureWrapperPipelineContext<>(
                 LicenseInformation.class,
-                managerKeyPair,
+                SecureWrapperPipelineSide.MANAGER, managerKeyPair,
                 licenseRequestContext.userKeyPair(), licenseRequestContext.cipherKey()
         );
         var licenseBytes = SecureWrapper.wrapObject(license, licenseInfoContext);

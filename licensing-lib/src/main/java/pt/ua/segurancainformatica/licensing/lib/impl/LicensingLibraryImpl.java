@@ -16,6 +16,7 @@ import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapper;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineSide;
 import pt.ua.segurancainformatica.licensing.lib.LicensingAlertor;
 import pt.ua.segurancainformatica.licensing.lib.LicensingConstants;
 import pt.ua.segurancainformatica.licensing.lib.LicensingException;
@@ -187,7 +188,7 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
             return new SecureWrapperPipelineContext<>(
                     clazz,
-                    new KeyPair(managerPublicKey, null),
+                    SecureWrapperPipelineSide.USER, new KeyPair(managerPublicKey, null),
                     citizenCard.getAuthenticationKeyPair(),
                     cipherKey
             );

@@ -12,6 +12,7 @@ import pt.ua.segurancainformatica.licensing.common.model.request.LicenseRequest;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapper;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
+import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineSide;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -45,9 +46,9 @@ class SecureWrapperTest {
         userContext = SecureWrapper.createContext(LicenseRequest.class, new KeyPair(
                 managerKeyPair.getPublic(),
                 null
-        ), userKeyPair, cipherKey);
+        ), userKeyPair, cipherKey, SecureWrapperPipelineSide.USER);
 
-        managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, null, null);
+        managerContext = SecureWrapper.createContext(LicenseRequest.class, managerKeyPair, null, null, SecureWrapperPipelineSide.MANAGER);
         request = new LicenseRequest(
                 new UserData("Sample User", "123456789", userKeyPair.getPublic().getEncoded(), true),
                 new ApplicationInformation("Sample App", "1.0.0", "")
@@ -58,6 +59,18 @@ class SecureWrapperTest {
     void wrapObject() {
         Assertions.assertDoesNotThrow(() -> {
             SecureWrapper.wrapObject(request, userContext);
+        });
+    }
+
+    @Test
+    void unwrapObjectFromManager() {
+        Assertions.assertDoesNotThrow(() -> {
+            var managerCtx = SecureWrapper.createContext(LicenseRequest.class, managerContext.managerKeyPair(), null, null, SecureWrapperPipelineSide.MANAGER);
+            var wrappedFromUser = SecureWrapper.wrapObject(request, userContext);
+            var unwrappedFromManager = SecureWrapper.unwrapObject(wrappedFromUser, managerCtx);
+
+            var wrappedFromManager = SecureWrapper.wrapObject(unwrappedFromManager, managerCtx);
+            SecureWrapper.unwrapObject(wrappedFromManager, userContext);
         });
     }
 
@@ -86,7 +99,7 @@ class SecureWrapperTest {
         // Wrap the object and sign it with the wrong private key.
         var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
-                userContext.managerKeyPair(),
+                SecureWrapperPipelineSide.USER, userContext.managerKeyPair(),
                 new KeyPair(Objects.requireNonNull(userContext.userKeyPair()).getPublic(), /* Bad actor private key */ keyPair.getPrivate()),
                 userContext.cipherKey()
         );
@@ -106,7 +119,7 @@ class SecureWrapperTest {
         // Wrap the object and sign it with the wrong public key.
         var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
-                userContext.managerKeyPair(),
+                SecureWrapperPipelineSide.USER, userContext.managerKeyPair(),
                 new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
                         Objects.requireNonNull(userContext.userKeyPair()).getPrivate()),
                 userContext.cipherKey()
@@ -128,8 +141,8 @@ class SecureWrapperTest {
         // Wrap the object and sign it with the wrong public key.
         var modifiedContext = new SecureWrapperPipelineContext<>(
                 userContext.type(),
-                new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
-                        managerKeyPair.getPrivate()),
+                SecureWrapperPipelineSide.USER, new KeyPair(/* Bad actor public key */ keyPair.getPublic(),
+                managerKeyPair.getPrivate()),
                 userContext.userKeyPair(),
                 userContext.cipherKey()
         );

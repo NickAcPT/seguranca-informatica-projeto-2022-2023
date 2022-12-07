@@ -7,30 +7,41 @@ import javax.crypto.SecretKey;
 import java.security.KeyPair;
 import java.util.Objects;
 
+
 public final class SecureWrapperPipelineContext<T> {
+
+
     private final Class<T> type;
+    private final SecureWrapperPipelineSide side;
     private final KeyPair managerKeyPair;
     private @Nullable KeyPair userKeyPair;
     private @Nullable SecretKey cipherKey;
 
     public SecureWrapperPipelineContext(
             Class<T> type,
+            SecureWrapperPipelineSide side,
             KeyPair managerKeyPair,
             @Nullable KeyPair userKeyPair,
             @Nullable SecretKey cipherKey
     ) {
         this.type = type;
+        this.side = side;
         this.managerKeyPair = managerKeyPair;
         this.userKeyPair = userKeyPair;
         this.cipherKey = cipherKey;
+    }
+
+    public SecureWrapperPipelineSide side() {
+        return side;
     }
 
     public Class<T> type() {
         return type;
     }
 
-    public @Nullable KeyPair keyPairToUse() {
-        return managerKeyPair.getPrivate() != null ? managerKeyPair : userKeyPair;
+    public @Nullable KeyPair keyPairToUse(Boolean needsSelf) {
+        var effectiveSide = !needsSelf ? side.opposite() : side;
+        return effectiveSide == SecureWrapperPipelineSide.USER ? userKeyPair : managerKeyPair;
     }
 
     public KeyPair managerKeyPair() {
