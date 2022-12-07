@@ -1,5 +1,9 @@
+plugins {
+    `java-library`
+}
+
 dependencies {
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.14.0")
+    api("com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.14.0")
     implementation("org.zeroturnaround:zt-zip:1.15")
 
     implementation(project(":citizen-card-lib"))
