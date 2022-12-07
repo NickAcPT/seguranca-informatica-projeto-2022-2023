@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 import pt.ua.segurancainformatica.app.vending.model.ElementoComQuantidade;
 
 public class ConfirmarController {
@@ -23,12 +23,12 @@ public class ConfirmarController {
 
     @Deprecated
     public void initialize() {
-        lista.setItems(Entrypoint.getProdutosLista());
+        lista.setItems(VendingApplication.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 
-        double total = Entrypoint.getProdutosLista().stream()
+        double total = VendingApplication.getProdutosLista().stream()
                 .mapToDouble(p -> p.getPreco() * p.getQuantidade())
                 .sum();
 
@@ -37,11 +37,11 @@ public class ConfirmarController {
 
     @FXML
     public void onConfirmarButtonClick() {
-        Entrypoint.loadFile("finalizar.fxml");
+        VendingApplication.loadFile("finalizar.fxml");
     }
 
     @FXML
     public void onVoltarButtonClick() {
-        Entrypoint.loadFile("menu_view.fxml");
+        VendingApplication.loadFile("menu_view.fxml");
     }
 }

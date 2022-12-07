@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.jetbrains.annotations.Nullable;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 import pt.ua.segurancainformatica.app.vending.model.Menu;
 import pt.ua.segurancainformatica.app.vending.model.*;
@@ -42,8 +42,8 @@ public class MenuController {
         setTitleFont();
         loadButtonFont();
 
-        Entrypoint.getProdutosLista().clear();
-        lista.setItems(Entrypoint.getProdutosLista());
+        VendingApplication.getProdutosLista().clear();
+        lista.setItems(VendingApplication.getProdutosLista());
         produtos.setCellValueFactory(new PropertyValueFactory<>("nome"));
         preco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         quantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
@@ -70,7 +70,7 @@ public class MenuController {
     private void addToList(ElementoComQuantidade pQ) {
         boolean existeNaLista = false;
 
-        for (ElementoComQuantidade item : Entrypoint.getProdutosLista()) {
+        for (ElementoComQuantidade item : VendingApplication.getProdutosLista()) {
             if (item.equals(pQ)) {
                 pQ = item;
                 existeNaLista = true;
@@ -81,7 +81,7 @@ public class MenuController {
         if (existeNaLista) {
             pQ.setQuantidade(pQ.getQuantidade() + 1);
         } else {
-            Entrypoint.getProdutosLista().add(pQ);
+            VendingApplication.getProdutosLista().add(pQ);
         }
         lista.refresh();
     }
@@ -163,33 +163,33 @@ public class MenuController {
         int selectedIndex = lista.getSelectionModel().getSelectedIndex();
         if (-1 == selectedIndex) return;
 
-        ElementoComQuantidade item = Entrypoint.getProdutosLista().get(selectedIndex);
+        ElementoComQuantidade item = VendingApplication.getProdutosLista().get(selectedIndex);
         int novaQtd = item.getQuantidade() - 1;
         item.setQuantidade(novaQtd);
 
         if (0 >= novaQtd) {
-            Entrypoint.getProdutosLista().remove(selectedIndex);
+            VendingApplication.getProdutosLista().remove(selectedIndex);
         }
         lista.refresh();
     }
 
     @FXML
     protected void onBotaoCancelarClick() {
-        Entrypoint.loadFile("iniciar_pedido.fxml");
+        VendingApplication.loadFile("iniciar_pedido.fxml");
 
-        Entrypoint.getProdutosLista().clear();
+        VendingApplication.getProdutosLista().clear();
     }
 
     @FXML
     public void onBotaoFinalizarClick() {
-        if (Entrypoint.getProdutosLista().isEmpty()) {
+        if (VendingApplication.getProdutosLista().isEmpty()) {
             Alert a1 = new Alert(Alert.AlertType.WARNING);
             a1.setTitle("Campos vazios");
             a1.setContentText("Não tem produtos para para fazer o pedido!\nSelecione pelo menos um produto para seguir em frente!");
             a1.setHeaderText(null);
             a1.showAndWait();
         } else {
-            Entrypoint.loadFile("confirmar.fxml");
+            VendingApplication.loadFile("confirmar.fxml");
         }
     }
 

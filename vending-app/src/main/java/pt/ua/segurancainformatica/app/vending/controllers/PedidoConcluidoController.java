@@ -1,12 +1,12 @@
 package pt.ua.segurancainformatica.app.vending.controllers;
 
 import javafx.fxml.FXML;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 
 public class PedidoConcluidoController {
 
     @FXML
     public void onPedidoMouseClicked() {
-        Entrypoint.loadFile("iniciar_pedido.fxml");
+        VendingApplication.loadFile("iniciar_pedido.fxml");
     }
 }

@@ -74,6 +74,16 @@ allprojects {
     this.tasks.withType<AbstractArchiveTask>().forEach {
         createHashForArchiveTask(this@allprojects, it)
     }
+
+    this.afterEvaluate {
+        try {
+            this.tasks.getByPath("shadowJar").apply {
+                createHashForArchiveTask(this@allprojects, this as AbstractArchiveTask)
+            }
+        } catch (e: UnknownTaskException) {
+            // Ignore if shadowJzar task doesn't exist
+        }
+    }
 }
 
 fun createHashForArchiveTask(project: Project, task: AbstractArchiveTask) {

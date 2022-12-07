@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 
 public class LoginScreenController {
@@ -23,9 +23,9 @@ public class LoginScreenController {
 
     public void userLogin() {
         if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            Entrypoint.showAlert(Alert.AlertType.ERROR, "Erro", "Preencha todos os campos!", ButtonType.OK);
+            VendingApplication.showAlert(Alert.AlertType.ERROR, "Erro", "Preencha todos os campos!", ButtonType.OK);
         } else {
-            Entrypoint.loadFile("iniciar_pedido.fxml");
+            VendingApplication.loadFile("iniciar_pedido.fxml");
         }
     }
 }

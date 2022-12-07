@@ -3,7 +3,7 @@ package pt.ua.segurancainformatica.app.vending.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 import pt.ua.segurancainformatica.app.vending.conexao.Conexao;
 
 public class ContribuinteController {
@@ -20,13 +20,13 @@ public class ContribuinteController {
 
         if (null == txtContribuinte.getText() || "".equals(this.txtContribuinte.getText())) {
             txtContribuinte.setText(contribuinte);
-            Entrypoint.loadFile("pagamento_concluido.fxml");
+            VendingApplication.loadFile("pagamento_concluido.fxml");
         } else {
             contribuinte = txtContribuinte.getText();
 
             try {
                 Integer.parseInt(txtContribuinte.getText());
-                Entrypoint.loadFile("pagamento_concluido.fxml");
+                VendingApplication.loadFile("pagamento_concluido.fxml");
             } catch (NumberFormatException e) {
                 label.setText("Digite apenas números!");
                 return;
@@ -41,6 +41,6 @@ public class ContribuinteController {
 
     @FXML
     public void onBotaoVoltarClick() {
-        Entrypoint.loadFile("finalizar.fxml");
+        VendingApplication.loadFile("finalizar.fxml");
     }
 }

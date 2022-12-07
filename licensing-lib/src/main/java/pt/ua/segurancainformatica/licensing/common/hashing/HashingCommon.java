@@ -1,5 +1,7 @@
 package pt.ua.segurancainformatica.licensing.common.hashing;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -9,8 +11,8 @@ public class HashingCommon {
         throw new IllegalStateException("Utility class");
     }
 
-    private static Path getCurrentJarPath() {
-        return Path.of(HashingCommon.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+    private static Path getCurrentJarPath() throws URISyntaxException {
+        return new File(HashingCommon.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toPath();
     }
 
     public static String getCurrentJarHash() throws HashingException {

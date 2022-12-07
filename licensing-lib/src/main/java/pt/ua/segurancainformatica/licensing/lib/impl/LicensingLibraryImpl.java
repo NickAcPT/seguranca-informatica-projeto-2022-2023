@@ -21,6 +21,8 @@ import pt.ua.segurancainformatica.licensing.lib.LicensingConstants;
 import pt.ua.segurancainformatica.licensing.lib.LicensingException;
 import pt.ua.segurancainformatica.licensing.lib.LicensingLibrary;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.KeyPair;
@@ -52,24 +54,39 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
     }
 
     @Override
-    public void init(@NotNull String appName, @NotNull String version, @NotNull LicensingAlertor alertor) throws LicensingException {
+    public boolean init(@NotNull String appName, @NotNull String version, @NotNull LicensingAlertor alertor) throws LicensingException {
         readManagerPublicKey();
+        currentCitizenCard = citizenCardLibrary.readCitizenCard();
         try {
             currentApplicationInformation = new ApplicationInformation(appName, version, HashingCommon.getCurrentJarHash());
             readLicenseInformation();
-            checkLicensing(alertor);
+            return checkLicensing(alertor);
         } catch (HashingException e) {
             throw new LicensingException("Failed to get current jar hash", e);
         }
     }
 
-    private void checkLicensing(@NotNull LicensingAlertor alertor) throws LicensingException {
+    private boolean checkLicensing(@NotNull LicensingAlertor alertor) throws LicensingException {
         if (!isRegistered()) {
-            if (alertor.showYesNoAlert("Licenciamento", "A aplicação não está licenciada.\n" +
-                    "Deseja iniciar o processo de registo?")) {
+            if (Files.exists(LicensingConstants.LICENSE_REQUEST_PATH)) {
+                alertor.showLicensingAlert("""
+                        Você já criou um pedido de licença para esta aplicação!
+                        Por favor envie o pedido ao administrador para obter a sua licença.""");
+                return false;
+            } else if (alertor.showYesNoAlert("Licenciamento", """
+                    A aplicação não está licenciada.
+                    Deseja iniciar o processo de registo?
+                                        
+                    O processo de registo requer a presença de um cartão de cidadão e requer o seu PIN de autenticação.
+
+                    Caso não seja licenciada, a aplicação irá fechar.""")) {
                 startRegistration();
+                return false;
+            } else {
+                return false;
             }
         }
+        return true;
     }
 
     private void readManagerPublicKey() throws LicensingException {
@@ -108,6 +125,8 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
             Files.write(LicensingConstants.LICENSE_REQUEST_PATH, SecureWrapper.wrapObject(request, context));
 
+            throw new LicensingException("O processo de registo foi iniciado com sucesso.\n" +
+                    "Por favor, contacte o administrador do sistema para continuar o processo.");
         } catch (CertificateEncodingException e) {
             throw new LicensingException("Não foi possível iniciar o processo de registo.\n" +
                     "Não foi possível codificar o certificado de autenticação do Cartão de Cidadão.", e);
@@ -161,12 +180,20 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
             throw new LicensingException("Manager public key is not initialized");
         }
 
-        return new SecureWrapperPipelineContext<>(
-                clazz,
-                new KeyPair(managerPublicKey, null),
-                citizenCard.getAuthenticationKeyPair(),
-                null
-        );
+        try {
+            KeyGenerator aesGenerator = KeyGenerator.getInstance("AES");
+            aesGenerator.init(256);
+            SecretKey cipherKey = aesGenerator.generateKey();
+
+            return new SecureWrapperPipelineContext<>(
+                    clazz,
+                    new KeyPair(managerPublicKey, null),
+                    citizenCard.getAuthenticationKeyPair(),
+                    cipherKey
+            );
+        } catch (NoSuchAlgorithmException e) {
+            throw new LicensingException("Erro interno: Não foi possível criar uma chave para a cifra AES.", e);
+        }
     }
 
     @Override

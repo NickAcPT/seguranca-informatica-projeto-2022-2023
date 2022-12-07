@@ -3,7 +3,7 @@ package pt.ua.segurancainformatica.app.vending.conexao;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.jetbrains.annotations.Nullable;
-import pt.ua.segurancainformatica.app.vending.Entrypoint;
+import pt.ua.segurancainformatica.app.vending.VendingApplication;
 import pt.ua.segurancainformatica.app.vending.model.*;
 
 import java.io.IOException;
@@ -116,11 +116,11 @@ public class Conexao {
     }
 
     public static void guardaPedido(@Nullable String contribuinte) {
-        double total = Entrypoint.getProdutosLista().stream().mapToDouble(p -> p.getPreco() * p.getQuantidade()).sum();
+        double total = VendingApplication.getProdutosLista().stream().mapToDouble(p -> p.getPreco() * p.getQuantidade()).sum();
 
         Pedido pedido = new Pedido(UUID.randomUUID(), contribuinte, total);
 
-        for (ElementoComQuantidade elementoComQuantidade : Entrypoint.getProdutosLista()) {
+        for (ElementoComQuantidade elementoComQuantidade : VendingApplication.getProdutosLista()) {
             if (elementoComQuantidade instanceof MenuComQuantidade mcq) {
                 pedido.getMenus().add(mcq);
             } else if (elementoComQuantidade instanceof ProdutoComQuantidade pcq) {
