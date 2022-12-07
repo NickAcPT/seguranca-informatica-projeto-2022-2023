@@ -30,8 +30,9 @@ public class ReleaseCommands {
 
     @CommandLine.Command(name = "list", description = "List all application releases.")
     public Integer listReleases() {
-        System.out.println("Application releases:");
         var releases = ApplicationReleaseManager.getApplicationReleases();
+
+        System.out.println("Application releases:");
         if (releases.isEmpty()) {
             System.out.println("No application releases found");
             return 1;

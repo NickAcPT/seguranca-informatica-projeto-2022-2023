@@ -79,6 +79,10 @@ allprojects {
         try {
             this.tasks.getByPath("shadowJar").apply {
                 createHashForArchiveTask(this@allprojects, this as AbstractArchiveTask)
+
+                this.isPreserveFileTimestamps = false
+                this.isReproducibleFileOrder = true
+
             }
         } catch (e: UnknownTaskException) {
             // Ignore if shadowJzar task doesn't exist
@@ -116,6 +120,9 @@ fun AbstractArchiveTask.createBuildInformationFile(project: Project) {
     val buildInformationFile = project.buildDir.resolve("${project.name.removePrefix("vending-app").takeIf { it.isNotEmpty() }?.let { "$it-" } ?: ""}build-information.properties")
 
     props.store(buildInformationFile.writer(), "Build information")
+
+    buildInformationFile.writeText(buildInformationFile.readLines().filterNot { it.startsWith("#") }.joinToString("\n"), Charsets.UTF_8)
+
     from(buildInformationFile)
 
     val managerPublicKey = Paths.get(System.getProperty("user.home"), ".segurancainformatica", "manager-public.key")
