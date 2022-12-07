@@ -1,15 +1,18 @@
 package pt.ua.segurancainformatica.licensing.common;
 
 import org.jetbrains.annotations.NotNull;
+import pt.ua.segurancainformatica.citizencard.model.CitizenCard;
 import pt.ua.segurancainformatica.licensing.common.hashing.HashingCommon;
 import pt.ua.segurancainformatica.licensing.common.hashing.HashingException;
 import pt.ua.segurancainformatica.licensing.common.model.ApplicationInformation;
+import pt.ua.segurancainformatica.licensing.common.model.UserData;
 import pt.ua.segurancainformatica.licensing.common.model.info.entries.EnvironmentVariableEntry;
 import pt.ua.segurancainformatica.licensing.common.model.info.entries.NetworkInterfaceEntry;
 
 import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.cert.CertificateEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,5 +80,14 @@ public class LicensingCommon {
                     hash
             );
         }
+    }
+
+    public static @NotNull UserData getUserDataFromCitizenCard(CitizenCard card) throws CertificateEncodingException {
+        return new UserData(
+                card.getName(),
+                card.getCivilNumber(),
+                card.getAuthenticationCertificate(),
+                card.isAuthenticationCertificateValid()
+        );
     }
 }

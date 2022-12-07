@@ -13,6 +13,10 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import org.jetbrains.annotations.Nullable;
 import pt.ua.segurancainformatica.app.vending.model.ElementoComQuantidade;
+import pt.ua.segurancainformatica.licensing.common.LicensingCommon;
+import pt.ua.segurancainformatica.licensing.lib.LicensingAlertor;
+import pt.ua.segurancainformatica.licensing.lib.LicensingException;
+import pt.ua.segurancainformatica.licensing.lib.LicensingLibrary;
 
 import java.io.IOException;
 
@@ -27,16 +31,32 @@ public class Entrypoint extends Application {
         return produtosLista;
     }
 
-    public static void main(String[] args) {
-        Application.launch();
+    public static void main(String[] args) throws Exception {
+        var alertor = new VendingLicensingAlertor();
+        try {
+            var information = LicensingCommon.getApplicationInformation();
+            LicensingLibrary.getInstance().init(
+                    information.name(),
+                    information.version(),
+                    alertor
+            );
+
+            Application.launch();
+        } catch (LicensingException e) {
+            alertor.showLicensingAlert(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            LicensingLibrary.getInstance().close();
+        }
+
     }
 
-    public static void showAlert(Alert.AlertType type, String title, String content, ButtonType... buttons) {
+    public static @Nullable ButtonType showAlert(Alert.AlertType type, String title, String content, ButtonType... buttons) {
         FlatAlert alert = new FlatAlert(type, title, buttons);
         JMetro jMetro = new JMetro(Style.DARK);
         jMetro.setScene(alert.getDialogPane().getScene());
         alert.setContentText(content);
-        alert.showAndWait();
+        return alert.showAndWait().orElse(null);
     }
 
     public static void loadFile(String fxml) {
@@ -61,5 +81,17 @@ public class Entrypoint extends Application {
     public void start(Stage primaryStage) {
         Entrypoint.primaryStage = primaryStage;
         loadFile("login_screen.fxml");
+    }
+
+    static class VendingLicensingAlertor implements LicensingAlertor {
+        @Override
+        public void showLicensingAlert(String message) {
+            showAlert(Alert.AlertType.INFORMATION, "Licenciamento", message, ButtonType.OK);
+        }
+
+        @Override
+        public boolean showYesNoAlert(String title, String message) {
+            return showAlert(Alert.AlertType.INFORMATION, title, message, ButtonType.YES, ButtonType.NO) == ButtonType.YES;
+        }
     }
 }

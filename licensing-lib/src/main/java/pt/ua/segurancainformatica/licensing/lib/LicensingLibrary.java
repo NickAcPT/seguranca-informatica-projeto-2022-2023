@@ -3,6 +3,8 @@ package pt.ua.segurancainformatica.licensing.lib;
 import org.jetbrains.annotations.NotNull;
 import pt.ua.segurancainformatica.licensing.lib.impl.LicensingLibraryImpl;
 
+import java.util.concurrent.Callable;
+
 /**
  * Interface principal da biblioteca de licenciamento.
  */
@@ -17,7 +19,7 @@ public interface LicensingLibrary extends AutoCloseable {
      * @param appName Nome da aplicação.
      * @param version Versão da aplicação.
      */
-    void init(@NotNull String appName, @NotNull String version) throws LicensingException;
+    void init(@NotNull String appName, @NotNull String version, @NotNull LicensingAlertor alertor) throws LicensingException;
 
     /**
      * Verifica se a aplicação está licenciada.
@@ -27,9 +29,8 @@ public interface LicensingLibrary extends AutoCloseable {
 
     /**
      * Inicia o processo de registo da aplicação.
-     * @return {@code true} se a aplicação estiver licenciada, {@code false} caso contrário.
      */
-    boolean startRegistration() throws LicensingException;
+    void startRegistration() throws LicensingException;
 
     /**
      * Apresenta os detalhes da licença da aplicação.
