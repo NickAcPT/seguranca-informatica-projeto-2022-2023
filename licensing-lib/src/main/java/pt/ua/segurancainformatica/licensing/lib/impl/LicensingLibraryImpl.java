@@ -87,25 +87,37 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
             return isLicensed;
         } catch (HashingException e) {
             throw new LicensingException("Failed to get current jar hash", e);
+        } catch (GeneralSecurityException e) {
+            throw new LicensingException("Failed to read license information", e);
         }
     }
 
-    private void startUserCheckThread() {
+    private void startUserCheckThread() throws GeneralSecurityException {
+        verifyUser();
+
         userCheckThread = new Thread(() -> {
-            try {
-                if (currentCitizenCard != null) {
-                    var bytes = new byte[32];
-                    secureRandom.nextBytes(bytes);
+            while (true) {
+                try {
+                    Thread.sleep(LicensingConstants.LICENSE_REQUEST_TIMEOUT.toMillis());
 
-                    SignatureUtils.signBlob(currentCitizenCard.getAuthenticationPrivateKey(), bytes);
+                    verifyUser();
+                } catch (InterruptedException | GeneralSecurityException e) {
+                    if (!(e instanceof InterruptedException)) throw new RuntimeException(e);
                 }
-
-                Thread.sleep(LicensingConstants.LICENSE_REQUEST_TIMEOUT.toMillis());
-            } catch (InterruptedException | GeneralSecurityException e) {
-                throw new RuntimeException(e);
             }
         });
         userCheckThread.start();
+    }
+
+    public void verifyUser() throws GeneralSecurityException {
+        if (currentCitizenCard != null) {
+            System.out.println("Checking user...");
+            var bytes = new byte[32];
+            secureRandom.nextBytes(bytes);
+
+            SignatureUtils.signBlob(currentCitizenCard.getAuthenticationPrivateKey(), bytes);
+            System.out.println("User is valid");
+        }
     }
 
     private boolean checkLicensing(@NotNull LicensingAlertor alertor) throws LicensingException {
@@ -312,6 +324,7 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public void close() throws Exception {
+        System.out.println("Closing licensing manager");
         if (userCheckThread != null) {
             userCheckThread.interrupt();
         }

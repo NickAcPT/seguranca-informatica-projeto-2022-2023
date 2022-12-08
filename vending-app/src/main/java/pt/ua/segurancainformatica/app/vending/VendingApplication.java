@@ -84,9 +84,12 @@ public class VendingApplication extends Application {
         } catch (LicensingException e) {
             alertor.showLicensingAlert(e.getMessage());
             e.printStackTrace();
-        } finally {
-            LicensingLibrary.getInstance().close();
         }
+    }
+
+    @Override
+    public void stop() throws Exception {
+        LicensingLibrary.getInstance().close();
     }
 
     static class VendingLicensingAlertor implements LicensingAlertor {
