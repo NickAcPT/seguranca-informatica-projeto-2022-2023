@@ -5,21 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="pt.ua.segurancainformatica.app.vending.controllers.LoginScreenController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ua.segurancainformatica.app.vending.controllers.LoginScreenController">
     <padding>
-        <Insets bottom="50.0" left="95.0" right="95.0" top="50.0"/>
+        <Insets bottom="50.0" left="95.0" right="95.0" top="50.0" />
     </padding>
-    <AnchorPane>
-        <TextField fx:id="username" layoutY="51.0" prefHeight="25.0" prefWidth="266.0" promptText="Username"/>
-        <PasswordField fx:id="password" layoutY="94.0" prefHeight="25.0" prefWidth="266.0" promptText="Password"/>
-        <Button layoutX="70.0" layoutY="137.0" mnemonicParsing="false" onAction="#userLogin" prefHeight="28.0"
-                prefWidth="126.0" text="Entrar"/>
+    <AnchorPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+        <TextField fx:id="username" layoutY="51.0" prefHeight="25.0" prefWidth="266.0" promptText="Username" />
+        <PasswordField fx:id="password" layoutY="94.0" prefHeight="25.0" prefWidth="266.0" promptText="Password" />
+        <Button layoutX="70.0" layoutY="137.0" mnemonicParsing="false" onAction="#userLogin" prefHeight="28.0" prefWidth="126.0" text="Entrar" />
         <Label layoutX="1.0" text="Inserir Credenciais da App" textAlignment="CENTER">
             <font>
-                <Font name="Calibri" size="24.0"/>
+                <Font name="Calibri" size="24.0" />
             </font>
         </Label>
     </AnchorPane>
-</StackPane>
+   <Hyperlink onAction="#showInfoLicense" text="Mostrar Info Licença" />
+</AnchorPane>

@@ -10,9 +10,12 @@ import pt.ua.segurancainformatica.licensing.common.hashing.HashingCommon;
 import pt.ua.segurancainformatica.licensing.common.hashing.HashingException;
 import pt.ua.segurancainformatica.licensing.common.model.ApplicationInformation;
 import pt.ua.segurancainformatica.licensing.common.model.ComputerInformation;
+import pt.ua.segurancainformatica.licensing.common.model.UserData;
+import pt.ua.segurancainformatica.licensing.common.model.license.LicenseData;
 import pt.ua.segurancainformatica.licensing.common.model.license.LicenseInformation;
 import pt.ua.segurancainformatica.licensing.common.model.request.LicenseRequest;
 import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
+import pt.ua.segurancainformatica.licensing.common.utils.SignatureUtils;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapper;
 import pt.ua.segurancainformatica.licensing.common.wrapper.SecureWrapperInvalidatedException;
 import pt.ua.segurancainformatica.licensing.common.wrapper.pipeline.SecureWrapperPipelineContext;
@@ -26,11 +29,14 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListener {
@@ -40,6 +46,9 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
     private @Nullable ApplicationInformation currentApplicationInformation;
     private @Nullable LicenseInformation currentLicenseInformation;
     private @Nullable CitizenCard currentCitizenCard = null;
+    private SecureRandom secureRandom = new SecureRandom();
+    private @Nullable Thread userCheckThread;
+    private @Nullable LicensingAlertor alertor;
 
     private LicensingLibraryImpl() {
         citizenCardLibrary.registerCitizenCardListener(this);
@@ -58,14 +67,37 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
     @Override
     public boolean init(@NotNull String appName, @NotNull String version, @NotNull LicensingAlertor alertor) throws LicensingException {
         readManagerPublicKey();
+        this.alertor = alertor;
         currentCitizenCard = citizenCardLibrary.readCitizenCard();
         try {
             currentApplicationInformation = new ApplicationInformation(appName, version, HashingCommon.getCurrentJarHash());
             readLicenseInformation();
-            return checkLicensing(alertor);
+            var isLicensed = checkLicensing(alertor);
+            if (isLicensed) {
+                startUserCheckThread();
+            }
+            return isLicensed;
         } catch (HashingException e) {
             throw new LicensingException("Failed to get current jar hash", e);
         }
+    }
+
+    private void startUserCheckThread() {
+        userCheckThread = new Thread(() -> {
+            try {
+                if (currentCitizenCard != null) {
+                    var bytes = new byte[32];
+                    secureRandom.nextBytes(bytes);
+
+                    SignatureUtils.signBlob(currentCitizenCard.getAuthenticationPrivateKey(), bytes);
+                }
+
+                Thread.sleep(LicensingConstants.LICENSE_REQUEST_TIMEOUT.toMillis());
+            } catch (InterruptedException | GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        userCheckThread.start();
     }
 
     private boolean checkLicensing(@NotNull LicensingAlertor alertor) throws LicensingException {
@@ -142,6 +174,18 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
             return false;
         }
 
+        var now = Instant.now();
+
+        if (currentLicenseInformation.license().endDate().isBefore(now)) {
+            System.out.println("License has expired");
+            return false;
+        }
+
+        if (currentLicenseInformation.license().startDate().isAfter(now)) {
+            System.out.println("License is not valid yet");
+            return false;
+        }
+
         return true;
     }
 
@@ -182,6 +226,27 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public void showLicenseInfo() {
+        var app = Objects.requireNonNull(currentLicenseInformation).application();
+        var user = Objects.requireNonNull(currentLicenseInformation).user();
+        var license = Objects.requireNonNull(currentLicenseInformation).license();
+
+        Objects.requireNonNull(alertor).showLicensingAlert("""
+                Licença de utilização da aplicação %s (versão %s; hash %s).
+
+                Licenciado para %s (%s).
+                Licença válida de %s até %s (%s dia(s) restante(s)).""".formatted(
+                app.name(),
+                app.version(),
+                app.hash(),
+
+                user.fullName(),
+                user.civilNumber(),
+
+                license.startDate(),
+                license.endDate(),
+
+                Instant.now().until(license.endDate(), ChronoUnit.DAYS)
+        ));
     }
 
     private void readLicenseInformation() throws LicensingException {
@@ -239,6 +304,9 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public void close() throws Exception {
+        if (userCheckThread != null) {
+            userCheckThread.interrupt();
+        }
         citizenCardLibrary.close();
     }
 }
