@@ -10,8 +10,6 @@ import pt.ua.segurancainformatica.licensing.common.hashing.HashingCommon;
 import pt.ua.segurancainformatica.licensing.common.hashing.HashingException;
 import pt.ua.segurancainformatica.licensing.common.model.ApplicationInformation;
 import pt.ua.segurancainformatica.licensing.common.model.ComputerInformation;
-import pt.ua.segurancainformatica.licensing.common.model.UserData;
-import pt.ua.segurancainformatica.licensing.common.model.license.LicenseData;
 import pt.ua.segurancainformatica.licensing.common.model.license.LicenseInformation;
 import pt.ua.segurancainformatica.licensing.common.model.request.LicenseRequest;
 import pt.ua.segurancainformatica.licensing.common.utils.KeyUtils;
@@ -32,8 +30,6 @@ import java.nio.file.Files;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
@@ -42,11 +38,11 @@ import java.util.function.Predicate;
 public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListener {
     public static final LicensingLibrary INSTANCE = new LicensingLibraryImpl();
     private final @NotNull CitizenCardLibrary citizenCardLibrary = CitizenCardLibrary.citizenCardLibrary();
+    private final SecureRandom secureRandom = new SecureRandom();
     private @Nullable PublicKey managerPublicKey;
     private @Nullable ApplicationInformation currentApplicationInformation;
     private @Nullable LicenseInformation currentLicenseInformation;
     private @Nullable CitizenCard currentCitizenCard = null;
-    private SecureRandom secureRandom = new SecureRandom();
     private @Nullable Thread userCheckThread;
     private @Nullable LicensingAlertor alertor;
 
@@ -61,7 +57,19 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
     @Override
     public void onCardRemoved() {
+        boolean needsToClose = currentCitizenCard != null;
         currentCitizenCard = null;
+        if (needsToClose) {
+            Objects.requireNonNull(alertor).showLicensingAlert("Cartão de Cidadão removido.\nA aplicação irá encerrar.", () -> {
+                try {
+                    close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                System.exit(0);
+            });
+
+        }
     }
 
     @Override
@@ -309,4 +317,5 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
         }
         citizenCardLibrary.close();
     }
+
 }

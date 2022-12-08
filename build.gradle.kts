@@ -47,7 +47,7 @@ allprojects {
     this.tasks.withType<JavaCompile>().configureEach {
         options.errorprone {
             option("NullAway:AnnotatedPackages", "pt.ua")
-            option("NullAway:ExcludedFieldAnnotations", "javafx.fxml.FXML")
+            option("NullAway:ExcludedFieldAnnotations", "javafx.fxml.FXML,pt.ua.segurancainformatica.licensing.IKnowWhatIAmDoing")
         }
 
         options.errorprone.error("NullAway")

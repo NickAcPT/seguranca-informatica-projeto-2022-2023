@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable {
 
     private final ArrayList<CitizenCardListener> listeners = new ArrayList<>();
-    private final long eventCallbackId;
+    private long eventCallbackId;
     private final PTEID_ReaderContext context;
 
     public CitizenCardLibraryImpl() {
@@ -35,7 +35,13 @@ public class CitizenCardLibraryImpl implements CitizenCardLibrary, AutoCloseable
             PTEID_ReaderSet.initSDK();
             PTEID_ReaderSet readerSet = PTEID_ReaderSet.instance();
             context = readerSet.getReader();
-            eventCallbackId = context.SetEventCallback(new CardEventCallback(this), null);
+            new Thread(() -> {
+                try {
+                    eventCallbackId = context.SetEventCallback(new CardEventCallback(this), null);
+                } catch (PTEID_Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         } catch (PTEID_Exception e) {
             throw new CitizenCardException(e);
         }

@@ -1,18 +1,14 @@
 package pt.ua.segurancainformatica.app.vending;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.FlatAlert;
 import jfxtras.styles.jmetro.JMetro;
@@ -96,7 +92,17 @@ public class VendingApplication extends Application {
     static class VendingLicensingAlertor implements LicensingAlertor {
         @Override
         public void showLicensingAlert(String message) {
-            showAlert(Alert.AlertType.INFORMATION, "Licenciamento", message, ButtonType.OK);
+            showLicensingAlert(message, null);
+        }
+
+        @Override
+        public void showLicensingAlert(String message, @Nullable Runnable after) {
+            Platform.runLater(() -> {
+                showAlert(Alert.AlertType.INFORMATION, "Licenciamento", message, ButtonType.OK);
+                if (after != null) {
+                    after.run();
+                }
+            });
         }
 
         @Override
