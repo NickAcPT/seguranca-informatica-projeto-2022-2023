@@ -60,7 +60,7 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
         boolean needsToClose = currentCitizenCard != null;
         currentCitizenCard = null;
         if (needsToClose) {
-            Objects.requireNonNull(alertor).showLicensingAlert("Cartão de Cidadão removido.\nA aplicação irá encerrar.", () -> {
+            Objects.requireNonNull(alertor).showLicensingAlert("Cartão de Cidadão removido!\nA aplicação irá encerrar.", () -> {
                 try {
                     close();
                 } catch (Exception e) {
@@ -128,12 +128,12 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
                         Por favor envie o pedido ao administrador para obter a sua licença.""");
                 return false;
             } else if (alertor.showYesNoAlert("Licenciamento", """
-                    A aplicação não está licenciada.
+                    A licença da aplicação não é válida ou não existe!
                     Deseja iniciar o processo de registo?
                                         
                     O processo de registo requer a presença de um cartão de cidadão e requer o seu PIN de autenticação.
 
-                    Caso não seja licenciada, a aplicação irá fechar.""")) {
+                    Caso não seja licenciada, a aplicação irá ser encerrada!""")) {
                 startRegistration();
                 return false;
             } else {
@@ -218,8 +218,8 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
     @Override
     public void startRegistration() throws LicensingException {
         if (currentCitizenCard == null) {
-            throw new LicensingException("Não foi possível iniciar o processo de registo.\n" +
-                    "Não foi detetado nenhum Cartão de Cidadão no leitor.");
+            throw new LicensingException("Não foi possível iniciar o processo de registo!\n" +
+                    "Não foi possivel detetar o cartão de cidadão.");
         }
         if (currentApplicationInformation == null) {
             throw new LicensingException("Não foi possível iniciar o processo de registo.\n" +
@@ -233,13 +233,13 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
             Files.write(LicensingConstants.LICENSE_REQUEST_PATH, SecureWrapper.wrapObject(request, context));
 
-            throw new LicensingException("O processo de registo foi iniciado com sucesso.\n" +
+            throw new LicensingException("O processo de registo foi finalizado com sucesso!\n" +
                     "Por favor, contacte o administrador do sistema para continuar o processo.");
         } catch (SecureWrapperInvalidatedException e) {
-            throw new LicensingException("Não foi possível efectuar o processo de registo.\n" +
+            throw new LicensingException("Não foi possível efectuar o processo de registo!\n" +
                     "O sistema de segurança foi invalidado.", e);
         } catch (IOException e) {
-            throw new LicensingException("Não foi possível efectuar o processo de registo.\n" +
+            throw new LicensingException("Não foi possível efectuar o processo de registo!\n" +
                     "Não foi possível escrever o ficheiro do pedido.", e);
         }
     }
@@ -280,7 +280,7 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
 
         if (currentCitizenCard == null) {
             throw new LicensingException("Não foi possível ler a informação sobre a licença.\n" +
-                    "Não foi detetado nenhum Cartão de Cidadão no leitor.");
+                    "Não foi detetado nenhum Cartão de Cidadão.");
         }
 
         try {
@@ -288,8 +288,10 @@ public class LicensingLibraryImpl implements LicensingLibrary, CitizenCardListen
             var licenseFileBytes = Files.readAllBytes(LicensingConstants.LICENSE_FILE_PATH);
             currentLicenseInformation = SecureWrapper.unwrapObject(licenseFileBytes, context);
         } catch (SecureWrapperInvalidatedException e) {
-            throw new LicensingException("Não foi possível ler os dados da licença.\n" +
-                    "O sistema de segurança foi invalidado.", e);
+            throw new LicensingException("""
+                    A sua licença não é legítima!
+                    Por favor contacte o administrador.
+                    O sistema de segurança foi invalidado.""", e);
         } catch (IOException e) {
             throw new LicensingException("Não foi possível ler o ficheiro da licença.", e);
         }
