@@ -2,7 +2,8 @@ package pt.ua.segurancainformatica.manager.app;
 
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "manager", mixinStandardHelpOptions = true, subcommands = {
+@CommandLine.Command(name = "manager", description = "Tool for managing licenses",
+        mixinStandardHelpOptions = true, subcommands = {
         KeyCommands.class,
         ReleaseCommands.class,
         LicenseCommands.class

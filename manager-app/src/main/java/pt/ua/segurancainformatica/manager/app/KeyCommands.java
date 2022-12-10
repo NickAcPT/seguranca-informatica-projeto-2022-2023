@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
-@CommandLine.Command(name = "key")
+@CommandLine.Command(name = "key", description = "Tools for managing keys")
 public class KeyCommands {
 
     @CommandLine.Command(name = "generate", description = "Generate a new key pair for the application.")

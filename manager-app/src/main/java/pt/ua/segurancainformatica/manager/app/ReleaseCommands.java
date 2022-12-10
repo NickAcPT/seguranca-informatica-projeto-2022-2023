@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-@CommandLine.Command(name = "release")
+@CommandLine.Command(name = "release", description = "Tools for managing releases")
 
 public class ReleaseCommands {
     private static void printRelease(int i, ApplicationRelease release) {
@@ -71,7 +71,10 @@ public class ReleaseCommands {
 
             var hash = Files.readString(hashFile);
 
-            ApplicationReleaseManager.INSTANCE.addValue(new ApplicationRelease(name, version, hash));
+            var release = new ApplicationRelease(name, version, hash);
+            ApplicationReleaseManager.INSTANCE.addValue(release);
+
+            System.out.println("Application release added:" + release);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -88,6 +91,7 @@ public class ReleaseCommands {
         var toRemove = releases.get(index - 1);
 
         ApplicationReleaseManager.INSTANCE.removeValue(toRemove);
+        System.out.println("Application release removed:" + toRemove);
         return 0;
     }
 }

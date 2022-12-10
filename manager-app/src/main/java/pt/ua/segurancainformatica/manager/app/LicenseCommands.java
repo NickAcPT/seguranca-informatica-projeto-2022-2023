@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@CommandLine.Command(name = "license")
+@CommandLine.Command(name = "license", description = "Tools for managing licenses")
 
 public class LicenseCommands {
     private static void printLicense(int i, LicenseInformation license) {
@@ -24,7 +24,7 @@ public class LicenseCommands {
         System.out.printf("   - Expiration date: %s%n", license.license().endDate());
     }
 
-    @CommandLine.Command(name = "list", description = "List all application releases.")
+    @CommandLine.Command(name = "list", description = "List all licenses.")
     public Integer listReleases() {
         var licenses = LicenseInformationManager.INSTANCE.getValues();
 
@@ -54,6 +54,8 @@ public class LicenseCommands {
             var reqBytes = Files.readAllBytes(licenseRequest);
 
             LicensingManager.processRequest(reqBytes);
+
+            System.out.println("License request processed successfully");
         } catch (IOException | SecureWrapperInvalidatedException | LicensingManagerException e) {
             throw new RuntimeException(e);
         }
